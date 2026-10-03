@@ -7,9 +7,9 @@ export default defineConfig([
   ...nextTs,
   {
     rules: {
-      // Temporary until prototype localStorage hydration is replaced by Supabase.
       "react-hooks/set-state-in-effect": "off",
-    },
+      "@next/next/no-html-link-for-pages": "off"
+    }
   },
   globalIgnores([
     ".next/**",
@@ -17,6 +17,6 @@ export default defineConfig([
     "build/**",
     "node_modules/**",
     "next-env.d.ts",
-    "reference/**",
-  ]),
+    "reference/**"
+  ])
 ]);
