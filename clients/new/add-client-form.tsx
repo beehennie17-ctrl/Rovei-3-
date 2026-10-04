@@ -17,6 +17,7 @@ import type { ServiceCategoryId } from "@/types/onboarding";
 
 type AddClientFormProps = {
   initialDraft: NewClientDraft | null;
+  submitting?: boolean;
   onDraftChange: (draft: {
     firstName: string;
     lastName: string;
@@ -24,7 +25,7 @@ type AddClientFormProps = {
     appointmentDate: string;
     appointmentTime: string;
   }) => void;
-  onValidSubmit: (draft: NewClientDraft) => void;
+  onValidSubmit: (draft: NewClientDraft) => void | Promise<void>;
 };
 
 type FieldName = "firstName" | "lastName" | "service" | "appointmentDate" | "appointmentTime";
@@ -38,7 +39,12 @@ const untouched: TouchedState = {
   appointmentTime: false,
 };
 
-export function AddClientForm({ initialDraft, onDraftChange, onValidSubmit }: AddClientFormProps) {
+export function AddClientForm({
+  initialDraft,
+  submitting = false,
+  onDraftChange,
+  onValidSubmit,
+}: AddClientFormProps) {
   const [firstName, setFirstName] = useState(initialDraft?.firstName ?? "");
   const [lastName, setLastName] = useState(initialDraft?.lastName ?? "");
   const [service, setService] = useState<ServiceCategoryId | "">(initialDraft?.service ?? "");
@@ -76,8 +82,13 @@ export function AddClientForm({ initialDraft, onDraftChange, onValidSubmit }: Ad
       appointmentTime,
     };
 
-    if (!formValid || !isValidNewClientDraft(draft)) return;
-    onValidSubmit(draft);
+    if (
+      !formValid ||
+      !isValidNewClientDraft(draft) ||
+      submitting
+    ) return;
+
+    void onValidSubmit(draft);
   }
 
   return (
@@ -171,9 +182,23 @@ export function AddClientForm({ initialDraft, onDraftChange, onValidSubmit }: Ad
         </div>
       </div>
 
-      <Button type="submit" disabled={!formValid} className="w-full sm:w-auto disabled:cursor-not-allowed disabled:opacity-45">
-        <span>Create client experience</span>
-        <ArrowRight size={17} aria-hidden="true" />
+      <Button
+        type="submit"
+        disabled={!formValid || submitting}
+        className="w-full sm:w-auto disabled:cursor-not-allowed disabled:opacity-45"
+      >
+        <span>
+          {submitting
+            ? "Creating client…"
+            : "Create client experience"}
+        </span>
+
+        {!submitting && (
+          <ArrowRight
+            size={17}
+            aria-hidden="true"
+          />
+        )}
       </Button>
     </form>
   );

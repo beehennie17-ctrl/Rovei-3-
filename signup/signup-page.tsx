@@ -9,6 +9,7 @@ import { SignupStudioPreview } from "@/components/signup/signup-studio-preview";
 import { Button } from "@/components/ui/button";
 import { readOnboardingDraft } from "@/lib/onboarding-storage";
 import { buildPersonalPreviewModel, type PersonalPreviewModel } from "@/lib/preview-model";
+import { createRoveiAccount, type SignupCredentials } from "@/lib/auth/signup";
 
 export function SignupPage() {
   const router = useRouter();
@@ -74,7 +75,29 @@ export function SignupPage() {
               <p className="mt-2 text-sm font-semibold text-[var(--wine)]">Your setup stays exactly as you made it.</p>
             </div>
 
-            <SignupForm onValidSubmit={() => router.push("/activate")} />
+            <SignupForm
+              onValidSubmit={async (
+                credentials: SignupCredentials,
+              ) => {
+                const result =
+                  await createRoveiAccount(
+                    credentials,
+                  );
+
+                if (
+                  !result.needsEmailConfirmation
+                ) {
+                  router.push(
+                    "/activate",
+                  );
+                }
+
+                return {
+                  needsEmailConfirmation:
+                    result.needsEmailConfirmation,
+                };
+              }}
+            />
           </section>
 
           <SignupStudioPreview model={model} />
