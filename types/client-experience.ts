@@ -51,3 +51,32 @@ export type PrototypePhotoRecord = {
   size: number;
   blob: Blob;
 };
+
+export type CloudClientExperienceResponse =
+  Omit<
+    ClientExperiencePrototype,
+    "token"
+  >;
+
+export type PublicClientExperienceData = {
+  clientExperienceId: string;
+  studioName: string;
+  draft:
+    import("@/types/client-creation").NewClientDraft;
+  theme:
+    import("@/types").ThemeName;
+  customPrimary: string;
+  response:
+    CloudClientExperienceResponse;
+  expiresAt: string;
+};
+
+export type CloudClientPhoto = {
+  id: string;
+  kind: PrototypePhotoKind;
+  name: string;
+  type: string;
+  size: number;
+  previewUrl: string;
+  createdAt: string;
+};

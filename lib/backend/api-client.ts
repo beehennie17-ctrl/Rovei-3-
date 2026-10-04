@@ -59,7 +59,13 @@ export async function fetchBackendJson<T>(
       cache: "no-store",
 
       headers: {
-        ...(init.body
+        ...(init.body &&
+        !(
+          typeof FormData !==
+            "undefined" &&
+          init.body instanceof
+            FormData
+        )
           ? {
               "Content-Type":
                 "application/json",

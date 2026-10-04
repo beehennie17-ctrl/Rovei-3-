@@ -42,6 +42,11 @@ import {
 } from "@/lib/client-link-prototype";
 
 import {
+  writeCloudClientContext,
+} from "@/lib/client-link-session";
+
+
+import {
   readNewClientDraft,
   writeNewClientDraft,
 } from "@/lib/new-client-draft";
@@ -261,9 +266,42 @@ export function AddClientPage() {
         );
       }
 
-      await createClientData(
-        draft,
-      );
+      const result =
+        await createClientData(
+          draft,
+        );
+
+      if (
+        result.mode ===
+          "supabase"
+      ) {
+        if (
+          !result.data.clientId ||
+          !result.data.appointmentId
+        ) {
+          throw new Error(
+            "Rovei did not return the new appointment.",
+          );
+        }
+
+        if (
+          !writeCloudClientContext({
+            clientId:
+              result.data.clientId,
+
+            appointmentId:
+              result.data.appointmentId,
+
+            createdAt:
+              new Date()
+                .toISOString(),
+          })
+        ) {
+          throw new Error(
+            "Rovei could not prepare the secure client link.",
+          );
+        }
+      }
 
       router.push(
         "/app/clients/new/link",
