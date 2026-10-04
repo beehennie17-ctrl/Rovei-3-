@@ -1,9 +1,9 @@
 import type { InputHTMLAttributes, TextareaHTMLAttributes, SelectHTMLAttributes, ReactNode } from "react";
 
-const fieldClass = "focus-ring h-12 w-full rounded-2xl border border-[var(--border-soft)] bg-white px-4 text-sm text-[var(--text-primary)] placeholder:text-[var(--mauve)] hover:border-[var(--blush)]";
+const fieldClass = "focus-ring h-12 w-full rounded-2xl border border-[var(--border-soft)] bg-[var(--cream)] px-4 text-sm text-[var(--text-primary)] placeholder:text-[var(--mauve)] hover:border-[var(--blush)] focus:border-[var(--wine)]";
 
 export function Input({ className = "", ...props }: InputHTMLAttributes<HTMLInputElement>) { return <input className={`${fieldClass} ${className}`} {...props} />; }
-export function Textarea({ className = "", ...props }: TextareaHTMLAttributes<HTMLTextAreaElement>) { return <textarea className={`focus-ring min-h-28 w-full resize-y rounded-2xl border border-[var(--border-soft)] bg-white p-4 text-sm text-[var(--text-primary)] placeholder:text-[var(--mauve)] hover:border-[var(--blush)] ${className}`} {...props} />; }
+export function Textarea({ className = "", ...props }: TextareaHTMLAttributes<HTMLTextAreaElement>) { return <textarea className={`focus-ring min-h-28 w-full resize-y rounded-2xl border border-[var(--border-soft)] bg-[var(--cream)] p-4 text-sm text-[var(--text-primary)] placeholder:text-[var(--mauve)] hover:border-[var(--blush)] focus:border-[var(--wine)] ${className}`} {...props} />; }
 export function Select({ className = "", children, ...props }: SelectHTMLAttributes<HTMLSelectElement>) { return <select className={`${fieldClass} ${className}`} {...props}>{children}</select>; }
 
 export function Checkbox({ label, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string }) {
@@ -11,7 +11,7 @@ export function Checkbox({ label, ...props }: InputHTMLAttributes<HTMLInputEleme
 }
 
 export function RadioCard({ name, value, title, description, defaultChecked }: { name: string; value: string; title: string; description?: string; defaultChecked?: boolean }) {
-  return <label className="group relative block cursor-pointer rounded-[var(--radius-md)] border border-[var(--border-soft)] bg-white p-4 transition hover:border-[var(--blush)]">
+  return <label className="group relative block cursor-pointer rounded-[var(--radius-md)] border border-[var(--border-soft)] bg-[var(--cream)] p-4 transition hover:border-[var(--blush)] focus:border-[var(--wine)]">
     <input className="peer sr-only" type="radio" name={name} value={value} defaultChecked={defaultChecked} />
     <span className="absolute inset-0 rounded-[var(--radius-md)] ring-2 ring-transparent peer-checked:ring-[var(--wine)]" />
     <span className="block text-sm font-bold">{title}</span>{description && <span className="mt-1 block text-xs leading-5 text-[var(--text-secondary)]">{description}</span>}

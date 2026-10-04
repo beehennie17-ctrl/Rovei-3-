@@ -26,7 +26,7 @@ export function OnboardingShell({
           </div>
         </section>
 
-        <aside className="flex min-w-0 items-center justify-center bg-[var(--wine-soft)] px-[var(--page-gutter)] py-12 sm:py-16 lg:min-h-screen lg:px-[clamp(48px,6vw,96px)] lg:py-16">
+        <aside className="rovei-preview-surface flex min-w-0 items-center justify-center px-[var(--page-gutter)] py-12 sm:py-16 lg:min-h-screen lg:px-[clamp(48px,6vw,96px)] lg:py-16">
           <div className="w-full max-w-[620px]">{preview}</div>
         </aside>
       </div>

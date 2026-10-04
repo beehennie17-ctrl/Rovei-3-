@@ -120,7 +120,11 @@ export function PersonalPreview() {
         </section>
 
         <div className="mt-12 sm:mt-16 lg:mt-20">
-          <PreviewConversion onSave={() => router.push("/signup")} onEdit={() => router.push("/onboarding/experience")} />
+          <PreviewConversion
+            theme={model.theme}
+            onSave={() => router.push("/signup")}
+            onEdit={() => router.push("/onboarding/experience")}
+          />
         </div>
       </div>
     </main>
