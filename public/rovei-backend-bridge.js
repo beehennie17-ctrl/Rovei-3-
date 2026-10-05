@@ -378,5 +378,46 @@
     true,
   );
 
+
+  // ROVEI_STABLE_COLOR_PICKERS
+  function stabiliseColourPickers() {
+    for (const id of ["customPicker", "editPicker"]) {
+      const picker = document.getElementById(id);
+
+      if (
+        !(picker instanceof HTMLInputElement) ||
+        picker.dataset.roveiStablePicker === "1"
+      ) {
+        continue;
+      }
+
+      const originalInputHandler = picker.oninput;
+
+      if (typeof originalInputHandler !== "function") {
+        continue;
+      }
+
+      picker.dataset.roveiStablePicker = "1";
+      picker.oninput = null;
+
+      picker.onchange = (event) => {
+        originalInputHandler.call(picker, event);
+      };
+    }
+  }
+
+  const colourPickerObserver =
+    new MutationObserver(stabiliseColourPickers);
+
+  colourPickerObserver.observe(
+    document.documentElement,
+    {
+      childList: true,
+      subtree: true,
+    },
+  );
+
+  stabiliseColourPickers();
+
   void finishConfirmedSignup();
 })();
