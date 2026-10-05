@@ -36,7 +36,17 @@ export async function POST(request: Request) {
   }
 
   const supabase = await createClient();
-  const origin = new URL(request.url).origin;
+  const forwardedHost =
+    request.headers.get("x-forwarded-host") ??
+    request.headers.get("host");
+
+  const forwardedProto =
+    request.headers.get("x-forwarded-proto") ??
+    "https";
+
+  const origin = forwardedHost
+    ? `${forwardedProto}://${forwardedHost}`
+    : new URL(request.url).origin;
 
   const { data, error } = await supabase.auth.signUp({
     email: body.email,
