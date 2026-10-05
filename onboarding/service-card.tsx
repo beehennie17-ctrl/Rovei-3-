@@ -8,7 +8,10 @@ import {
   WandSparkles,
   type LucideIcon,
 } from "lucide-react";
-import type { ServiceCategory, ServiceCategoryIcon } from "@/lib/service-categories";
+import type {
+  ServiceCategory,
+  ServiceCategoryIcon,
+} from "@/lib/service-categories";
 
 const serviceIcons: Record<ServiceCategoryIcon, LucideIcon> = {
   lashes: Eye,
@@ -35,42 +38,29 @@ export function ServiceCard({
       type="button"
       aria-pressed={selected}
       onClick={onToggle}
-      className={`focus-ring motion-soft group relative min-h-36 w-full rounded-[var(--radius-md)] border p-5 text-left shadow-sm sm:min-h-40 sm:p-5 ${
-        selected
-          ? "border-[var(--wine)] bg-[var(--wine-soft)] shadow-[var(--shadow-card)]"
-          : "border-[var(--mauve)] bg-white hover:-translate-y-0.5 hover:border-[var(--blush)] hover:shadow-[var(--shadow-card)]"
+      className={`rovei-choice rovei-service-choice ${
+        selected ? "selected" : ""
       }`}
     >
-      <span className="flex items-start justify-between gap-4">
-        <span
-          className={`grid size-10 shrink-0 place-items-center rounded-full border motion-soft ${
-            selected
-              ? "border-[var(--blush)] bg-[var(--rose-milk)] text-[var(--wine)]"
-              : "border-[var(--border-soft)] bg-[var(--surface-muted)] text-[var(--wine)]"
-          }`}
-          aria-hidden="true"
-        >
-          <Icon size={18} strokeWidth={1.8} />
-        </span>
-        <span
-          className={`grid size-7 shrink-0 place-items-center rounded-full border motion-soft ${
-            selected
-              ? "scale-100 border-[var(--wine)] bg-[var(--wine)] text-white opacity-100"
-              : "scale-95 border-[var(--mauve)] bg-white text-transparent opacity-70"
-          }`}
-          aria-hidden="true"
-        >
-          <Check size={15} strokeWidth={2.5} />
-        </span>
+      <span className="rovei-choice-check" aria-hidden="true">
+        <Check size={13} strokeWidth={2.5} />
       </span>
 
-      <span className="mt-5 block text-base font-bold tracking-[-0.02em] text-[var(--text-primary)]">
+      <span className="rovei-service-icon" aria-hidden="true">
+        <Icon size={18} strokeWidth={1.8} />
+      </span>
+
+      <span className="rovei-choice-title">
         {category.name}
       </span>
-      <span className="mt-1.5 block text-sm leading-5 text-[var(--text-secondary)]">
+
+      <span className="rovei-choice-copy">
         {category.description}
       </span>
-      <span className="sr-only">{selected ? "Selected" : "Not selected"}</span>
+
+      <span className="sr-only">
+        {selected ? "Selected" : "Not selected"}
+      </span>
     </button>
   );
 }

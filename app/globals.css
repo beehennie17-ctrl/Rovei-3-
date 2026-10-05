@@ -102,3 +102,1146 @@ select:focus-visible {
   28% { opacity: 0.3; }
   100% { transform: translateX(48%); opacity: 0; }
 }
+
+/* === ROVEI APPROVED ONBOARDING PARITY START === */
+
+.rovei-flow {
+  --wine: #941651;
+  --wine-deep: #3D0915;
+  --wine-mid: #6A1629;
+  --wine-hover: #6A1629;
+  --wine-soft: #F6EDEF;
+  --blush: #E7BDC3;
+  --rose-milk: #EECBD1;
+  --mauve: #D2C5CE;
+  --cream: #FFFDFC;
+  --rose-wash: #F7E9EC;
+  --text-primary: #24191D;
+  --text-secondary: #75636A;
+  --border-soft: #E8D6DC;
+  --shadow-soft: 0 24px 68px rgba(148,22,81,.11);
+  --shadow-card: 0 14px 36px rgba(98,55,70,.085);
+
+  color: var(--text-primary);
+  font-family:
+    "Manrope",
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.rovei-flow .rovei-eyebrow {
+  margin: 0;
+  color: var(--wine);
+  font-size: .69rem;
+  font-weight: 800;
+  letter-spacing: .17em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.rovei-flow .rovei-editorial {
+  color: var(--wine);
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -.035em;
+}
+
+.rovei-flow .rovei-caption {
+  color: var(--text-secondary);
+  font-size: .78rem;
+  line-height: 1.45;
+}
+
+.rovei-btn {
+  min-height: 46px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 21px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--wine-mid),
+      var(--wine)
+    );
+
+  box-shadow:
+    0 9px 22px rgba(148,22,81,.14);
+
+  color: #fff;
+  font-size: .88rem;
+  font-weight: 750;
+
+  transition:
+    transform .19s ease,
+    background .19s ease,
+    box-shadow .19s ease;
+}
+
+.rovei-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  background:
+    linear-gradient(
+      180deg,
+      #741A30,
+      var(--wine-mid)
+    );
+
+  box-shadow:
+    0 12px 26px rgba(148,22,81,.18);
+}
+
+.rovei-btn:active:not(:disabled) {
+  transform: scale(.985);
+}
+
+.rovei-btn:disabled {
+  cursor: not-allowed;
+  opacity: .42;
+}
+
+.rovei-btn-secondary {
+  border: 1px solid #E0C8CF;
+  background:
+    linear-gradient(
+      180deg,
+      #fff,
+      #fff9fa
+    );
+  box-shadow:
+    0 6px 18px rgba(148,22,81,.05);
+  color: var(--wine);
+}
+
+.rovei-btn-secondary:hover:not(:disabled) {
+  border-color: var(--blush);
+  background: var(--rose-wash);
+}
+
+/* Welcome */
+
+.rovei-welcome {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 82% 16%,
+      rgba(231,189,195,.48),
+      transparent 31%
+    ),
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(238,203,209,.5),
+      transparent 33%
+    ),
+    #fff;
+}
+
+.rovei-welcome-inner {
+  min-height: 100vh;
+  max-width: 1480px;
+  margin: auto;
+  padding: 28px var(--page-gutter) 48px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.rovei-welcome-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rovei-welcome-hero {
+  margin: auto 0;
+  padding: 70px 0;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.1fr)
+    minmax(300px, .9fr);
+
+  align-items: center;
+  gap: 70px;
+}
+
+.rovei-welcome-copy {
+  max-width: 840px;
+}
+
+.rovei-display {
+  margin: 18px 0 0;
+  font-size: clamp(3.1rem, 8vw, 7.2rem);
+  font-weight: 760;
+  letter-spacing: -.06em;
+  line-height: .88;
+}
+
+.rovei-welcome-lead {
+  max-width: 650px;
+  margin: 28px 0 0;
+
+  color: var(--text-secondary);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.rovei-welcome-actions {
+  margin-top: 34px;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 17px;
+}
+
+.rovei-welcome-product-art {
+  position: relative;
+  min-height: 560px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  isolation: isolate;
+}
+
+.rovei-welcome-product-art::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  top: 4%;
+  right: -7%;
+
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(231,189,195,.44),
+      rgba(210,197,206,.18) 48%,
+      transparent 72%
+    );
+
+  filter: blur(34px);
+}
+
+.rovei-welcome-product-art::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 10%;
+  right: 3%;
+
+  width: 350px;
+  height: 350px;
+  border: 1px solid rgba(148,22,81,.10);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 56px rgba(148,22,81,.025),
+    0 0 0 112px rgba(148,22,81,.016);
+}
+
+.rovei-welcome-client-preview {
+  position: relative;
+
+  width: min(100%, 470px);
+  overflow: hidden;
+
+  border: 1px solid #DEC7CF;
+  border-radius: 38px;
+
+  background: #FFFDFC;
+
+  box-shadow:
+    0 38px 90px rgba(148,22,81,.16),
+    0 0 0 9px rgba(255,255,255,.50);
+
+  transform: rotate(1.2deg);
+}
+
+.rovei-welcome-client-preview::after {
+  content: "";
+  position: absolute;
+  inset: -48% -80%;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      108deg,
+      transparent 43%,
+      rgba(255,255,255,.18) 49%,
+      transparent 55%
+    );
+
+  transform: translateX(-43%);
+  animation: rovei-welcome-sheen 9s ease-in-out infinite;
+}
+
+@keyframes rovei-welcome-sheen {
+  0%,
+  75%,
+  100% {
+    transform: translateX(-43%);
+    opacity: 0;
+  }
+
+  82% {
+    opacity: .8;
+  }
+
+  92% {
+    transform: translateX(43%);
+    opacity: 0;
+  }
+}
+
+.rovei-welcome-client-hero {
+  position: relative;
+  min-height: 235px;
+  overflow: hidden;
+  padding: 38px 35px 34px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  background: #941651;
+  color: white;
+}
+
+.rovei-welcome-client-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    radial-gradient(
+      circle at 18% 20%,
+      rgba(255,255,255,.20) 0 1px,
+      transparent 1.4px
+    ),
+    radial-gradient(
+      circle at 73% 37%,
+      rgba(255,255,255,.12) 0 1px,
+      transparent 1.4px
+    );
+
+  background-size:
+    31px 31px,
+    47px 47px;
+
+  opacity: .42;
+}
+
+.rovei-welcome-client-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.rovei-welcome-client-kicker {
+  color: #F0D7DE;
+  font-size: .63rem;
+  font-weight: 800;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+.rovei-welcome-client-hero h3 {
+  margin: 22px 0 9px;
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: -.055em;
+  line-height: .92;
+}
+
+.rovei-welcome-client-hero p {
+  margin: 0;
+  color: #F1DDE2;
+  font-size: .82rem;
+  line-height: 1.55;
+}
+
+.rovei-welcome-client-body {
+  padding: 23px 28px 28px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fff 0%,
+      #fffafa 100%
+    );
+}
+
+.rovei-welcome-ready-row {
+  padding: 15px 0;
+  border-bottom: 1px solid #E9DCE1;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.rovei-welcome-ready-row:last-of-type {
+  border-bottom: 0;
+}
+
+.rovei-welcome-ready-row strong {
+  display: block;
+  font-size: .8rem;
+}
+
+.rovei-welcome-ready-row small {
+  display: block;
+  margin-top: 4px;
+
+  color: var(--text-secondary);
+  font-size: .69rem;
+}
+
+.rovei-welcome-ready-state {
+  border-radius: 999px;
+  padding: 7px 10px;
+
+  background: #EDF4EF;
+  color: #506C5A;
+
+  font-size: .62rem;
+  font-weight: 850;
+  letter-spacing: .07em;
+}
+
+.rovei-welcome-card-foot {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #E9DCE1;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.rovei-welcome-card-foot b {
+  color: var(--wine);
+  font-size: .67rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.rovei-welcome-card-foot span {
+  color: #7A6870;
+  font-size: .69rem;
+}
+
+.rovei-welcome-appointment-chip {
+  position: absolute;
+  z-index: 5;
+  left: -5%;
+  bottom: 7%;
+
+  width: 235px;
+  padding: 19px 20px;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 25px;
+
+  background: #24191D;
+  box-shadow:
+    0 26px 58px rgba(36,25,29,.20);
+
+  color: white;
+  transform: rotate(-4deg);
+}
+
+.rovei-wa-time {
+  color: #D8C8CE;
+  font-size: .64rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.rovei-welcome-appointment-chip strong {
+  display: block;
+  margin-top: 10px;
+  font-size: .86rem;
+}
+
+.rovei-welcome-appointment-chip p {
+  margin: 7px 0 13px;
+  color: #D7C8CD;
+  font-size: .68rem;
+  line-height: 1.45;
+}
+
+.rovei-wa-status {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 6px 8px;
+
+  background: #EDF4EF;
+  color: #506C5A;
+
+  font-size: .6rem;
+  font-weight: 850;
+  letter-spacing: .07em;
+}
+
+.rovei-welcome-float-note {
+  position: absolute;
+  z-index: 6;
+  top: 7%;
+  right: -1%;
+
+  width: 195px;
+  padding: 17px 18px;
+
+  border: 1px solid #E1C8CF;
+  border-radius: 22px;
+
+  background: rgba(255,253,252,.96);
+
+  box-shadow:
+    0 18px 46px rgba(148,22,81,.12);
+
+  transform: rotate(4deg);
+}
+
+.rovei-welcome-float-note span {
+  color: var(--wine);
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: 1.07rem;
+  font-style: italic;
+  line-height: 1.25;
+}
+
+.rovei-welcome-float-note p {
+  margin: 10px 0 0;
+  color: var(--text-secondary);
+  font-size: .68rem;
+  line-height: 1.45;
+}
+
+/* Split onboarding */
+
+.rovei-split {
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0, 48fr)
+    minmax(0, 52fr);
+
+  background: var(--cream);
+}
+
+.rovei-split-main {
+  min-width: 0;
+  padding:
+    30px
+    max(
+      var(--page-gutter),
+      clamp(32px, 6vw, 96px)
+    );
+
+  display: flex;
+  flex-direction: column;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffdfc 0%,
+      #fff 52%,
+      #fffafa 100%
+    );
+}
+
+.rovei-progress-wrap {
+  margin-top: 28px;
+}
+
+.rovei-split-content {
+  width: 100%;
+  max-width: 590px;
+  margin: auto 0;
+  padding: 48px 0;
+}
+
+.rovei-split-preview {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  padding: clamp(30px, 6vw, 70px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 44%,
+      rgba(255,255,255,.82),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 16% 15%,
+      rgba(255,255,255,.45),
+      transparent 18%
+    ),
+    linear-gradient(
+      145deg,
+      #F4DDE2 0%,
+      #EAC6CE 48%,
+      #F7E9EC 100%
+    );
+}
+
+.rovei-split-preview::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background-image:
+    radial-gradient(
+      circle at 20% 22%,
+      rgba(255,255,255,.82) 0 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle at 79% 28%,
+      rgba(148,22,81,.16) 0 1px,
+      transparent 1.4px
+    ),
+    radial-gradient(
+      circle at 64% 75%,
+      rgba(255,255,255,.78) 0 1px,
+      transparent 1.4px
+    );
+
+  background-size:
+    61px 61px,
+    84px 84px,
+    72px 72px;
+
+  opacity: .48;
+}
+
+.rovei-split-preview > * {
+  position: relative;
+  z-index: 1;
+}
+
+.rovei-onboarding-title {
+  margin: 18px 0 0;
+
+  font-size:
+    clamp(2.55rem, 5.5vw, 4.45rem);
+
+  font-weight: 730;
+  letter-spacing: -.048em;
+  line-height: 1.03;
+}
+
+.rovei-onboarding-copy {
+  max-width: 520px;
+  margin: 22px 0 0;
+
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.rovei-field {
+  max-width: 520px;
+  margin-top: 35px;
+
+  display: grid;
+  gap: 8px;
+}
+
+.rovei-field label {
+  font-size: .82rem;
+  font-weight: 750;
+}
+
+.rovei-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 15px;
+
+  border: 1px solid #DFC9D0;
+  border-radius: 16px;
+
+  background: var(--cream);
+  color: var(--text-primary);
+
+  transition:
+    border-color .18s ease,
+    box-shadow .18s ease;
+}
+
+.rovei-input:hover {
+  border-color: #CFA1AD;
+}
+
+.rovei-input:focus {
+  outline: none;
+  border-color: var(--wine);
+
+  box-shadow:
+    0 0 0 4px rgba(231,189,195,.32);
+}
+
+.rovei-input::placeholder {
+  color: #AA9DA2;
+}
+
+.rovei-help {
+  color: var(--text-secondary);
+  font-size: .76rem;
+  line-height: 1.45;
+}
+
+.rovei-step-actions {
+  margin-top: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.rovei-step-actions-end {
+  justify-content: flex-end;
+}
+
+.rovei-choice-grid {
+  margin: 30px 0 0;
+  padding: 0;
+  border: 0;
+
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 13px;
+}
+
+.rovei-choice {
+  position: relative;
+  min-height: 122px;
+  overflow: hidden;
+  padding: 17px;
+
+  border: 1px solid #E4D3D8;
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fff 0%,
+      #fffdfd 100%
+    );
+
+  box-shadow:
+    0 4px 14px rgba(148,22,81,.025);
+
+  color: var(--text-primary);
+  text-align: left;
+
+  transition:
+    transform .19s ease,
+    border-color .19s ease,
+    box-shadow .19s ease,
+    background .19s ease;
+}
+
+.rovei-choice:hover {
+  transform: translateY(-2px);
+  border-color: #D99EAA;
+
+  box-shadow:
+    0 14px 32px rgba(148,22,81,.085);
+}
+
+.rovei-choice.selected {
+  border-color: var(--wine);
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff 0%,
+      #FAECEF 58%,
+      #F5DCE2 100%
+    );
+
+  box-shadow:
+    0 0 0 1px rgba(148,22,81,.62),
+    0 14px 32px rgba(148,22,81,.09);
+}
+
+.rovei-choice-check {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 22px;
+  height: 22px;
+  border: 1px solid #D8BCC3;
+  border-radius: 50%;
+
+  display: grid;
+  place-items: center;
+
+  background: #fff7f8;
+  color: transparent;
+}
+
+.rovei-choice.selected .rovei-choice-check {
+  border-color: var(--wine);
+  background: var(--wine);
+  color: #fff;
+
+  box-shadow:
+    0 4px 12px rgba(148,22,81,.17);
+}
+
+.rovei-service-icon {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 13px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #E6CCD2;
+  border-radius: 50%;
+
+  background: #F8ECEF;
+  color: var(--wine);
+}
+
+.rovei-choice-title {
+  display: block;
+  padding-right: 25px;
+
+  font-size: .95rem;
+  font-weight: 760;
+  letter-spacing: -.02em;
+}
+
+.rovei-choice-copy {
+  display: block;
+  margin-top: 5px;
+  padding-right: 10px;
+
+  color: var(--text-secondary);
+  font-size: .78rem;
+  line-height: 1.45;
+}
+
+/* Locked client preview */
+
+.rovei-preview-frame {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 560px;
+}
+
+.rovei-preview-label {
+  margin-bottom: 13px;
+
+  color: #682237;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+.rovei-phone {
+  width: min(100%, 390px);
+  margin: auto;
+  padding: 9px;
+
+  border: 1px solid #DCC6CD;
+  border-radius: 38px;
+
+  background: rgba(255,253,252,.98);
+
+  box-shadow:
+    0 34px 80px rgba(148,22,81,.18),
+    0 3px 10px rgba(148,22,81,.06);
+}
+
+.rovei-phone-inner {
+  min-height: 550px;
+  overflow: hidden;
+
+  border: 1px solid rgba(148,22,81,.06);
+  border-radius: 30px;
+
+  background: #fffdfd;
+}
+
+.rovei-phone-top {
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fffdfd;
+}
+
+.rovei-notch {
+  width: 56px;
+  height: 6px;
+  border-radius: 99px;
+
+  background: #3C2B32;
+  opacity: .22;
+}
+
+.rovei-client-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 36px 25px 31px;
+  border-radius: 0 0 31px 31px;
+}
+
+.rovei-client-hero::after {
+  content: "";
+  position: absolute;
+  inset: -55%;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      108deg,
+      transparent 43%,
+      rgba(255,255,255,.14) 49%,
+      transparent 55%
+    );
+
+  transform: translateX(-42%);
+  animation: rovei-phone-shine 8s ease-in-out infinite;
+}
+
+@keyframes rovei-phone-shine {
+  0%,
+  72%,
+  100% {
+    transform: translateX(-42%);
+    opacity: 0;
+  }
+
+  79% {
+    opacity: .45;
+  }
+
+  90% {
+    transform: translateX(42%);
+    opacity: 0;
+  }
+}
+
+.rovei-studio-mini {
+  position: relative;
+  z-index: 1;
+
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+
+  opacity: .78;
+}
+
+.rovei-client-hero h3 {
+  position: relative;
+  z-index: 1;
+
+  margin: 24px 0 8px;
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: 2.32rem;
+  font-weight: 600;
+  letter-spacing: -.045em;
+  line-height: .93;
+}
+
+.rovei-client-hero p {
+  position: relative;
+  z-index: 1;
+
+  margin: 0;
+
+  font-size: .8rem;
+  line-height: 1.6;
+
+  opacity: .84;
+}
+
+.rovei-phone-body {
+  padding: 21px 20px 24px;
+}
+
+.rovei-mini-row {
+  margin-top: 9px;
+  padding: 13px;
+
+  border: 1px solid #EEE0E4;
+  border-radius: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  background: #fffdfd;
+}
+
+.rovei-mini-row:first-child {
+  border-color: #E8CCD3;
+  background: #FBF3F5;
+}
+
+.rovei-mini-row strong {
+  font-size: .78rem;
+  font-weight: 760;
+}
+
+.rovei-mini-row span {
+  color: #7B6870;
+  font-size: .72rem;
+}
+
+.rovei-preview-empty {
+  padding: 28px 3px;
+
+  color: var(--text-secondary);
+  font-size: .8rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 980px) {
+  .rovei-welcome-hero,
+  .rovei-split {
+    grid-template-columns: 1fr;
+  }
+
+  .rovei-welcome-product-art {
+    width: 100%;
+    max-width: 620px;
+    min-height: 520px;
+    margin: auto;
+  }
+
+  .rovei-welcome-client-preview {
+    width: min(86%, 450px);
+  }
+
+  .rovei-split-preview {
+    min-height: 610px;
+  }
+}
+
+@media (max-width: 760px) {
+  .rovei-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rovei-split-main {
+    padding:
+      24px
+      var(--page-gutter);
+  }
+
+  .rovei-split-content {
+    padding: 42px 0;
+  }
+
+  .rovei-split-preview {
+    padding: 45px 20px;
+  }
+
+  .rovei-welcome-hero {
+    padding: 40px 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .rovei-welcome-product-art {
+    min-height: 420px;
+  }
+
+  .rovei-welcome-client-preview {
+    width: 88%;
+    border-radius: 30px;
+  }
+
+  .rovei-welcome-client-hero {
+    min-height: 190px;
+    padding: 31px 25px 27px;
+  }
+
+  .rovei-welcome-client-hero h3 {
+    font-size: 2.35rem;
+  }
+
+  .rovei-welcome-client-body {
+    padding: 18px 21px 22px;
+  }
+
+  .rovei-welcome-appointment-chip {
+    left: -2%;
+    bottom: 3%;
+    width: 185px;
+    padding: 15px;
+  }
+
+  .rovei-welcome-float-note {
+    display: none;
+  }
+}
+
+/* === ROVEI APPROVED ONBOARDING PARITY END === */

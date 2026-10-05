@@ -1,5 +1,5 @@
-import { StudioIdentityStep } from "@/components/onboarding/studio-identity-step";
+import { WelcomeStep } from "@/components/onboarding/welcome-step";
 
 export default function Page() {
-  return <StudioIdentityStep />;
+  return <WelcomeStep />;
 }

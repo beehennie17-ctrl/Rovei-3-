@@ -3,16 +3,19 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { LockedClientPreview } from "@/components/onboarding/locked-client-preview";
 import { OnboardingShell } from "@/components/onboarding/onboarding-shell";
 import { ServiceCard } from "@/components/onboarding/service-card";
-import { ServicesMiniPreview } from "@/components/onboarding/services-mini-preview";
-import { Button } from "@/components/ui/button";
 import { SERVICE_CATEGORIES } from "@/lib/service-categories";
-import { readOnboardingDraft, updateOnboardingDraft } from "@/lib/onboarding-storage";
+import {
+  readOnboardingDraft,
+  updateOnboardingDraft,
+} from "@/lib/onboarding-storage";
 import type { ServiceCategoryId } from "@/types/onboarding";
 
 export function ServicesStep() {
   const router = useRouter();
+
   const [studioName, setStudioName] = useState("");
   const [services, setServices] = useState<ServiceCategoryId[]>([]);
 
@@ -28,67 +31,91 @@ export function ServicesStep() {
         ? current.filter((serviceId) => serviceId !== id)
         : [...current, id];
 
-      updateOnboardingDraft({ services: next });
+      updateOnboardingDraft({
+        services: next,
+      });
+
       return next;
     });
   }
 
   function handleContinue() {
     if (services.length === 0) return;
-    updateOnboardingDraft({ services });
+
+    updateOnboardingDraft({
+      services,
+    });
+
     router.push("/onboarding/mood");
   }
 
-  const studioContext = studioName.trim()
-    ? `Building Rovei. for ${studioName.trim()}`
-    : "Building your Rovei. studio";
+  const serviceNames = SERVICE_CATEGORIES
+    .filter((category) => services.includes(category.id))
+    .map((category) => category.name);
 
   return (
     <OnboardingShell
       currentStep={2}
       totalSteps={4}
-      preview={<ServicesMiniPreview studioName={studioName} services={services} />}
+      preview={
+        <LockedClientPreview
+          studioName={studioName.trim() || "Your studio"}
+          clientName="Your client"
+          service={
+            serviceNames.length > 0
+              ? serviceNames.join(" · ")
+              : "Choose your services"
+          }
+        />
+      }
     >
-      <div className="page-enter">
-        <p className="eyebrow">Your services</p>
-        <h1 className="mt-5 max-w-xl text-[clamp(2.35rem,5.5vw,4.35rem)] font-bold leading-[0.98] tracking-[-0.05em] text-[var(--text-primary)]">
-          What happens <span className="editorial-accent text-[var(--wine)]">in your chair?</span>
-        </h1>
-        <p className="mt-6 max-w-lg text-base leading-7 text-[var(--text-secondary)] sm:text-[1.05rem]">
-          Choose everything you currently offer. We&apos;ll use this to shape your Rovei experience.
-        </p>
-        <p className="mt-4 text-sm font-semibold text-[var(--wine)]">{studioContext}</p>
+      <div>
+        <p className="rovei-eyebrow">Your services</p>
 
-        <fieldset className="mt-9 sm:mt-10">
-          <legend className="sr-only">Choose the service categories you currently offer</legend>
-          <div className="grid gap-3.5 sm:grid-cols-2 sm:gap-4">
-            {SERVICE_CATEGORIES.map((category) => (
-              <ServiceCard
-                key={category.id}
-                category={category}
-                selected={services.includes(category.id)}
-                onToggle={() => toggleService(category.id)}
-              />
-            ))}
-          </div>
+        <h1 className="rovei-onboarding-title">
+          What do{" "}
+          <span className="rovei-editorial">you offer?</span>
+        </h1>
+
+        <p className="rovei-onboarding-copy">
+          Choose everything you currently offer. Nothing is selected until
+          you choose it.
+        </p>
+
+        <fieldset className="rovei-choice-grid">
+          <legend className="sr-only">
+            Choose the service categories you currently offer
+          </legend>
+
+          {SERVICE_CATEGORIES.map((category) => (
+            <ServiceCard
+              key={category.id}
+              category={category}
+              selected={services.includes(category.id)}
+              onToggle={() => toggleService(category.id)}
+            />
+          ))}
         </fieldset>
 
-        <div className="mt-9 flex items-center justify-between gap-3 sm:mt-10">
-          <Button
-            variant="secondary"
-            icon={<ArrowLeft size={17} aria-hidden="true" />}
-            onClick={() => router.push("/onboarding")}
+        <div className="rovei-step-actions">
+          <button
+            type="button"
+            className="rovei-btn rovei-btn-secondary"
+            onClick={() => router.push("/onboarding/studio")}
           >
+            <ArrowLeft size={16} aria-hidden="true" />
             Back
-          </Button>
-          <Button
+          </button>
+
+          <button
+            type="button"
+            className="rovei-btn"
             disabled={services.length === 0}
-            icon={<ArrowRight size={17} aria-hidden="true" />}
             onClick={handleContinue}
-            className="min-w-36 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Continue
-          </Button>
+            <ArrowRight size={16} aria-hidden="true" />
+          </button>
         </div>
       </div>
     </OnboardingShell>
