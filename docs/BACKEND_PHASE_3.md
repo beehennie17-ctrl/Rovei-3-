@@ -65,12 +65,14 @@ Prototype mode:
 - continues through the existing activation prototype
 
 Supabase mode:
-- creates a Supabase Auth user
-- stores the user's display name in auth metadata
-- supports email-confirmation redirects
-- continues to `/activate` when a session is immediately available
+- creates a Supabase Auth user through the server signup endpoint
+- stores the user's display name and validated Studio setup in auth metadata
+- supports email-confirmation redirects and resumes Studio setup in the callback
+- signs in with email/password through a server endpoint and restores membership from Supabase
 
 If Supabase requires email confirmation, Rovei waits for the user to confirm instead of pretending authentication succeeded.
+
+Sign-out is handled server-side and scoped to the current session. Authenticated session checks use Supabase `getUser`; expired or missing sessions do not authorize protected APIs. Password recovery email and password update endpoints are available, but no password-reset UI has been added.
 
 ## Studio bootstrap
 
@@ -85,13 +87,15 @@ The Studio is built from the onboarding draft and persists:
 - client-experience modules
 - browser IANA timezone
 
-The bootstrap endpoint remains idempotent for users who already belong to a Studio.
+`202610060001_atomic_studio_bootstrap.sql` adds an authenticated RPC that serializes concurrent bootstrap attempts per user and creates the Studio, settings, services, and owner membership in one transaction. Repeated requests return the existing membership rather than creating duplicate Studios. The migration must be applied to the target Supabase project before this RPC is available.
+
+Returning users hydrate Studio settings from `GET /api/studio`; the browser onboarding draft is only a fallback for an unfinished new signup.
 
 ## Auth redirect safety
 
 The auth callback only accepts local relative `next` paths.
 
-External or protocol-relative redirect targets fall back to `/app`.
+External, protocol-relative, and backslash-based redirect targets fall back to `/app`.
 
 ## Phase 3 boundary
 

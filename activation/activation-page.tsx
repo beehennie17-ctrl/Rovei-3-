@@ -40,11 +40,13 @@ import {
 
 import {
   RoveiApiError,
+  fetchBackendJson,
   getBackendMode,
 } from "@/lib/backend/api-client";
 
 import {
   bootstrapStudio,
+  loadStudio,
 } from "@/lib/data/rovei-data-source";
 
 import {
@@ -58,6 +60,7 @@ import {
 
 import {
   buildStudioSettingsState,
+  type StudioSettingsState,
 } from "@/lib/studio-settings";
 
 import type {
@@ -106,31 +109,13 @@ export function ActivationPage() {
     let active = true;
 
     async function hydrate() {
-      const draft =
+      let draft =
         readOnboardingDraft();
 
-      const nextModel =
+      let nextModel =
         buildPersonalPreviewModel(
           draft,
         );
-
-      if (!active) {
-        return;
-      }
-
-      setModel(
-        nextModel,
-      );
-
-      if (
-        nextModel.isDraftEmpty
-      ) {
-        setStudioSync(
-          "ready",
-        );
-
-        return;
-      }
 
       try {
         const mode =
@@ -140,9 +125,53 @@ export function ActivationPage() {
           return;
         }
 
-        if (
-          mode === "prototype"
-        ) {
+        if (mode === "supabase") {
+          const session = await fetchBackendJson<{
+            studioId: string | null;
+            pendingStudio: {
+              studioName: string;
+              services: StudioSettingsState["services"];
+              theme: StudioSettingsState["theme"];
+              customPrimary: string;
+              experienceSelections: StudioSettingsState["experienceSelections"];
+              timezone: string;
+            } | null;
+          }>("/api/auth/session").catch((error: unknown) => {
+            if (
+              error instanceof RoveiApiError &&
+              error.status === 401
+            ) {
+              return null;
+            }
+            throw error;
+          });
+
+          if (!active) {
+            return;
+          }
+
+          if (session?.studioId) {
+            const existingStudio = await loadStudio();
+            draft = existingStudio.data.settings;
+            nextModel = buildPersonalPreviewModel(draft);
+            setModel(nextModel);
+            setStudioSync("ready");
+            return;
+          }
+
+          if (session?.pendingStudio) {
+            draft = session.pendingStudio;
+            nextModel = buildPersonalPreviewModel(draft);
+          }
+        }
+
+        if (!active) {
+          return;
+        }
+
+        setModel(nextModel);
+
+        if (mode === "prototype" || nextModel.isDraftEmpty) {
           setStudioSync(
             "ready",
           );
@@ -150,14 +179,7 @@ export function ActivationPage() {
           return;
         }
 
-        const settings =
-          buildStudioSettingsState(
-            draft,
-          );
-
-        await bootstrapStudio(
-          settings,
-        );
+        await bootstrapStudio(buildStudioSettingsState(draft));
 
         if (!active) {
           return;

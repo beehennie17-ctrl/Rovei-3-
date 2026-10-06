@@ -15,17 +15,31 @@
 | `/app/beauty-packs` | Beauty Pack directory for reusable client-experience templates, sorted by most recently updated | Implemented frontend prototype with localStorage persistence | Backend Studio configuration / reusable appointment templates |
 | `/app/beauty-packs/new` | Create Beauty Pack editor with service recommendations, module selection, and live client preview | Implemented frontend prototype | Backend Beauty Pack creation |
 | `/app/beauty-packs/[id]` | Edit/delete an existing prototype Beauty Pack | Implemented frontend prototype | Backend Beauty Pack editing/deletion |
-| `/app/studio` | Professional Studio editor for identity, services, client theme/Custom colour, and default client-experience modules with explicit Save/Discard and live preview | Implemented frontend Studio management using the existing onboarding draft | Backend Studio configuration persistence and appointment snapshots |
+| `/app/studio` | Professional Studio editor for identity, services, client theme/Custom colour, and default client-experience modules with explicit Save/Discard and live preview | Supabase-backed settings when configured; prototype draft fallback otherwise | Appointment snapshots |
 | `/app/settings` | Small Account, Plan & billing, and Workspace shortcuts page | Implemented frontend/demo Settings; no account or billing backend | Authenticated account profile and real billing management |
 | `/onboarding` | Studio Identity Step 1 with live preview + temporary draft persistence | Implemented frontend Step 1 | First step of guided onboarding |
 | `/onboarding/services` | Services Step 2 with typed multi-select cards, live preview, and draft autosave | Implemented frontend Step 2 | Category-level service selection before Design / Mood |
 | `/onboarding/mood` | Design / Mood Step 3 with preset + Custom theme selection, live themed client preview, and draft autosave | Implemented frontend Step 3 | Client-facing mood/signature-colour customization before Experience |
 | `/onboarding/experience` | Client Experience Step 4 with service-based recommendations, editable modules, themed live preview, and draft autosave | Implemented frontend Step 4 | Final onboarding configuration step before Personal Preview |
 | `/preview` | Personalized payoff screen with Client View / Your View, illustrative Emily flow, read-only setup summary, and Save/Edit routing | Implemented frontend Personal Preview | Pre-signup studio review before account creation |
-| `/signup` | Create Account / Save Studio frontend form with local-only credentials and personalized studio summary | Implemented frontend UX; no real account | Backend authentication/account creation before activation |
+| `/signup` | Create Account / Save Studio form with personalized studio summary | Server-backed Supabase email signup, email confirmation, and resumable Studio setup | |
+| `/login` | Existing Welcome back login screen | Server-backed email/password authentication; Google OAuth remains Supabase-backed | |
+| `/auth/callback` | Supabase auth confirmation/OAuth callback | Exchanges the auth code, validates local redirects, and resumes idempotent Studio bootstrap | |
 | `/activate` | Personalized Activation / Paywall with one plan, Monthly/Annual cadence, included features, preview-mode explanation, and checkout handoff | Implemented frontend purchase UX; no payment/activation | Future backend-created hosted checkout entry |
 | `/activate/checkout` | Deliberate development-only payment boundary; reads validated `billing` query and shows selected price without collecting payment data | Intentional frontend/backend boundary | Replace with backend-created Stripe Checkout redirect / success-cancel handling |
 | `/client/[token]` | Public Client Experience with current-session token validation, themed consultation/preferences/photo/consent/prep flow, review and completion | Implemented frontend prototype; no backend authorization | Backend token resolution, Postgres responses and Storage-backed photos |
+
+## Authentication and Studio backend APIs
+
+| API route | Purpose |
+| --- | --- |
+| `POST /api/auth/signup` | Validates email signup and stores the validated pending Studio setup with auth metadata for confirmation recovery. |
+| `POST /api/auth/login` | Signs in with email/password and selects the authenticated user's Studio membership. |
+| `GET /api/auth/session` | Verifies the cookie session with Supabase and returns that user's Studio membership and pending setup state. |
+| `POST /api/auth/signout` | Ends the current Supabase session; same-origin requests only. |
+| `POST /api/auth/recovery` | Requests a non-enumerating Supabase password recovery email. |
+| `POST /api/auth/password` | Updates a password using a valid recovery/session token; same-origin requests only. |
+| `POST /api/studio/bootstrap` | Atomically creates the Studio and defaults; idempotent for existing memberships. |
 
 ## Current client-creation route details
 

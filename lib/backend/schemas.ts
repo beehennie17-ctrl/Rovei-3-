@@ -54,7 +54,9 @@ export const studioSettingsSchema = z.object({
 
   services: z
     .array(serviceCategorySchema)
-    .min(1),
+    .min(1)
+    .max(6)
+    .refine((values) => new Set(values).size === values.length),
 
   theme: themeSchema,
 
@@ -64,7 +66,9 @@ export const studioSettingsSchema = z.object({
 
   experienceSelections: z
     .array(experienceModuleSchema)
-    .min(1),
+    .min(1)
+    .max(6)
+    .refine((values) => new Set(values).size === values.length),
 
   timezone:
     timezoneSchema.default("UTC"),

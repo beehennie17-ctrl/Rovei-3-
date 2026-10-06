@@ -936,6 +936,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      bootstrap_studio: {
+        Args: {
+          p_custom_primary: string
+          p_experience_modules: Json
+          p_name: string
+          p_primary_colour: string
+          p_services: Json
+          p_theme: string
+          p_timezone: string
+        }
+        Returns: {
+          already_exists: boolean
+          studio_id: string
+        }[]
+      }
       is_studio_member: { Args: { target_studio_id: string }; Returns: boolean }
       is_studio_owner: { Args: { target_studio_id: string }; Returns: boolean }
     }
