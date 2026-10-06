@@ -3,11 +3,9 @@
 import {
   getBackendMode,
   type BackendMode,
+  fetchBackendJson,
 } from "@/lib/backend/api-client";
-
-import {
-  createClient,
-} from "@/lib/supabase/client";
+import type { StudioSettingsState } from "@/lib/studio-settings";
 
 export type SignupCredentials = {
   firstName: string;
@@ -23,6 +21,7 @@ export type SignupResult = {
 export async function createRoveiAccount(
   credentials:
     SignupCredentials,
+  studioBootstrap?: StudioSettingsState & { timezone: string },
 ): Promise<SignupResult> {
   const mode =
     await getBackendMode();
@@ -35,42 +34,18 @@ export async function createRoveiAccount(
     };
   }
 
-  const supabase =
-    createClient();
-
-  const {
-    data,
-    error,
-  } =
-    await supabase.auth.signUp({
-      email:
-        credentials.email.trim(),
-
-      password:
-        credentials.password,
-
-      options: {
-        data: {
-          full_name:
-            credentials.firstName.trim(),
-
-          first_name:
-            credentials.firstName.trim(),
-        },
-
-        emailRedirectTo:
-          `${window.location.origin}/auth/callback?next=/activate`,
-      },
-    });
-
-  if (error) {
-    throw error;
-  }
+  const result = await fetchBackendJson<{
+    requiresEmailConfirmation: boolean;
+  }>("/api/auth/signup", {
+    method: "POST",
+    body: JSON.stringify({
+      ...credentials,
+      studioBootstrap,
+    }),
+  });
 
   return {
     mode,
-
-    needsEmailConfirmation:
-      !data.session,
+    needsEmailConfirmation: result.requiresEmailConfirmation,
   };
 }

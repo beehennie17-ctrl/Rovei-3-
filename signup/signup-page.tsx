@@ -9,6 +9,8 @@ import { SignupStudioPreview } from "@/components/signup/signup-studio-preview";
 import { Button } from "@/components/ui/button";
 import { readOnboardingDraft } from "@/lib/onboarding-storage";
 import { buildPersonalPreviewModel, type PersonalPreviewModel } from "@/lib/preview-model";
+import { buildStudioSettingsState } from "@/lib/studio-settings";
+import { getBrowserTimezone } from "@/lib/backend/api-client";
 import { createRoveiAccount, type SignupCredentials } from "@/lib/auth/signup";
 
 export function SignupPage() {
@@ -82,6 +84,12 @@ export function SignupPage() {
                 const result =
                   await createRoveiAccount(
                     credentials,
+                    {
+                      ...buildStudioSettingsState(
+                        readOnboardingDraft(),
+                      ),
+                      timezone: getBrowserTimezone(),
+                    },
                   );
 
                 if (

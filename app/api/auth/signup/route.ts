@@ -1,20 +1,24 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { mapAuthError } from "@/lib/auth/auth-errors";
+import { backendErrorResponse, readJsonBody } from "@/lib/backend/errors";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { studioSettingsSchema } from "@/lib/backend/schemas";
 
 const signupSchema = z.object({
   firstName: z.string().trim().min(1).max(80),
   email: z.string().trim().email().max(254),
   password: z.string().min(8).max(200),
+  studioBootstrap: studioSettingsSchema.optional(),
 });
 
 export async function POST(request: Request) {
   if (!isSupabaseConfigured()) {
     return NextResponse.json(
       {
-        code: "backend_not_configured",
+        error: "backend_not_configured",
         message: "Rovei authentication is not configured.",
       },
       { status: 503 },
@@ -24,68 +28,80 @@ export async function POST(request: Request) {
   let body: z.infer<typeof signupSchema>;
 
   try {
-    body = signupSchema.parse(await request.json());
+    body = signupSchema.parse(await readJsonBody(request));
   } catch {
     return NextResponse.json(
       {
-        code: "invalid_signup",
+        error: "invalid_signup",
         message: "Please check your signup details.",
       },
       { status: 400 },
     );
   }
 
-  const supabase = await createClient();
-  const forwardedHost =
-    request.headers.get("x-forwarded-host") ??
-    request.headers.get("host");
+  try {
+    const supabase = await createClient();
+    const forwardedHost =
+      request.headers.get("x-forwarded-host") ??
+      request.headers.get("host");
 
-  const forwardedProto =
-    request.headers.get("x-forwarded-proto") ??
-    "https";
+    const forwardedProto =
+      request.headers.get("x-forwarded-proto") ??
+      "https";
 
-  const origin = forwardedHost
-    ? `${forwardedProto}://${forwardedHost}`
-    : new URL(request.url).origin;
+    const origin = process.env.NEXT_PUBLIC_SITE_URL
+      ? new URL(process.env.NEXT_PUBLIC_SITE_URL).origin
+      : forwardedHost
+        ? `${forwardedProto}://${forwardedHost}`
+        : new URL(request.url).origin;
 
-  const { data, error } = await supabase.auth.signUp({
-    email: body.email,
-    password: body.password,
-    options: {
-      data: {
-        first_name: body.firstName,
+    const { data, error } = await supabase.auth.signUp({
+      email: body.email.trim().toLowerCase(),
+      password: body.password,
+      options: {
+        data: {
+          first_name: body.firstName,
+          full_name: body.firstName,
+          ...(body.studioBootstrap
+            ? { rovei_studio_bootstrap: body.studioBootstrap }
+            : {}),
+        },
+        emailRedirectTo:
+          `${origin}/auth/callback?next=/activate`,
       },
-      emailRedirectTo:
-        `${origin}/auth/callback?next=/?rovei=complete-signup`,
-    },
-  });
+    });
 
-  if (error) {
-    return NextResponse.json(
-      {
-        code: "signup_failed",
-        message: error.message,
-      },
-      { status: 400 },
-    );
+    if (error) {
+      const mapped = mapAuthError(error, "signup");
+
+      return NextResponse.json(
+        {
+          error: mapped.code,
+          message: mapped.message,
+        },
+        { status: mapped.status },
+      );
+    }
+
+    if (
+      data.user &&
+      Array.isArray(data.user.identities) &&
+      data.user.identities.length === 0
+    ) {
+      return NextResponse.json(
+        {
+          error: "account_may_exist",
+          message: "An account may already exist for this email address.",
+        },
+        { status: 409 },
+      );
+    }
+
+    return NextResponse.json({
+      ok: true,
+      requiresEmailConfirmation: !data.session,
+    });
+  } catch (error) {
+    return backendErrorResponse(error);
   }
-
-  if (
-    data.user &&
-    Array.isArray(data.user.identities) &&
-    data.user.identities.length === 0
-  ) {
-    return NextResponse.json(
-      {
-        code: "account_may_exist",
-        message: "An account may already exist for this email address.",
-      },
-      { status: 409 },
-    );
-  }
-
-  return NextResponse.json({
-    ok: true,
-    requiresEmailConfirmation: !data.session,
-  });
 }

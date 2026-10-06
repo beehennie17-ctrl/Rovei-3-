@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { fetchBackendJson } from "@/lib/backend/api-client";
 import { createClient } from "@/lib/supabase/client";
 
 export function LoginForm() {
@@ -26,20 +27,17 @@ export function LoginForm() {
     setError("");
 
     try {
-      const supabase = createClient();
-
-      const { error: authError } =
-        await supabase.auth.signInWithPassword({
+      const result = await fetchBackendJson<{
+        hasStudio: boolean;
+      }>("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
           email: email.trim(),
           password,
-        });
+        }),
+      });
 
-      if (authError) {
-        setError(authError.message);
-        return;
-      }
-
-      router.replace("/app");
+      router.replace(result.hasStudio ? "/app" : "/activate");
       router.refresh();
     } catch (caught) {
       setError(

@@ -5,21 +5,9 @@ import {
 import {
   createClient,
 } from "@/lib/supabase/server";
-
-function getSafeNext(
-  value:
-    string | null,
-) {
-  if (
-    !value ||
-    !value.startsWith("/") ||
-    value.startsWith("//")
-  ) {
-    return "/app";
-  }
-
-  return value;
-}
+import { getSafeNext } from "@/lib/auth/safe-next";
+import { bootstrapStudio } from "@/lib/backend/studio-bootstrap";
+import { studioSettingsSchema } from "@/lib/backend/schemas";
 
 export async function GET(
   request: Request,
@@ -65,6 +53,31 @@ export async function GET(
         url.origin,
       ),
     );
+  }
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    return NextResponse.redirect(
+      new URL("/login?error=session", url.origin),
+    );
+  }
+
+  const pendingStudio = studioSettingsSchema.safeParse(
+    user.user_metadata?.rovei_studio_bootstrap,
+  );
+
+  if (pendingStudio.success) {
+    try {
+      await bootstrapStudio(supabase, pendingStudio.data);
+    } catch {
+      return NextResponse.redirect(
+        new URL("/activate?bootstrap=retry", url.origin),
+      );
+    }
   }
 
   return NextResponse.redirect(
