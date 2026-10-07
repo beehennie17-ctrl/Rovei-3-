@@ -75,7 +75,7 @@ export async function GET(
       await bootstrapStudio(supabase, pendingStudio.data);
     } catch {
       return NextResponse.redirect(
-        new URL("/activate?bootstrap=retry", url.origin),
+        new URL("/?rovei=activation&bootstrap=retry", url.origin),
       );
     }
   }

@@ -29,6 +29,7 @@ export function LoginForm() {
     try {
       const result = await fetchBackendJson<{
         hasStudio: boolean;
+        hasActiveSubscription: boolean;
       }>("/api/auth/login", {
         method: "POST",
         body: JSON.stringify({
@@ -37,7 +38,11 @@ export function LoginForm() {
         }),
       });
 
-      router.replace(result.hasStudio ? "/app" : "/activate");
+      router.replace(
+        result.hasActiveSubscription
+          ? "/?rovei=app"
+          : "/?rovei=activation",
+      );
       router.refresh();
     } catch (caught) {
       setError(

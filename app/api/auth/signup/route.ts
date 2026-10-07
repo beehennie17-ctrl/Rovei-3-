@@ -67,7 +67,7 @@ export async function POST(request: Request) {
             : {}),
         },
         emailRedirectTo:
-          `${origin}/auth/callback?next=/activate`,
+          `${origin}/auth/callback?next=/?rovei=activation`,
       },
     });
 

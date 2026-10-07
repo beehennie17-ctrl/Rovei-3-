@@ -67,9 +67,44 @@ export async function POST(request: Request) {
       );
     }
 
+    let subscriptionStatus = "inactive";
+
+    if (membership?.studio_id) {
+      const {
+        data: subscription,
+        error: subscriptionError,
+      } = await supabase
+        .from("subscriptions")
+        .select("status")
+        .eq("studio_id", membership.studio_id)
+        .maybeSingle();
+
+      if (subscriptionError) {
+        console.error(
+          "Unable to load subscription after sign-in:",
+          subscriptionError,
+        );
+
+        throw new BackendError(
+          500,
+          "subscription_lookup_failed",
+          "Your account is signed in, but Rovei could not load your subscription.",
+        );
+      }
+
+      subscriptionStatus =
+        subscription?.status ?? "inactive";
+    }
+
+    const hasActiveSubscription =
+      subscriptionStatus === "active" ||
+      subscriptionStatus === "trialing";
+
     return NextResponse.json({
       ok: true,
       hasStudio: Boolean(membership),
+      hasActiveSubscription,
+      subscriptionStatus,
     });
   } catch (error) {
     return backendErrorResponse(error);

@@ -259,6 +259,7 @@
             firstName,
             email,
             password,
+            studioBootstrap: studioPayload(state),
           }),
         },
       );
@@ -269,6 +270,15 @@
         signupPayload =
           await signupResponse.json();
       } catch {}
+
+      if (
+        signupResponse.status === 409
+      ) {
+        window.location.assign(
+          "/login?reason=account-exists",
+        );
+        return;
+      }
 
       if (!signupResponse.ok) {
         throw new Error(
@@ -299,6 +309,45 @@
 
       setBusy(false);
     }
+  }
+
+  async function finishAuthLanding() {
+    const params =
+      new URLSearchParams(window.location.search);
+
+    const target =
+      params.get("rovei");
+
+    if (
+      target !== "activation" &&
+      target !== "app"
+    ) {
+      return false;
+    }
+
+    const state = readState();
+
+    if (!state) {
+      window.location.replace("/");
+      return true;
+    }
+
+    state.screen =
+      target === "app"
+        ? "app"
+        : "activation";
+
+    if (target === "app") {
+      state.appPage = "home";
+    }
+
+    if (state.signupDraft) {
+      state.signupDraft.password = "";
+    }
+
+    writeState(state);
+    window.location.replace("/");
+    return true;
   }
 
   async function finishConfirmedSignup() {
@@ -332,6 +381,21 @@
       );
     }
   }
+
+  window.addEventListener(
+    "message",
+    (event) => {
+      if (
+        event?.data?.type === "rovei:navigate" &&
+        event.data.target === "login"
+      ) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        window.location.assign("/login");
+      }
+    },
+    true,
+  );
 
   document.addEventListener(
     "click",
@@ -419,5 +483,12 @@
 
   stabiliseColourPickers();
 
-  void finishConfirmedSignup();
+  void (async () => {
+    const handled =
+      await finishAuthLanding();
+
+    if (!handled) {
+      await finishConfirmedSignup();
+    }
+  })();
 })();
