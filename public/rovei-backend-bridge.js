@@ -490,5 +490,309 @@
     if (!handled) {
       await finishConfirmedSignup();
     }
-  })();
+  
+  // ROVEI_CHERRY_LOGIN_AND_FAST_AUTH
+  function injectCherryTheme() {
+    if (document.getElementById("rovei-cherry-theme")) {
+      return;
+    }
+
+    const style = document.createElement("style");
+    style.id = "rovei-cherry-theme";
+    style.textContent = `
+      :root {
+        --rovei-cherry: #8f123d;
+        --rovei-cherry-deep: #741031;
+        --rovei-cherry-soft: #f4d9e3;
+        --rovei-cherry-border: rgba(143, 18, 61, 0.22);
+        --rovei-cherry-ring: rgba(143, 18, 61, 0.14);
+      }
+
+      form:has(input[type="email"]) button[type="submit"],
+      form:has(input[type="email"]) input[type="submit"] {
+        background: var(--rovei-cherry) !important;
+        border-color: var(--rovei-cherry) !important;
+        color: #ffffff !important;
+      }
+
+      form:has(input[type="email"]) button[type="submit"]:hover,
+      form:has(input[type="email"]) input[type="submit"]:hover {
+        background: var(--rovei-cherry-deep) !important;
+        border-color: var(--rovei-cherry-deep) !important;
+      }
+
+      form:has(input[type="email"]) input:focus,
+      form:has(input[type="email"]) textarea:focus,
+      form:has(input[type="email"]) select:focus {
+        border-color: var(--rovei-cherry) !important;
+        box-shadow: 0 0 0 4px var(--rovei-cherry-ring) !important;
+        outline: none !important;
+      }
+
+      #rovei-landing-login-button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        min-height: 48px !important;
+        padding: 0 22px !important;
+        border-radius: 999px !important;
+        border: 1px solid var(--rovei-cherry-border) !important;
+        background: #ffffff !important;
+        color: var(--rovei-cherry) !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        margin-left: 12px !important;
+        white-space: nowrap !important;
+      }
+
+      #rovei-landing-login-button:hover {
+        border-color: var(--rovei-cherry) !important;
+        background: var(--rovei-cherry-soft) !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function addLandingLoginButton() {
+    if (document.getElementById("rovei-landing-login-button")) {
+      return;
+    }
+
+    const ctas = Array.from(document.querySelectorAll("a, button"));
+    const primary = ctas.find((el) =>
+      /start now|create your studio|get started/i.test((el.textContent || "").trim())
+    );
+
+    if (!primary || !primary.parentElement) {
+      return;
+    }
+
+    const login = document.createElement("a");
+    login.id = "rovei-landing-login-button";
+    login.href = "/login";
+    login.textContent = "Log in";
+
+    if (primary.nextSibling) {
+      primary.parentElement.insertBefore(login, primary.nextSibling);
+    } else {
+      primary.parentElement.appendChild(login);
+    }
+  }
+
+  async function fastTrackAuthenticatedUsers() {
+    const path = window.location.pathname;
+
+    if (!["/", "/signup", "/login"].includes(path)) {
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/auth/session", {
+        credentials: "include",
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data = await response.json();
+      const session = data?.session;
+      const user = session?.user;
+
+      if (!user) {
+        return;
+      }
+
+      const subscriptionStatus =
+        String(data?.subscription?.status || "").toLowerCase();
+
+      const destination =
+        subscriptionStatus === "active" || subscriptionStatus === "trialing"
+          ? "/app"
+          : "/activate";
+
+      if (window.location.pathname !== destination) {
+        window.location.replace(destination);
+      }
+    } catch {
+      // keep prototype usable even if session check fails
+    }
+  }
+
+  function bootCherryAndLandingFixes() {
+    injectCherryTheme();
+    addLandingLoginButton();
+    void fastTrackAuthenticatedUsers();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootCherryAndLandingFixes);
+  } else {
+    bootCherryAndLandingFixes();
+  }
+
+  const roveiCherryObserver = new MutationObserver(() => {
+    bootCherryAndLandingFixes();
+  });
+
+  roveiCherryObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+
+})();
+
+  // ROVEI_CHERRY_LOGIN_AND_FAST_AUTH
+  function injectCherryTheme() {
+    if (document.getElementById("rovei-cherry-theme")) {
+      return;
+    }
+
+    const style = document.createElement("style");
+    style.id = "rovei-cherry-theme";
+    style.textContent = `
+      :root {
+        --rovei-cherry: #8f123d;
+        --rovei-cherry-deep: #741031;
+        --rovei-cherry-soft: #f4d9e3;
+        --rovei-cherry-border: rgba(143, 18, 61, 0.22);
+        --rovei-cherry-ring: rgba(143, 18, 61, 0.14);
+      }
+
+      form:has(input[type="email"]) button[type="submit"],
+      form:has(input[type="email"]) input[type="submit"] {
+        background: var(--rovei-cherry) !important;
+        border-color: var(--rovei-cherry) !important;
+        color: #ffffff !important;
+      }
+
+      form:has(input[type="email"]) button[type="submit"]:hover,
+      form:has(input[type="email"]) input[type="submit"]:hover {
+        background: var(--rovei-cherry-deep) !important;
+        border-color: var(--rovei-cherry-deep) !important;
+      }
+
+      form:has(input[type="email"]) input:focus,
+      form:has(input[type="email"]) textarea:focus,
+      form:has(input[type="email"]) select:focus {
+        border-color: var(--rovei-cherry) !important;
+        box-shadow: 0 0 0 4px var(--rovei-cherry-ring) !important;
+        outline: none !important;
+      }
+
+      #rovei-landing-login-button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        min-height: 48px !important;
+        padding: 0 22px !important;
+        border-radius: 999px !important;
+        border: 1px solid var(--rovei-cherry-border) !important;
+        background: #ffffff !important;
+        color: var(--rovei-cherry) !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        margin-left: 12px !important;
+        white-space: nowrap !important;
+      }
+
+      #rovei-landing-login-button:hover {
+        border-color: var(--rovei-cherry) !important;
+        background: var(--rovei-cherry-soft) !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function addLandingLoginButton() {
+    if (document.getElementById("rovei-landing-login-button")) {
+      return;
+    }
+
+    const ctas = Array.from(document.querySelectorAll("a, button"));
+    const primary = ctas.find((el) =>
+      /start now|create your studio|get started/i.test((el.textContent || "").trim())
+    );
+
+    if (!primary || !primary.parentElement) {
+      return;
+    }
+
+    const login = document.createElement("a");
+    login.id = "rovei-landing-login-button";
+    login.href = "/login";
+    login.textContent = "Log in";
+
+    if (primary.nextSibling) {
+      primary.parentElement.insertBefore(login, primary.nextSibling);
+    } else {
+      primary.parentElement.appendChild(login);
+    }
+  }
+
+  async function fastTrackAuthenticatedUsers() {
+    const path = window.location.pathname;
+
+    if (!["/", "/signup", "/login"].includes(path)) {
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/auth/session", {
+        credentials: "include",
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data = await response.json();
+      const session = data?.session;
+      const user = session?.user;
+
+      if (!user) {
+        return;
+      }
+
+      const subscriptionStatus =
+        String(data?.subscription?.status || "").toLowerCase();
+
+      const destination =
+        subscriptionStatus === "active" || subscriptionStatus === "trialing"
+          ? "/app"
+          : "/activate";
+
+      if (window.location.pathname !== destination) {
+        window.location.replace(destination);
+      }
+    } catch {
+      // keep prototype usable even if session check fails
+    }
+  }
+
+  function bootCherryAndLandingFixes() {
+    injectCherryTheme();
+    addLandingLoginButton();
+    void fastTrackAuthenticatedUsers();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootCherryAndLandingFixes);
+  } else {
+    bootCherryAndLandingFixes();
+  }
+
+  const roveiCherryObserver = new MutationObserver(() => {
+    bootCherryAndLandingFixes();
+  });
+
+  roveiCherryObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+
 })();
