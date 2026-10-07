@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --wine: #560F1F;
+  --wine: #941651;
   --blush: #E7BDC3;
   --white: #FFFFFF;
   --mauve: #D2C5CE;
@@ -16,7 +16,7 @@
   --wine-soft: #F6EDEF;
   --success: #506C5A;
   --warning: #8A653E;
-  --shadow-soft: 0 18px 48px rgba(86, 15, 31, 0.08);
+  --shadow-soft: 0 18px 48px rgba(148, 22, 81, 0.08);
   --shadow-card: 0 12px 32px rgba(58, 33, 42, 0.07);
   --radius-sm: 12px;
   --radius-md: 18px;

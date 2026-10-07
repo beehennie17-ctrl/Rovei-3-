@@ -397,6 +397,101 @@
     true,
   );
 
+  // ROVEI_LANDING_TOP_LOGIN
+  function wireLandingTopLogin() {
+    const frame =
+      document.getElementById("landingFrame");
+
+    if (!(frame instanceof HTMLIFrameElement)) {
+      return;
+    }
+
+    function install() {
+      try {
+        const doc =
+          frame.contentDocument;
+
+        if (!doc) return;
+
+        const actions =
+          doc.querySelector(".nav-actions");
+
+        if (
+          !actions ||
+          doc.getElementById(
+            "rovei-top-login",
+          )
+        ) {
+          return;
+        }
+
+        const login =
+          doc.createElement("a");
+
+        login.id =
+          "rovei-top-login";
+
+        login.href = "#";
+        login.textContent = "Log in";
+
+        login.addEventListener(
+          "click",
+          (event) => {
+            event.preventDefault();
+
+            window.location.assign(
+              "/login",
+            );
+          },
+        );
+
+        const startButton =
+          actions.querySelector(
+            ".nav-cta",
+          );
+
+        if (startButton) {
+          actions.insertBefore(
+            login,
+            startButton,
+          );
+        } else {
+          actions.appendChild(login);
+        }
+      } catch {}
+    }
+
+    if (
+      frame.dataset
+        .roveiLoginHook !== "1"
+    ) {
+      frame.dataset
+        .roveiLoginHook = "1";
+
+      frame.addEventListener(
+        "load",
+        install,
+      );
+    }
+
+    install();
+  }
+
+  const landingLoginObserver =
+    new MutationObserver(
+      wireLandingTopLogin,
+    );
+
+  landingLoginObserver.observe(
+    document.documentElement,
+    {
+      childList: true,
+      subtree: true,
+    },
+  );
+
+  wireLandingTopLogin();
+
   document.addEventListener(
     "click",
     (event) => {
