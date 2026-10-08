@@ -11,6 +11,8 @@ export function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // rovei-password-visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] =
@@ -132,16 +134,27 @@ export function LoginForm() {
             Password
           </span>
 
-          <input
-            type="password"
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(event) =>
-              setPassword(event.target.value)
-            }
-            className="min-h-12 rounded-2xl border border-[var(--border-soft)] bg-white px-4 outline-none transition focus:border-[var(--wine)]"
-          />
+          <span className="relative block">
+            <input
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(event) =>
+                setPassword(event.target.value)
+              }
+              className="min-h-12 w-full rounded-2xl border border-[var(--border-soft)] bg-white px-4 pr-20 outline-none transition focus:border-[var(--wine)]"
+            />
+            <button
+              type="button"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-pressed={showPassword}
+              onClick={() => setShowPassword((value) => !value)}
+              className="absolute inset-y-0 right-3 px-2 text-sm font-semibold text-[var(--wine)]"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </span>
         </label>
 
         {error ? (
