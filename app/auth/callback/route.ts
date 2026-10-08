@@ -5,7 +5,6 @@ import {
 import {
   createClient,
 } from "@/lib/supabase/server";
-import { getSafeNext } from "@/lib/auth/safe-next";
 import { bootstrapStudio } from "@/lib/backend/studio-bootstrap";
 import { studioSettingsSchema } from "@/lib/backend/schemas";
 
@@ -18,13 +17,6 @@ export async function GET(
   const code =
     url.searchParams.get(
       "code",
-    );
-
-  const next =
-    getSafeNext(
-      url.searchParams.get(
-        "next",
-      ),
     );
 
   if (!code) {
@@ -73,17 +65,12 @@ export async function GET(
   if (pendingStudio.success) {
     try {
       await bootstrapStudio(supabase, pendingStudio.data);
-    } catch {
-      return NextResponse.redirect(
-        new URL("/?rovei=activation&bootstrap=retry", url.origin),
-      );
+    } catch (error) {
+      console.error("Unable to finish Studio setup during auth callback:", error);
     }
   }
 
   return NextResponse.redirect(
-    new URL(
-      next,
-      url.origin,
-    ),
+    new URL("/", url.origin),
   );
 }

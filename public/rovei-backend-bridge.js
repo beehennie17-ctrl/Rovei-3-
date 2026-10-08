@@ -291,7 +291,7 @@
         signupPayload.requiresEmailConfirmation
       ) {
         showValidation(
-          "Check your email to confirm your Rovei account. Your Studio setup is saved in this browser and will continue after confirmation.",
+          "Check your email to confirm your Rovei account. Your Studio setup is saved securely and will continue after confirmation.",
         );
 
         setBusy(false);
@@ -320,33 +320,13 @@
 
     if (
       target !== "activation" &&
-      target !== "app"
+      target !== "app" &&
+      target !== "onboarding"
     ) {
       return false;
     }
 
-    const state = readState();
-
-    if (!state) {
-      window.location.replace("/");
-      return true;
-    }
-
-    state.screen =
-      target === "app"
-        ? "app"
-        : "activation";
-
-    if (target === "app") {
-      state.appPage = "home";
-    }
-
-    if (state.signupDraft) {
-      state.signupDraft.password = "";
-    }
-
-    writeState(state);
-    window.location.replace("/");
+    history.replaceState({}, "", "/");
     return true;
   }
 
@@ -356,7 +336,7 @@
 
     if (
       params.get("rovei") !==
-      "complete-signup"
+        "complete-signup"
     ) {
       return;
     }

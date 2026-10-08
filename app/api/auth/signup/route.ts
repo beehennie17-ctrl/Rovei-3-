@@ -6,12 +6,16 @@ import { backendErrorResponse, readJsonBody } from "@/lib/backend/errors";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { studioSettingsSchema } from "@/lib/backend/schemas";
+import {
+  getEmailConfirmationRedirect,
+  requiresEmailConfirmation,
+} from "@/lib/auth/locked-shell";
 
 const signupSchema = z.object({
   firstName: z.string().trim().min(1).max(80),
   email: z.string().trim().email().max(254),
   password: z.string().min(8).max(200),
-  studioBootstrap: studioSettingsSchema.optional(),
+  studioBootstrap: studioSettingsSchema,
 });
 
 export async function POST(request: Request) {
@@ -41,19 +45,9 @@ export async function POST(request: Request) {
 
   try {
     const supabase = await createClient();
-    const forwardedHost =
-      request.headers.get("x-forwarded-host") ??
-      request.headers.get("host");
-
-    const forwardedProto =
-      request.headers.get("x-forwarded-proto") ??
-      "https";
-
     const origin = process.env.NEXT_PUBLIC_SITE_URL
       ? new URL(process.env.NEXT_PUBLIC_SITE_URL).origin
-      : forwardedHost
-        ? `${forwardedProto}://${forwardedHost}`
-        : new URL(request.url).origin;
+      : new URL(request.url).origin;
 
     const { data, error } = await supabase.auth.signUp({
       email: body.email.trim().toLowerCase(),
@@ -66,8 +60,7 @@ export async function POST(request: Request) {
             ? { rovei_studio_bootstrap: body.studioBootstrap }
             : {}),
         },
-        emailRedirectTo:
-          `${origin}/auth/callback?next=/?rovei=activation`,
+        emailRedirectTo: getEmailConfirmationRedirect(origin),
       },
     });
 
@@ -99,7 +92,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       ok: true,
-      requiresEmailConfirmation: !data.session,
+      requiresEmailConfirmation: requiresEmailConfirmation(data.session),
     });
   } catch (error) {
     return backendErrorResponse(error);

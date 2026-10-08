@@ -3,7 +3,13 @@ import Link from "next/link";
 import { Wordmark } from "@/components/branding/wordmark";
 import { LoginForm } from "@/components/auth/login-form";
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ reason?: string }>;
+}) {
+  const { reason } = await searchParams;
+
   return (
     <main className="min-h-screen bg-[var(--surface-muted)] px-[var(--page-gutter)] py-7">
       <div className="mx-auto max-w-[1120px]">
@@ -26,10 +32,17 @@ export default function LoginPage() {
 
           <LoginForm />
 
+          {reason === "account-exists" ? (
+            <p className="mt-5 rounded-2xl bg-[var(--surface-muted)] px-4 py-3 text-sm leading-6 text-[var(--text-secondary)]">
+              If you already have an account, sign in or reset your
+              password. Otherwise, you can continue creating your Studio.
+            </p>
+          ) : null}
+
           <p className="mt-6 text-center text-sm text-[var(--text-secondary)]">
             New to Rovei?{" "}
             <Link
-              href="/onboarding"
+              href="/?rovei=onboarding"
               className="font-bold text-[var(--wine)]"
             >
               Create your studio
