@@ -14,6 +14,10 @@ export async function GET(
   const url =
     new URL(request.url);
 
+  const publicOrigin = process.env.NEXT_PUBLIC_SITE_URL
+    ? new URL(process.env.NEXT_PUBLIC_SITE_URL).origin
+    : url.origin;
+
   const code =
     url.searchParams.get(
       "code",
@@ -23,7 +27,7 @@ export async function GET(
     return NextResponse.redirect(
       new URL(
         "/login?error=oauth",
-        url.origin,
+        publicOrigin,
       ),
     );
   }
@@ -42,7 +46,7 @@ export async function GET(
     return NextResponse.redirect(
       new URL(
         "/login?error=oauth",
-        url.origin,
+        publicOrigin,
       ),
     );
   }
@@ -54,7 +58,7 @@ export async function GET(
 
   if (userError || !user) {
     return NextResponse.redirect(
-      new URL("/login?error=session", url.origin),
+      new URL("/login?error=session", publicOrigin),
     );
   }
 
@@ -71,6 +75,6 @@ export async function GET(
   }
 
   return NextResponse.redirect(
-    new URL("/", url.origin),
+    new URL("/", publicOrigin),
   );
 }
