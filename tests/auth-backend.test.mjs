@@ -8,7 +8,7 @@ import {
   requiresEmailConfirmation,
   resolveLockedShellScreen,
 } from "../lib/auth/locked-shell.ts";
-import { selectEmailConfirmationMethod } from "../lib/auth/confirmation-method.ts";
+import { readLegacyCallbackSession, selectEmailConfirmationMethod } from "../lib/auth/confirmation-method.ts";
 import { getSafeNext } from "../lib/auth/safe-next.ts";
 import { executeBootstrapStudioRpc } from "../lib/backend/bootstrap-rpc.ts";
 
@@ -243,5 +243,28 @@ test("email confirmation supports token hashes and existing OAuth codes", () => 
       type: null,
     }),
     "missing",
+  );
+});
+
+
+test("default email fragment can supply a session", () => {
+  assert.deepEqual(
+    readLegacyCallbackSession(
+      "#access_token=exampleAccess&refresh_token=exampleRefresh&type=signup",
+    ),
+    {
+      accessToken: "exampleAccess",
+      refreshToken: "exampleRefresh",
+    },
+  );
+
+  assert.equal(readLegacyCallbackSession(""), null);
+  assert.equal(
+    readLegacyCallbackSession("#access_token=missingRefresh"),
+    null,
+  );
+  assert.equal(
+    readLegacyCallbackSession("?code=abc"),
+    null,
   );
 });

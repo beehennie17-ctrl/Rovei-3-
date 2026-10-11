@@ -19,3 +19,16 @@ export function selectEmailConfirmationMethod({
 
   return code ? "code" : "missing";
 }
+
+
+export function readLegacyCallbackSession(fragment: string) {
+  if (!fragment.startsWith("#")) return null;
+
+  const params = new URLSearchParams(fragment.slice(1));
+  const accessToken = params.get("access_token");
+  const refreshToken = params.get("refresh_token");
+
+  if (!accessToken || !refreshToken) return null;
+
+  return { accessToken, refreshToken };
+}

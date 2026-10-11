@@ -28,14 +28,17 @@ export async function GET(
     type: url.searchParams.get("type"),
   });
 
-  if (method === "missing" || method === "invalid_type") {
-    const reason =
-      method === "missing"
-        ? "missing_confirmation"
-        : "invalid_confirmation";
-
+  if (method === "missing") {
+    // A default Supabase email link may return the session
+    // in a URL fragment, which only the browser can read.
     return NextResponse.redirect(
-      new URL(`/login?error=${reason}`, publicOrigin),
+      new URL("/auth/finish", publicOrigin),
+    );
+  }
+
+  if (method === "invalid_type") {
+    return NextResponse.redirect(
+      new URL("/login?error=invalid_confirmation", publicOrigin),
     );
   }
 
