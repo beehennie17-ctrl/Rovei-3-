@@ -7,6 +7,7 @@ import {
 } from "@/lib/supabase/server";
 import { bootstrapStudio } from "@/lib/backend/studio-bootstrap";
 import { studioSettingsSchema } from "@/lib/backend/schemas";
+import { selectEmailConfirmationMethod } from "@/lib/auth/confirmation-method";
 
 export async function GET(
   request: Request,
@@ -18,36 +19,44 @@ export async function GET(
     ? new URL(process.env.NEXT_PUBLIC_SITE_URL).origin
     : url.origin;
 
-  const code =
-    url.searchParams.get(
-      "code",
-    );
+  const code = url.searchParams.get("code");
+  const tokenHash = url.searchParams.get("token_hash");
 
-  if (!code) {
+  const method = selectEmailConfirmationMethod({
+    code,
+    tokenHash,
+    type: url.searchParams.get("type"),
+  });
+
+  if (method === "missing" || method === "invalid_type") {
+    const reason =
+      method === "missing"
+        ? "missing_confirmation"
+        : "invalid_confirmation";
+
     return NextResponse.redirect(
-      new URL(
-        "/login?error=oauth",
-        publicOrigin,
-      ),
+      new URL(`/login?error=${reason}`, publicOrigin),
     );
   }
 
-  const supabase =
-    await createClient();
+  const supabase = await createClient();
 
-  const {
-    error,
-  } =
-    await supabase.auth.exchangeCodeForSession(
-      code,
-    );
+  const { error } =
+    method === "token_hash"
+      ? await supabase.auth.verifyOtp({
+          token_hash: tokenHash!,
+          type: "email",
+        })
+      : await supabase.auth.exchangeCodeForSession(code!);
 
   if (error) {
+    console.error(
+      "Rovei email/auth confirmation failed:",
+      error.code ?? "unknown",
+    );
+
     return NextResponse.redirect(
-      new URL(
-        "/login?error=oauth",
-        publicOrigin,
-      ),
+      new URL("/login?error=confirmation_failed", publicOrigin),
     );
   }
 

@@ -8,6 +8,7 @@ import {
   requiresEmailConfirmation,
   resolveLockedShellScreen,
 } from "../lib/auth/locked-shell.ts";
+import { selectEmailConfirmationMethod } from "../lib/auth/confirmation-method.ts";
 import { getSafeNext } from "../lib/auth/safe-next.ts";
 import { executeBootstrapStudioRpc } from "../lib/backend/bootstrap-rpc.ts";
 
@@ -204,5 +205,43 @@ test("studio bootstrap RPC errors and malformed results fail explicitly", async 
       error: null,
     }), {}),
     /invalid result/,
+  );
+});
+
+test("email confirmation supports token hashes and existing OAuth codes", () => {
+  assert.equal(
+    selectEmailConfirmationMethod({
+      code: null,
+      tokenHash: "example",
+      type: "email",
+    }),
+    "token_hash",
+  );
+
+  assert.equal(
+    selectEmailConfirmationMethod({
+      code: "example",
+      tokenHash: null,
+      type: null,
+    }),
+    "code",
+  );
+
+  assert.equal(
+    selectEmailConfirmationMethod({
+      code: null,
+      tokenHash: "example",
+      type: "recovery",
+    }),
+    "invalid_type",
+  );
+
+  assert.equal(
+    selectEmailConfirmationMethod({
+      code: null,
+      tokenHash: null,
+      type: null,
+    }),
+    "missing",
   );
 });

@@ -6,9 +6,26 @@ import { LoginForm } from "@/components/auth/login-form";
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ reason?: string }>;
+  searchParams: Promise<{ reason?: string; error?: string }>;
 }) {
-  const { reason } = await searchParams;
+  const { reason, error } = await searchParams;
+
+  const confirmationMessages: Record<string, string> = {
+    missing_confirmation:
+      "This confirmation link did not contain a valid sign-in code.",
+    invalid_confirmation:
+      "This email confirmation link is not valid.",
+    confirmation_failed:
+      "This confirmation link has expired or could not be verified. If your email is already confirmed, log in below.",
+    oauth:
+      "We could not complete this sign-in. Please try again.",
+    session:
+      "Your session could not be established. Please log in again.",
+  };
+
+  const confirmationError = error
+    ? confirmationMessages[error]
+    : undefined;
 
   return (
     <main className="min-h-screen bg-[var(--surface-muted)] px-[var(--page-gutter)] py-7">
@@ -31,6 +48,15 @@ export default async function LoginPage({
           </p>
 
           <LoginForm />
+
+          {confirmationError ? (
+            <p
+              role="alert"
+              className="mt-5 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700"
+            >
+              {confirmationError}
+            </p>
+          ) : null}
 
           {reason === "account-exists" ? (
             <p className="mt-5 rounded-2xl bg-[var(--surface-muted)] px-4 py-3 text-sm leading-6 text-[var(--text-secondary)]">
