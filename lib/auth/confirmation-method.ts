@@ -1,6 +1,13 @@
 export type ConfirmationMethod =
-  | "token_hash"
-  | "code"
+  | {
+      kind: "token_hash";
+      tokenHash: string;
+      type: "email" | "signup";
+    }
+  | {
+      kind: "code";
+      code: string;
+    }
   | "invalid_type"
   | "missing";
 
@@ -14,10 +21,12 @@ export function selectEmailConfirmationMethod({
   type: string | null;
 }): ConfirmationMethod {
   if (tokenHash) {
-    return type === "email" ? "token_hash" : "invalid_type";
+    return type === "email" || type === "signup"
+      ? { kind: "token_hash", tokenHash, type }
+      : "invalid_type";
   }
 
-  return code ? "code" : "missing";
+  return code ? { kind: "code", code } : "missing";
 }
 
 

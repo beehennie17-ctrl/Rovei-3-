@@ -12,6 +12,10 @@ import {
   createClient,
 } from "@/lib/supabase/server";
 
+import {
+  getStudioSubscriptionAccess,
+} from "@/lib/backend/subscription-access";
+
 export async function requireAuthenticatedUser() {
   if (!isSupabaseConfigured()) {
     throw new BackendError(
@@ -85,6 +89,31 @@ export async function requireStudioContext() {
       409,
       "studio_not_created",
       "Your Rovei Studio has not been created yet.",
+    );
+  }
+
+  const subscriptionAccess = await getStudioSubscriptionAccess(
+    supabase,
+    membership.studio_id,
+  );
+
+  if (subscriptionAccess.error) {
+    console.error(
+      "Unable to verify Studio subscription:",
+      subscriptionAccess.error,
+    );
+    throw new BackendError(
+      500,
+      "subscription_lookup_failed",
+      "Unable to verify your Rovei subscription.",
+    );
+  }
+
+  if (!subscriptionAccess.allowed) {
+    throw new BackendError(
+      402,
+      "subscription_required",
+      "An active Rovei subscription is required to access Studio data.",
     );
   }
 

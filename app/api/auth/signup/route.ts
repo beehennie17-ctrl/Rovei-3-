@@ -6,6 +6,7 @@ import { backendErrorResponse, readJsonBody } from "@/lib/backend/errors";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { studioSettingsSchema } from "@/lib/backend/schemas";
+import { getConfiguredPublicOrigin } from "@/lib/auth/public-origin";
 import {
   getEmailConfirmationRedirect,
   requiresEmailConfirmation,
@@ -43,11 +44,20 @@ export async function POST(request: Request) {
     );
   }
 
+  const origin = getConfiguredPublicOrigin();
+
+  if (!origin) {
+    return NextResponse.json(
+      {
+        error: "public_origin_not_configured",
+        message: "Rovei email confirmation is not configured for this public website.",
+      },
+      { status: 503 },
+    );
+  }
+
   try {
     const supabase = await createClient();
-    const origin = process.env.NEXT_PUBLIC_SITE_URL
-      ? new URL(process.env.NEXT_PUBLIC_SITE_URL).origin
-      : new URL(request.url).origin;
 
     const { data, error } = await supabase.auth.signUp({
       email: body.email.trim().toLowerCase(),

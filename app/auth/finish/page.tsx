@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { readLegacyCallbackSession } from "@/lib/auth/confirmation-method";
+import { completeBrowserEmailConfirmation } from "@/lib/auth/confirmation-flow";
 
 export default function FinishAuthPage() {
   const started = useRef(false);
@@ -29,28 +30,20 @@ export default function FinishAuthPage() {
       return;
     }
 
+    const confirmationSession = session;
+
     async function finish() {
       try {
-        const supabase = createClient();
-
-        const { data, error } =
-          await supabase.auth.setSession({
-            access_token: session!.accessToken,
-            refresh_token: session!.refreshToken,
-          });
-
-        if (error || !data.session) {
-          throw new Error("Session unavailable");
-        }
-
-        const {
-          data: { user },
-          error: userError,
-        } = await supabase.auth.getUser();
-
-        if (userError || !user) {
+        if (!confirmationSession) {
           throw new Error("User unavailable");
         }
+
+        const user = await completeBrowserEmailConfirmation(
+          createClient(),
+          confirmationSession,
+        );
+
+        if (!user) throw new Error("Session unavailable");
 
         // The server determines paywall vs dashboard.
         window.location.replace("/");

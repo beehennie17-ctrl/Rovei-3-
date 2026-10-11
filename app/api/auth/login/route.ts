@@ -9,6 +9,7 @@ import {
 } from "@/lib/backend/errors";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { effectiveSubscriptionStatus } from "@/lib/backend/subscription-access";
 
 const loginSchema = z.object({
   email: z.string().trim().email().max(254),
@@ -75,7 +76,7 @@ export async function POST(request: Request) {
         error: subscriptionError,
       } = await supabase
         .from("subscriptions")
-        .select("status")
+        .select("status, current_period_end")
         .eq("studio_id", membership.studio_id)
         .maybeSingle();
 
@@ -92,8 +93,10 @@ export async function POST(request: Request) {
         );
       }
 
-      subscriptionStatus =
-        subscription?.status ?? "inactive";
+      subscriptionStatus = effectiveSubscriptionStatus(
+        subscription?.status,
+        subscription?.current_period_end,
+      );
     }
 
     const hasActiveSubscription =

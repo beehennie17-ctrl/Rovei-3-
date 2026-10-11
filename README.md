@@ -11,7 +11,20 @@ npm install
 npm run dev
 ```
 
-Then open `http://localhost:3000`.
+The development server listens on `0.0.0.0:3100`, including in GitHub Codespaces.
+Open `http://localhost:3100` locally, or open port `3100` from the Codespaces
+Ports panel. Keep the forwarded port private; GitHub may require you to sign in
+before opening its forwarded URL. The app does not change port visibility.
+
+Set `NEXT_PUBLIC_SITE_URL` to the public HTTPS origin used to open the app.
+Email confirmation links require this value and will not fall back to an
+internal host, `localhost`, or `0.0.0.0`.
+
+Supabase's default email confirmation can return the authenticated session in
+the URL fragment. Rovei consumes it in the browser that opens the email link,
+removes the fragment from browser history, and then asks the server to restore
+the Studio and decide paywall versus dashboard. A session cannot be transferred
+to a different browser or device that did not open the link.
 
 ## Validate
 
@@ -41,4 +54,9 @@ See `docs/BACKEND_ROADMAP.md` and `docs/PROGRESS_TRACKER.md` before starting bac
 
 ## Important
 
-The application is still frontend/prototype-first. Browser storage and demo data are not production persistence. Do not treat current client-link or payment flows as production security boundaries until the backend phases are implemented.
+Paddle is the selected billing provider in the database schema, but checkout
+and verified webhook processing are not implemented. The checkout route is a
+non-paying placeholder and must not be treated as a successful purchase.
+Subscription rows can only be changed by trusted server-side integration. Apply
+the new subscription-access migration before relying on RLS to gate direct
+Supabase access to client and appointment data.

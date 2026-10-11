@@ -7,7 +7,8 @@ import {
 } from "@/lib/supabase/server";
 import { bootstrapStudio } from "@/lib/backend/studio-bootstrap";
 import { studioSettingsSchema } from "@/lib/backend/schemas";
-import { selectEmailConfirmationMethod } from "@/lib/auth/confirmation-method";
+import { completeServerEmailConfirmation } from "@/lib/auth/confirmation-flow";
+import { getConfiguredPublicOrigin } from "@/lib/auth/public-origin";
 
 export async function GET(
   request: Request,
@@ -15,20 +16,25 @@ export async function GET(
   const url =
     new URL(request.url);
 
-  const publicOrigin = process.env.NEXT_PUBLIC_SITE_URL
-    ? new URL(process.env.NEXT_PUBLIC_SITE_URL).origin
-    : url.origin;
+  const publicOrigin = getConfiguredPublicOrigin();
 
-  const code = url.searchParams.get("code");
-  const tokenHash = url.searchParams.get("token_hash");
+  if (!publicOrigin) {
+    return NextResponse.json(
+      {
+        error: "public_origin_not_configured",
+        message: "Rovei email confirmation is temporarily unavailable.",
+      },
+      { status: 503 },
+    );
+  }
 
-  const method = selectEmailConfirmationMethod({
-    code,
-    tokenHash,
-    type: url.searchParams.get("type"),
-  });
+  const supabase = await createClient();
+  const confirmation = await completeServerEmailConfirmation(
+    supabase,
+    url.searchParams,
+  );
 
-  if (method === "missing") {
+  if (confirmation.kind === "fragment_handoff") {
     // A default Supabase email link may return the session
     // in a URL fragment, which only the browser can read.
     return NextResponse.redirect(
@@ -36,26 +42,16 @@ export async function GET(
     );
   }
 
-  if (method === "invalid_type") {
+  if (confirmation.kind === "invalid_confirmation") {
     return NextResponse.redirect(
       new URL("/login?error=invalid_confirmation", publicOrigin),
     );
   }
 
-  const supabase = await createClient();
-
-  const { error } =
-    method === "token_hash"
-      ? await supabase.auth.verifyOtp({
-          token_hash: tokenHash!,
-          type: "email",
-        })
-      : await supabase.auth.exchangeCodeForSession(code!);
-
-  if (error) {
+  if (confirmation.kind === "confirmation_failed") {
     console.error(
       "Rovei email/auth confirmation failed:",
-      error.code ?? "unknown",
+      confirmation.errorCode,
     );
 
     return NextResponse.redirect(
@@ -63,19 +59,14 @@ export async function GET(
     );
   }
 
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  if (userError || !user) {
+  if (confirmation.kind === "session_failed") {
     return NextResponse.redirect(
       new URL("/login?error=session", publicOrigin),
     );
   }
 
   const pendingStudio = studioSettingsSchema.safeParse(
-    user.user_metadata?.rovei_studio_bootstrap,
+    confirmation.user.user_metadata?.rovei_studio_bootstrap,
   );
 
   if (pendingStudio.success) {

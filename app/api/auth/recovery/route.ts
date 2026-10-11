@@ -5,6 +5,7 @@ import { mapAuthError } from "@/lib/auth/auth-errors";
 import { backendErrorResponse, readJsonBody } from "@/lib/backend/errors";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getConfiguredPublicOrigin } from "@/lib/auth/public-origin";
 
 const recoverySchema = z.object({
   email: z.string().trim().email().max(254),
@@ -23,10 +24,19 @@ export async function POST(request: Request) {
 
   try {
     const { email } = recoverySchema.parse(await readJsonBody(request));
+    const siteOrigin = getConfiguredPublicOrigin();
+
+    if (!siteOrigin) {
+      return NextResponse.json(
+        {
+          error: "public_origin_not_configured",
+          message: "Password recovery is not configured for this public website.",
+        },
+        { status: 503 },
+      );
+    }
+
     const supabase = await createClient();
-    const siteOrigin = process.env.NEXT_PUBLIC_SITE_URL
-      ? new URL(process.env.NEXT_PUBLIC_SITE_URL).origin
-      : new URL(request.url).origin;
     const redirectTo = new URL(
       "/auth/callback",
       siteOrigin,

@@ -12,6 +12,7 @@ import { isServiceCategoryId } from "@/lib/service-categories";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { isThemeName } from "@/lib/theme-resolver";
+import { effectiveSubscriptionStatus } from "@/lib/backend/subscription-access";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -102,7 +103,7 @@ async function getAuthenticatedShellState() {
         .order("sort_order"),
       supabase
         .from("subscriptions")
-        .select("status")
+      .select("status, current_period_end")
         .eq("studio_id", membership.studio_id)
         .maybeSingle(),
     ]);
@@ -131,7 +132,10 @@ async function getAuthenticatedShellState() {
     services = (servicesResult.data ?? [])
       .map((service) => service.category)
       .filter(isServiceCategoryId);
-    subscriptionStatus = subscriptionResult.data?.status ?? "inactive";
+    subscriptionStatus = effectiveSubscriptionStatus(
+      subscriptionResult.data?.status,
+      subscriptionResult.data?.current_period_end,
+    );
   }
 
   const theme = isThemeName(settings?.theme_name)
