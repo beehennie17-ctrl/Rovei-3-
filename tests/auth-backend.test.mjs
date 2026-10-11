@@ -27,7 +27,7 @@ test("new signups wait for confirmation and use the server callback", () => {
   assert.equal(requiresEmailConfirmation({ access_token: "session" }), false);
   assert.equal(
     getEmailConfirmationRedirect("https://rovei.example/path"),
-    "https://rovei.example/auth/callback",
+    "https://rovei.example/auth/finish",
   );
 });
 

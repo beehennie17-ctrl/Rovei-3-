@@ -34,7 +34,7 @@ export function resolveLockedShellScreen({
 }
 
 export function getEmailConfirmationRedirect(origin: string) {
-  return new URL("/auth/callback", origin).toString();
+  return new URL("/auth/finish", origin).toString();
 }
 
 export function requiresEmailConfirmation(session: unknown) {
