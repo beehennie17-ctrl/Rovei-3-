@@ -13,6 +13,7 @@ import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { isThemeName } from "@/lib/theme-resolver";
 import { effectiveSubscriptionStatus } from "@/lib/backend/subscription-access";
+import { shouldRestoreSupportSettings } from "@/lib/support/navigation";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -217,6 +218,10 @@ export async function GET(request: Request) {
     subscriptionStatus:
       authenticatedState?.subscriptionStatus ?? null,
   });
+  const restoreSupportSettings = shouldRestoreSupportSettings(
+    screen,
+    url.searchParams.get("fromSupport"),
+  );
   const initialState = authenticatedState
     ? {
         version: 3,
@@ -226,6 +231,7 @@ export async function GET(request: Request) {
         studio: authenticatedState.studio,
         account: authenticatedState.account,
         settings: {
+          tab: restoreSupportSettings ? "support" : "account",
           subscriptionStatus:
             authenticatedState.subscriptionStatus ?? "inactive",
           availability: {
@@ -233,7 +239,7 @@ export async function GET(request: Request) {
           },
         },
         billing: "monthly",
-        appPage: "home",
+        appPage: restoreSupportSettings ? "settings" : "home",
         scheduleView: "today",
         clients: [],
         beautyPacks: [],
