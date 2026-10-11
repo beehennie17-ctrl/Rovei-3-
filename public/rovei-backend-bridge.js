@@ -558,6 +558,37 @@
 
   stabiliseColourPickers();
 
+  // ROVEI_SUPPORT_LINKS_V1 — capture before locked preview toast handlers.
+  document.addEventListener("click", (event) => {
+    const actionButton = event.target instanceof Element
+      ? event.target.closest("[data-support-action]")
+      : null;
+    if (!actionButton) return;
+    const destinations = {
+      help: "/support",
+      contact: "/support/new?kind=ticket",
+      feedback: "/support/new?kind=feedback",
+    };
+    const destination = destinations[actionButton.getAttribute("data-support-action")];
+    if (!destination) return;
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    window.location.assign(destination);
+  }, true);
+
+  // Hide prototype-only note only on the now-connected Support tab.
+  function hideConnectedSupportPreviewNote() {
+    const supportButton = document.querySelector('[data-settings-tab="support"].active');
+    const note = supportButton ? document.querySelector('.settings-panel .settings-support-note') : null;
+    if (note && note.textContent?.includes('Support destinations are intentionally not connected')) {
+      note.remove();
+    }
+  }
+  const supportNoteObserver = new MutationObserver(hideConnectedSupportPreviewNote);
+  supportNoteObserver.observe(document.documentElement, { childList: true, subtree: true });
+  hideConnectedSupportPreviewNote();
+
   void (async () => {
     const handled =
       await finishAuthLanding();
