@@ -36,7 +36,7 @@ export function SupportForm({ kind }: { kind: SupportKind }) {
   }
 
   return (
-    <section className="mx-auto max-w-2xl rounded-[2rem] border border-[var(--border-soft)] bg-white p-6 shadow-[var(--shadow-soft)] sm:p-10">
+    <section className="care-form-card mx-auto max-w-2xl rounded-[2rem] border border-[var(--border-soft)] bg-white p-6 sm:p-10">
       <p className="eyebrow">Rovei support</p>
       <h1 className="mt-4 text-4xl font-bold tracking-tight">{isFeedback ? "Share your feedback" : "Contact support"}</h1>
       {reference ? (

@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
+import "./support.css";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getStudioSubscriptionAccess } from "@/lib/backend/subscription-access";
@@ -52,9 +53,9 @@ export default async function SupportLayout({
   );
 
   return (
-    <div className="min-h-screen bg-[var(--surface-muted)] px-5 py-8 sm:px-10">
+    <div className="rovei-support-shell min-h-screen px-5 py-6 sm:px-10">
       <div className="mx-auto max-w-5xl">
-        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-soft)] pb-6">
+        <header className="care-site-header flex flex-wrap items-center justify-between gap-4 pb-6">
           <Link href="/" className="text-3xl font-black tracking-[-0.06em] text-[var(--wine)]">
             Rovei.
           </Link>
@@ -65,7 +66,7 @@ export default async function SupportLayout({
             <a href={back.href}>{back.label}</a>
           </nav>
         </header>
-        <main className="py-10 sm:py-14">{children}</main>
+        <main className="py-5 sm:py-8">{children}</main>
       </div>
     </div>
   );
