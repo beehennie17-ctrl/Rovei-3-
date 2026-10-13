@@ -808,33 +808,45 @@ export type Database = {
       subscriptions: {
         Row: {
           created_at: string
+          current_period_start: string | null
           current_period_end: string | null
+          last_event_at: string | null
+          last_event_id: string | null
           price_id: string | null
           provider: string
           provider_customer_id: string | null
           provider_subscription_id: string | null
+          scheduled_cancel_at: string | null
           status: string
           studio_id: string
           updated_at: string
         }
         Insert: {
           created_at?: string
+          current_period_start?: string | null
           current_period_end?: string | null
+          last_event_at?: string | null
+          last_event_id?: string | null
           price_id?: string | null
           provider?: string
           provider_customer_id?: string | null
           provider_subscription_id?: string | null
+          scheduled_cancel_at?: string | null
           status?: string
           studio_id: string
           updated_at?: string
         }
         Update: {
           created_at?: string
+          current_period_start?: string | null
           current_period_end?: string | null
+          last_event_at?: string | null
+          last_event_id?: string | null
           price_id?: string | null
           provider?: string
           provider_customer_id?: string | null
           provider_subscription_id?: string | null
+          scheduled_cancel_at?: string | null
           status?: string
           studio_id?: string
           updated_at?: string
@@ -936,6 +948,40 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      reserve_paddle_checkout: {
+        Args: {
+          p_lease_id: string
+          p_price_id: string
+          p_studio_id: string
+          p_user_id: string
+        }
+        Returns: {
+          is_new: boolean
+          can_reconcile: boolean
+          price_id: string
+          checkout_attempt_id: string | null
+          transaction_id: string | null
+          created_at: string | null
+        }[]
+      }
+      release_paddle_checkout: {
+        Args: {
+          p_studio_id: string
+          p_transaction_id: string
+          p_user_id: string
+        }
+        Returns: boolean
+      }
+      set_paddle_checkout_transaction: {
+        Args: {
+          p_checkout_attempt_id: string
+          p_lease_id: string
+          p_studio_id: string
+          p_transaction_id: string
+          p_user_id: string
+        }
+        Returns: boolean
+      }
       bootstrap_studio: {
         Args: {
           p_custom_primary: string
@@ -950,6 +996,23 @@ export type Database = {
           already_exists: boolean
           studio_id: string
         }[]
+      }
+      apply_paddle_subscription_event: {
+        Args: {
+          p_current_period_end: string | null
+          p_current_period_start: string | null
+          p_customer_id: string
+          p_event_id: string
+          p_event_type: string
+          p_occurred_at: string
+          p_price_id: string
+          p_scheduled_cancel_at: string | null
+          p_status: string
+          p_studio_id: string
+          p_subscription_id: string
+          p_user_id: string
+        }
+        Returns: boolean
       }
       is_studio_member: { Args: { target_studio_id: string }; Returns: boolean }
       is_studio_owner: { Args: { target_studio_id: string }; Returns: boolean }
