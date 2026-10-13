@@ -558,6 +558,15 @@
 
   stabiliseColourPickers();
 
+  document.addEventListener("click", (event) => {
+    if (event.target instanceof Element &&
+        event.target.closest("#founderContinue")) {
+      try {
+        sessionStorage.setItem("rovei:founder-preview-v1", "1");
+      } catch {}
+    }
+  }, true);
+
   // ROVEI_SUPPORT_LINKS_V1 — capture before locked preview toast handlers.
   document.addEventListener("click", (event) => {
     const actionButton = event.target instanceof Element
@@ -574,6 +583,16 @@
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
+    try {
+      const state = readState();
+      if (
+        sessionStorage.getItem("rovei:founder-preview-v1") === "1" &&
+        state?.screen === "app" &&
+        state?.appPage === "settings"
+      ) {
+        document.cookie = "rovei_preview_support_return=1; Path=/support; Max-Age=600; SameSite=Lax";
+      }
+    } catch {}
     window.location.assign(destination);
   }, true);
 

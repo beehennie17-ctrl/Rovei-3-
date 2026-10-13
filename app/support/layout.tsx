@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
+import { cookies } from "next/headers";
 import "./support.css";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
@@ -47,10 +48,13 @@ export default async function SupportLayout({
     }
   }
 
-  const back = getSupportReturnLink(
-    authenticated,
-    subscriptionActive,
-  );
+  const previewReturn =
+    process.env.NODE_ENV === "development" &&
+    (await cookies()).get("rovei_preview_support_return")?.value === "1";
+
+  const back = previewReturn
+    ? { href: "/dev-studio-return", label: "Back to Studio →" }
+    : getSupportReturnLink(authenticated, subscriptionActive);
 
   return (
     <div className="rovei-support-shell min-h-screen px-5 py-6 sm:px-10">

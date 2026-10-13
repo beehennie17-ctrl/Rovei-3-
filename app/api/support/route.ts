@@ -5,7 +5,38 @@ import { backendErrorResponse, BackendError, requireSameOrigin } from "@/lib/bac
 
 export async function POST(request: Request) {
   try {
-    requireSameOrigin(request);
+    const codespace = process.env.CODESPACE_NAME;
+    const domain =
+      process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN
+      || "app.github.dev";
+
+    const expectedOrigin = codespace
+      ? `https://${codespace}-3100.${domain}`
+      : null;
+
+    const origin = request.headers.get("origin");
+    const expectedHost = expectedOrigin ? new URL(expectedOrigin).host : null;
+    const trustedCodespacesForwarding =
+      process.env.NODE_ENV === "development" &&
+      expectedHost !== null &&
+      request.headers.get("x-forwarded-host") === expectedHost &&
+      request.headers.get("x-forwarded-proto") === "https";
+
+    const trustedDevRequest =
+      trustedCodespacesForwarding &&
+      request.headers.get("sec-fetch-site") === "same-origin";
+    const trustedLocalForwardedRequest =
+      trustedDevRequest &&
+      origin === "https://localhost:3100" &&
+      request.headers.get("host") === "localhost:3100" &&
+      new URL(request.url).origin === "https://0.0.0.0:3100";
+
+    if (
+      !trustedDevRequest ||
+      (origin !== expectedOrigin && !trustedLocalForwardedRequest)
+    ) {
+      requireSameOrigin(request);
+    }
     if (!request.headers.get("content-type")?.toLowerCase().includes("application/json")) {
       throw new BackendError(415, "unsupported_media_type", "Send JSON data.");
     }
