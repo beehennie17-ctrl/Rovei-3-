@@ -848,7 +848,8 @@ body{font-family:var(--sans);font-weight:450;letter-spacing:-.008em}
   function freshState(){return {version:3,screen:'landing',productTourCompleted:false,wizardStep:0,studio:{exists:false,name:'',services:[],theme:null,customPrimary:'#941651',modules:[]},account:{firstName:'',email:'',terms:false},billing:'monthly',appPage:'home',scheduleView:'today',clients:[],beautyPacks:[],visits:[],activeClientId:null,clientLinkToken:'',clientPortal:{mode:'client',clientId:null,index:-1,draft:{}},signupDraft:{password:''}}}
   function load(){try{const raw=localStorage.getItem(KEY);if(!raw)return freshState();const parsed=JSON.parse(raw);const merged={...freshState(),...parsed,studio:{...freshState().studio,...(parsed.studio||{})},account:{...freshState().account,...(parsed.account||{})},signupDraft:{password:''}};if((parsed.version||0)<3){merged.version=3;merged.screen='landing'}return merged}catch(e){return freshState()}}
   let state=load();
-  function persist(){const copy=JSON.parse(JSON.stringify(state));copy.signupDraft={password:''};delete copy.clientPortal?.draft?.photoData;if(clientLinkMode&&state.screen==='client'){copy.screen='app';copy.appPage='clients';copy.clientPortal={clientId:null,index:-1,draft:{}}}try{localStorage.setItem(KEY,JSON.stringify(copy))}catch(e){console.warn('Preview persistence unavailable',e)}}
+  let restoringFromStorage=false;
+  function persist(){if(restoringFromStorage)return;const copy=JSON.parse(JSON.stringify(state));copy.signupDraft={password:''};delete copy.clientPortal?.draft?.photoData;if(clientLinkMode&&state.screen==='client'){copy.screen='app';copy.appPage='clients';copy.clientPortal={clientId:null,index:-1,draft:{}}}try{localStorage.setItem(KEY,JSON.stringify(copy))}catch(e){console.warn('Preview persistence unavailable',e)}}
   function setState(patch,renderNow=true){state={...state,...patch};persist();if(renderNow)render()}
   function h(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
   function icon(name){return `<span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24">${ICONS[name]||ICONS.spark}</svg></span>`}
@@ -1571,7 +1572,7 @@ body{font-family:var(--sans);font-weight:450;letter-spacing:-.008em}
   }
 
   window.addEventListener('hashchange',()=>{if(openPortalFromHash())render()});
-  window.addEventListener('storage',e=>{if(e.key!==KEY)return;if(clientLinkMode&&state.screen==='client'){const latest=load();state.clients=latest.clients||[];state.settings=latest.settings;state.studio=latest.studio;state.beautyPacks=latest.beautyPacks||[];state.clientLinkToken=latest.clientLinkToken||state.clientLinkToken;return}const currentScreen=state.screen,currentPage=state.appPage;state=load();if(currentScreen==='app'){state.screen='app';state.appPage=currentPage}render()});
+  window.addEventListener('storage',e=>{if(e.key!==KEY)return;if(clientLinkMode&&state.screen==='client'){const latest=load();state.clients=latest.clients||[];state.settings=latest.settings;state.studio=latest.studio;state.beautyPacks=latest.beautyPacks||[];state.clientLinkToken=latest.clientLinkToken||state.clientLinkToken;return}const currentScreen=state.screen,currentPage=state.appPage;state=load();if(currentScreen==='app'){state.screen='app';state.appPage=currentPage}restoringFromStorage=true;try{render()}finally{restoringFromStorage=false}});
   openPortalFromHash();
   render();
 })();

@@ -211,6 +211,24 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const requestedScreen = url.searchParams.get("rovei");
   const authenticatedState = await getAuthenticatedShellState();
+
+  // Public homepage: approved Beauty Packs marketing design.
+  // Preserve authenticated sessions and explicit Rovei flows.
+  if (!authenticatedState && requestedScreen === null) {
+    const publicLanding = await readFile(
+      path.join(process.cwd(), "public", "rovei-landing.html"),
+      "utf8",
+    );
+
+    return new Response(publicLanding, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store",
+        "X-Rovei-Frontend": "beauty-packs-public",
+      },
+    });
+  }
   const screen = resolveLockedShellScreen({
     authenticated: authenticatedState !== null,
     requestedScreen,
