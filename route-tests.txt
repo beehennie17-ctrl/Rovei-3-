@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rovei-frontend-foundation@0.1.0 test:routes
+> node tests/route-smoke.mjs
+
+PASS compiled checkout rejects cross-origin requests
+PASS compiled webhook rejects unsigned payloads
+PASS unconfigured billing fails closed
+PASS production reset endpoint is disabled
+PASS public homepage response matches approved file exactly

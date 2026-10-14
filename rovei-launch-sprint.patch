@@ -1,0 +1,3347 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 4ff69fb..db49f4c 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -2,9 +2,9 @@ name: Rovei CI
+ 
+ on:
+   push:
+-    branches: ["main", "backend/**"]
++    branches: ["main", "backend/**", "engineering/**"]
+   pull_request:
+-    branches: ["main"]
++    branches: ["main", "frontend/exact-locked-shell"]
+ 
+ jobs:
+   validate:
+@@ -29,5 +29,8 @@ jobs:
+       - name: Lint
+         run: npm run lint
+ 
++      - name: Test
++        run: npm test
++
+       - name: Build
+         run: npm run build
+diff --git a/activation/checkout-experience.module.css b/activation/checkout-experience.module.css
+new file mode 100644
+index 0000000..6479398
+--- /dev/null
++++ b/activation/checkout-experience.module.css
+@@ -0,0 +1,30 @@
++.page { min-height:100vh; background:#fcfafb; color:#24191d; padding:32px 36px 60px; }
++.header { max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
++.back { display:inline-flex; align-items:center; gap:8px; font-size:13px; color:#74656b; padding:10px 0; }
++.layout { max-width:1120px; margin:58px auto 0; display:grid; grid-template-columns: .9fr 1.15fr; gap:78px; align-items:start; }
++.summary { padding:8px 0 0; }
++.kicker,.step { font-size:10px; font-weight:700; letter-spacing:.16em; color:#941651; }
++.summary h1 { margin:20px 0 18px; font-size:clamp(38px,4.3vw,57px); font-weight:600; letter-spacing:-.055em; line-height:1.05; }
++.summary h1 em { font-family:Georgia,serif; font-weight:400; color:#941651; }
++.intro { max-width:345px; font-size:14px; line-height:1.75; color:#74656b; }
++.planSwitch { display:flex; border:1px solid #e7dce0; border-radius:13px; padding:4px; gap:4px; margin:28px 0 23px; background:#f7f1f3; }
++.planSwitch button { flex:1; border:0; border-radius:9px; min-height:43px; font-size:13px; font-weight:600; background:transparent; cursor:pointer; }
++.planSwitch .selected { background:white; color:#941651; box-shadow:0 2px 6px #24191d0d; }
++.planSwitch span { font-size:9px; padding:4px 6px; margin-left:7px; border-radius:5px; background:#f3e5ec; color:#941651; }
++.price { display:flex; align-items:baseline; gap:10px; }.price strong { font-size:43px; letter-spacing:-.055em; font-weight:600; }.price span { font-size:12px; color:#74656b; }
++.billingCopy { font-size:12px; line-height:1.7; color:#74656b; margin:7px 0 23px; }
++.features { list-style:none; padding:0; display:grid; gap:12px; font-size:13px; }.features li { display:flex; align-items:center; gap:10px; }.features svg { color:#941651; }
++.totals { border-top:1px solid #e7dce0; border-bottom:1px solid #e7dce0; margin:27px 0 15px; padding:20px 0; display:grid; gap:13px; font-size:12px; }.totals div { display:flex; justify-content:space-between; gap:12px; }.total { padding-top:14px; border-top:1px solid #e7dce0; font-size:14px; }.total strong { color:#941651; text-align:right; }
++.terms { font-size:11px; line-height:1.8; color:#74656b; }.trust { margin-top:22px; display:flex; align-items:center; gap:8px; font-size:11px; color:#74656b; }
++.payment { border:1px solid #e7dce0; border-radius:24px; background:#fff; box-shadow:0 12px 45px #59263d06; padding:34px; }.paymentHeading { display:flex; justify-content:space-between; align-items:center; }.sandbox { font-size:10px; border:1px solid #e7dce0; border-radius:5px; color:#74656b; padding:4px 7px; }.payment h2 { font-size:30px; font-weight:600; letter-spacing:-.04em; margin:22px 0 10px; }.paymentIntro { font-size:13px; line-height:1.8; color:#74656b; max-width:360px; }
++.account { display:flex; flex-direction:column; gap:5px; border:1px solid #eee5e9; background:#fcfafb; border-radius:11px; padding:14px 16px; margin:25px 0; font-size:12px; }.account span { font-size:10px; color:#74656b; }.account strong { font-weight:500; overflow-wrap:anywhere; }
++.formLabel { display:flex; align-items:center; gap:9px; font-size:12px; font-weight:600; padding:2px 0 15px; }.frame { width:100%; }.paymentPlaceholder { border:1px dashed #e7dce0; border-radius:14px; padding:33px 22px 25px; text-align:center; background:linear-gradient(160deg,#fff,#fcf8fa); }.paymentPlaceholder>svg { margin:0 auto 16px; color:#941651; }.paymentPlaceholder h3 { font-size:17px; font-weight:600; }.paymentPlaceholder p { font-size:12px; color:#74656b; line-height:1.8; margin:12px auto 23px; max-width:310px; }
++.primary,.secondary { display:inline-flex; justify-content:center; align-items:center; gap:9px; padding:13px 17px; border-radius:10px; font-size:12px; font-weight:600; cursor:pointer; min-height:44px; border:1px solid transparent; text-decoration:none; }.primary { color:white; background:#941651; }.primary:hover { background:#801145; }.secondary { background:white; border-color:#e7dce0; color:#74656b; }.paymentPlaceholder .primary { width:100%; }.primary:disabled,.secondary:disabled,.planSwitch button:disabled { cursor:default; opacity:.55; }.primary:focus-visible,.secondary:focus-visible,.back:focus-visible,.planSwitch button:focus-visible { outline:3px solid #e7bdc3; outline-offset:3px; }
++.message { padding:16px; background:#faf3f6; border:1px solid #e7dce0; border-radius:12px; margin-top:20px; font-size:12px; line-height:1.8; }.message button,.message a { margin-top:12px; }.subscription { margin:26px 0; }.subscription h3 { font-size:19px; margin:12px 0; }.subscription p { font-size:12px; color:#74656b; margin-bottom:16px; }.subscription .secondary { margin:12px 8px 0 0; }
++.footer { margin-top:26px; border-top:1px solid #eee5e9; padding-top:20px; display:flex; align-items:flex-start; gap:7px; font-size:10px; line-height:1.6; color:#74656b; }.footer svg { flex-shrink:0; }
++.modalBackdrop { position:fixed; inset:0; z-index:50; background:#24191d66; display:grid; place-items:center; padding:22px; }.modal { background:white; border-radius:20px; padding:30px; max-width:510px; box-shadow:0 20px 70px #24191d30; }.modal h2 { font-size:24px; margin:17px 0; letter-spacing:-.03em; }.modal p { font-size:13px; line-height:1.8; color:#74656b; }.modalActions { display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap; margin-top:22px; }
++@media(max-width:950px) { .layout { gap:38px; }.payment { padding:24px; }.planSwitch span { display:block; margin:4px 0 0; }.planSwitch button { padding:8px; } }
++@media(max-width:720px) { .page { padding:22px 20px 38px; }.layout { margin-top:35px; grid-template-columns:1fr; gap:30px; }.summary h1 { font-size:42px; }.summary h1 br { display:none; }.summary h1 em { display:block; }.intro { max-width:100%; }.features { grid-template-columns:1fr 1fr; font-size:11px; gap:13px; }.features li { align-items:flex-start; }.features svg { flex-shrink:0; }.planSwitch span { display:inline; margin-left:7px; }.payment { padding:24px 18px; border-radius:20px; } }
++@media(max-width:375px) { .page { padding-left:12px; padding-right:12px; }.payment { padding-left:12px; padding-right:12px; } }
++
++@media(max-width:359px) { .page {padding-left:4px;padding-right:4px;}.payment {padding-left:0;padding-right:0;border-left:0;border-right:0;}.paymentHeading,.payment h2,.paymentIntro,.account,.formLabel,.footer {margin-left:10px;margin-right:10px;} }
+diff --git a/activation/checkout-experience.tsx b/activation/checkout-experience.tsx
+index 2e81bad..1c39d5a 100644
+--- a/activation/checkout-experience.tsx
++++ b/activation/checkout-experience.tsx
+@@ -4,435 +4,228 @@ import { useCallback, useEffect, useRef, useState } from "react";
+ import Link from "next/link";
+ import { useRouter } from "next/navigation";
+ import Script from "next/script";
+-import { ArrowLeft, ArrowRight, Check, LockKeyhole, RefreshCw } from "lucide-react";
+-import { BillingToggle } from "@/components/activation/billing-toggle";
++import { ArrowLeft, ArrowRight, Check, LockKeyhole, RefreshCw, ShieldCheck } from "lucide-react";
+ import { Wordmark } from "@/components/branding/wordmark";
+-import { Button } from "@/components/ui/button";
+-import { formatUsd, pricing, type BillingCadence } from "@/lib/pricing";
++import { annualSavings, formatUsd, pricing, type BillingCadence } from "@/lib/pricing";
++import { formatCheckoutAmount, readCheckoutTotals, type CheckoutTotals } from "@/lib/billing/checkout-events";
++import styles from "./checkout-experience.module.css";
+ 
++type PaddleEvent = { name: string; data?: { transaction_id?: string; [key: string]: unknown } };
+ declare global {
+   interface Window {
++    __roveiPaddleInitialized?: boolean;
+     Paddle?: {
+       Environment: { set: (environment: "sandbox") => void };
+-      Initialize: (options: {
+-        token: string;
+-        eventCallback: (event: { name: string }) => void;
+-      }) => void;
++      Initialize: (options: { token: string; eventCallback: (event: PaddleEvent) => void }) => void;
+       Checkout: {
+         open: (options: {
+           transactionId: string;
+-          settings?: { theme: "light" };
++          customer?: { email: string };
++          settings: {
++            displayMode: "inline"; theme: "light"; variant: "one-page";
++            frameTarget: string; frameInitialHeight: string; frameStyle: string;
++            showAddDiscounts: boolean;
++          };
+         }) => void;
++        close: () => void;
+       };
+     };
+   }
+ }
+ 
+ type BillingStatus = {
+-  status: string;
+-  billing: BillingCadence | null;
+-  currentPeriodStart: string | null;
+-  currentPeriodEnd: string | null;
+-  scheduledCancelAt: string | null;
+-  accessActive: boolean;
++  status: string; email: string | null; billing: BillingCadence | null;
++  currentPeriodEnd: string | null; accessActive: boolean;
+ };
++type Props = { initialBilling: BillingCadence; clientToken: string | null; configurationIssue: string | null };
+ 
+-type CheckoutExperienceProps = {
+-  initialBilling: BillingCadence;
+-  clientToken: string | null;
+-  configurationIssue: string | null;
+-};
+-
+-function formatDate(value: string | null) {
+-  if (!value || !Number.isFinite(Date.parse(value))) return "Not available";
+-  return new Intl.DateTimeFormat("en-US", {
+-    year: "numeric",
+-    month: "long",
+-    day: "numeric",
+-    hour: "numeric",
+-    minute: "2-digit",
+-    timeZoneName: "short",
+-    timeZone: "UTC",
+-  }).format(new Date(value));
+-}
+-
+-function statusLabel(status: string) {
+-  const labels: Record<string, string> = {
+-    active: "Active",
+-    trialing: "Trial",
+-    past_due: "Payment needs attention",
+-    paused: "Paused",
+-    cancelled: "Cancelled",
+-    inactive: "Not yet active",
+-  };
+-  return labels[status] ?? "Status unavailable";
+-}
+-
+-async function readResponseMessage(response: Response) {
+-  const result: unknown = await response.json().catch(() => null);
+-  if (
+-    result &&
+-    typeof result === "object" &&
+-    "message" in result &&
+-    typeof result.message === "string"
+-  ) {
+-    return result.message;
+-  }
+-  return "We couldn’t complete that billing request. Please try again.";
++async function responseMessage(response: Response) {
++  const data = await response.json().catch(() => null);
++  return typeof data?.message === "string" ? data.message : "We couldn’t verify this billing request. Please try again.";
+ }
+ 
+-export function CheckoutExperience({
+-  initialBilling,
+-  clientToken,
+-  configurationIssue,
+-}: CheckoutExperienceProps) {
++export function CheckoutExperience({ initialBilling, clientToken, configurationIssue }: Props) {
+   const router = useRouter();
+   const [billing, setBilling] = useState(initialBilling);
+   const [subscription, setSubscription] = useState<BillingStatus | null>(null);
+-  const [statusLoading, setStatusLoading] = useState(true);
++  const [loading, setLoading] = useState(true);
++  const [signedOut, setSignedOut] = useState(false);
+   const [statusError, setStatusError] = useState("");
+-  const [actionError, setActionError] = useState("");
++  const [error, setError] = useState("");
+   const [notice, setNotice] = useState("");
+   const [busy, setBusy] = useState(false);
+-  const [confirmCancel, setConfirmCancel] = useState(false);
+-  const [signedOut, setSignedOut] = useState(false);
+-  const [paddleReady, setPaddleReady] = useState(false);
+-  const initialized = useRef(false);
++  const [ready, setReady] = useState(false);
++  const [checkoutOpen, setCheckoutOpen] = useState(false);
++  const [totals, setTotals] = useState<CheckoutTotals | null>(null);
++  const [cancelStep, setCancelStep] = useState(0);
++  const transactionId = useRef<string | null>(null);
++  const inFlight = useRef(false);
++  const mounted = useRef(true);
+ 
+   const refreshStatus = useCallback(async () => {
+-    setStatusLoading(true);
+-    setStatusError("");
+     try {
+-      const response = await fetch("/api/billing/subscription", {
+-        cache: "no-store",
+-        credentials: "same-origin",
+-      });
+-      if (response.status === 401) {
+-        setSignedOut(true);
+-        setSubscription(null);
+-        return;
+-      }
+-      if (!response.ok) {
+-        throw new Error(await readResponseMessage(response));
+-      }
+-      const result: unknown = await response.json();
+-      if (
+-        !result ||
+-        typeof result !== "object" ||
+-        !("status" in result) ||
+-        typeof result.status !== "string" ||
+-        !("billing" in result) ||
+-        (result.billing !== "monthly" && result.billing !== "annual" && result.billing !== null) ||
+-        !("currentPeriodStart" in result) ||
+-        (result.currentPeriodStart !== null && typeof result.currentPeriodStart !== "string") ||
+-        !("currentPeriodEnd" in result) ||
+-        (result.currentPeriodEnd !== null && typeof result.currentPeriodEnd !== "string") ||
+-        !("scheduledCancelAt" in result) ||
+-        (result.scheduledCancelAt !== null && typeof result.scheduledCancelAt !== "string") ||
+-        !("accessActive" in result) ||
+-        typeof result.accessActive !== "boolean"
+-      ) {
++      const response = await fetch("/api/billing/subscription", { cache: "no-store", credentials: "same-origin", signal: AbortSignal.timeout(15_000) });
++      if (response.status === 401) { setSignedOut(true); setSubscription(null); return null; }
++      if (!response.ok) throw new Error(await responseMessage(response));
++      const data = await response.json();
++      if (typeof data?.status !== "string" || typeof data.accessActive !== "boolean" ||
++          ![null, "monthly", "annual"].includes(data.billing) ||
++          (data.currentPeriodEnd !== null && typeof data.currentPeriodEnd !== "string")) {
+         throw new Error("Rovei returned an invalid billing status.");
+       }
+-      setSubscription({
+-        status: result.status,
+-        billing: result.billing,
+-        currentPeriodStart: result.currentPeriodStart,
+-        currentPeriodEnd: result.currentPeriodEnd,
+-        scheduledCancelAt: result.scheduledCancelAt,
+-        accessActive: result.accessActive,
+-      });
+-      setSignedOut(false);
+-    } catch (error) {
+-      setStatusError(error instanceof Error ? error.message : "Unable to load billing details.");
+-    } finally {
+-      setStatusLoading(false);
+-    }
++      if (mounted.current) {
++        setSubscription(data); setSignedOut(false); setStatusError("");
++        if (data.billing && !["inactive", "cancelled"].includes(data.status)) setBilling(data.billing);
++      }
++      return data as BillingStatus;
++    } catch (cause) {
++      if (mounted.current) setStatusError(cause instanceof Error ? cause.message : "Billing status unavailable.");
++      return null;
++    } finally { if (mounted.current) setLoading(false); }
+   }, []);
+ 
+   useEffect(() => {
++    mounted.current = true;
+     void refreshStatus();
++    return () => { mounted.current = false; };
+   }, [refreshStatus]);
+ 
+-  const initializePaddle = useCallback(() => {
+-    if (!clientToken || !window.Paddle || initialized.current) return;
+-    window.Paddle.Environment.set("sandbox");
+-    window.Paddle.Initialize({
+-      token: clientToken,
+-      eventCallback: (event) => {
+-        if (event.name === "checkout.completed") {
+-          router.push("/activate/checkout/complete");
+-        }
+-      },
+-    });
+-    initialized.current = true;
+-    setPaddleReady(true);
+-  }, [clientToken, router]);
+-
+-  async function startCheckout() {
+-    if (!paddleReady || !window.Paddle || configurationIssue) {
+-      setActionError("Secure Sandbox checkout is not available yet. Please try again after configuration.");
+-      return;
++  useEffect(() => {
++    function handle(event: Event) {
++      const detail = (event as CustomEvent<PaddleEvent>).detail;
++      // Ignore a late callback from another transaction or a previous page.
++      if (!transactionId.current || detail.data?.transaction_id !== transactionId.current) return;
++      if (detail.name === "checkout.loaded" || detail.name === "checkout.updated" ||
++          detail.name === "checkout.items.updated" || detail.name === "checkout.discount.applied" ||
++          detail.name === "checkout.discount.removed") {
++        setTotals(readCheckoutTotals(detail.data));
++        setBusy(false); inFlight.current = false;
++      }
++      if (detail.name === "checkout.completed") router.push("/activate/checkout/complete");
++      if (["checkout.payment.failed", "checkout.payment.error", "checkout.error"].includes(detail.name)) {
++        setError("Payment could not be completed. Check the secure payment form and try again. Your Studio stays locked until Rovei confirms an active subscription.");
++        setBusy(false); inFlight.current = false;
++      }
++      if (detail.name === "checkout.closed") {
++        setCheckoutOpen(false); setTotals(null); setBusy(false); inFlight.current = false;
++      }
+     }
++    window.addEventListener("rovei:paddle", handle);
++    return () => { window.removeEventListener("rovei:paddle", handle); };
++  }, [router]);
+ 
+-    setBusy(true);
+-    setActionError("");
+-    setNotice("");
++  const initialize = useCallback(() => {
++    if (!clientToken || !window.Paddle) return;
++    try {
++      if (!window.__roveiPaddleInitialized) {
++        window.Paddle.Environment.set("sandbox");
++        window.Paddle.Initialize({ token: clientToken, eventCallback: (event) => window.dispatchEvent(new CustomEvent("rovei:paddle", { detail: event })) });
++        window.__roveiPaddleInitialized = true;
++      }
++      setReady(true);
++    } catch { setError("Secure checkout could not initialize. Refresh this page and try again."); }
++  }, [clientToken]);
++
++  async function startCheckout() {
++    if (inFlight.current || !ready || !window.Paddle || configurationIssue || statusError) return;
++    inFlight.current = true; setBusy(true); setError(""); setNotice(""); setTotals(null);
+     try {
+       const response = await fetch("/api/billing/checkout", {
+-        method: "POST",
+-        credentials: "same-origin",
+-        headers: { "Content-Type": "application/json" },
+-        body: JSON.stringify({ billing }),
++        method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" },
++        body: JSON.stringify({ billing }), signal: AbortSignal.timeout(45_000),
+       });
+-      if (!response.ok) {
+-        throw new Error(await readResponseMessage(response));
+-      }
+-      const result: unknown = await response.json();
+-      if (
+-        !result ||
+-        typeof result !== "object" ||
+-        !("transactionId" in result) ||
+-        typeof result.transactionId !== "string"
+-      ) {
+-        throw new Error("Paddle did not return a valid checkout session.");
+-      }
++      if (!response.ok) throw new Error(await responseMessage(response));
++      const data = await response.json();
++      if (typeof data?.transactionId !== "string" || !/^txn_[a-z\d]{26}$/i.test(data.transactionId)) throw new Error("A valid checkout session was not returned.");
++      transactionId.current = data.transactionId;
++      setCheckoutOpen(true);
++      // The container stays mounted throughout checkout, including status refreshes.
+       window.Paddle.Checkout.open({
+-        transactionId: result.transactionId,
+-        settings: { theme: "light" },
++        transactionId: data.transactionId,
++        ...(subscription?.email ? { customer: { email: subscription.email } } : {}),
++        settings: {
++          displayMode: "inline", theme: "light", variant: "one-page", frameTarget: "rovei-payment-frame",
++          frameInitialHeight: "540", frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;", showAddDiscounts: false,
++        },
+       });
+-    } catch (error) {
+-      setActionError(error instanceof Error ? error.message : "Secure checkout could not be opened.");
+-    } finally {
+-      setBusy(false);
++      setBusy(false); inFlight.current = false;
++    } catch (cause) {
++      setError(cause instanceof Error ? cause.message : "Secure checkout could not be opened.");
++      setBusy(false); inFlight.current = false;
+     }
+   }
+ 
+-  async function updateSubscription(action: "cancel" | "reactivate") {
+-    setBusy(true);
+-    setActionError("");
+-    setNotice("");
++  async function cancelSubscription() {
++    if (cancelStep !== 2 || inFlight.current) return;
++    inFlight.current = true; setBusy(true); setError(""); setNotice("");
+     try {
+-      const response = await fetch("/api/billing/manage", {
+-        method: "POST",
+-        credentials: "same-origin",
+-        headers: { "Content-Type": "application/json" },
+-        body: JSON.stringify({ action }),
+-      });
+-      if (!response.ok) {
+-        throw new Error(await readResponseMessage(response));
++      const response = await fetch("/api/billing/manage", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "cancel" }), signal: AbortSignal.timeout(30_000) });
++      if (!response.ok) throw new Error(await responseMessage(response));
++      setCancelStep(0);
++      setNotice("Paddle processed the request. Verifying that your subscription has ended…");
++      for (let attempt = 0; attempt < 15 && mounted.current; attempt++) {
++        const status = await refreshStatus();
++        if (status?.status === "cancelled" && status.accessActive === false) {
++          setNotice("Your subscription has ended. Your account and Studio records are retained."); return;
++        }
++        await new Promise((resolve) => setTimeout(resolve, 2000));
+       }
+-      const result: unknown = await response.json();
+-      const message =
+-        result && typeof result === "object" && "message" in result &&
+-        typeof result.message === "string"
+-          ? result.message
+-          : "Paddle accepted the request. Your billing status will update when its signed notification arrives.";
+-      setNotice(message);
+-      setConfirmCancel(false);
+-      await refreshStatus();
+-    } catch (error) {
+-      setActionError(error instanceof Error ? error.message : "Paddle could not update this subscription.");
+-    } finally {
+-      setBusy(false);
+-    }
++      if (mounted.current) setNotice("Cancellation synchronization is still pending. Check billing status before retrying the request, or contact Support.");
++    } catch (cause) { setError(cause instanceof Error ? cause.message : "Cancellation could not be verified."); }
++    finally { if (mounted.current) setBusy(false); inFlight.current = false; }
+   }
+ 
+   const option = pricing[billing];
+-  const canPurchase =
+-    !subscription ||
+-    subscription.status === "inactive" ||
+-    subscription.status === "cancelled";
+-  const activeCancellation =
+-    subscription?.scheduledCancelAt &&
+-    ["active", "trialing"].includes(subscription.status);
+-
+-  return (
+-    <>
+-      {clientToken && (
+-        <Script
+-          src="https://cdn.paddle.com/paddle/v2/paddle.js"
+-          strategy="afterInteractive"
+-          onLoad={initializePaddle}
+-          onError={() => setActionError("Paddle’s secure checkout library could not be loaded. Check your connection and try again.")}
+-        />
+-      )}
+-      <main className="min-h-screen bg-[var(--surface-muted)] px-[var(--page-gutter)] py-6 sm:py-8 lg:py-10">
+-        <div className="mx-auto max-w-[960px]">
+-          <header className="flex items-center justify-between gap-4">
+-            <Wordmark />
+-            <Link href="/activate" className="focus-ring motion-soft inline-flex min-h-9 items-center gap-2 rounded-full px-3.5 text-sm font-semibold text-[var(--text-primary)] hover:bg-[var(--wine-soft)]">
+-              <ArrowLeft size={15} aria-hidden="true" />
+-              <span>Back to plan</span>
+-            </Link>
+-          </header>
+-
+-          <section className="mx-auto mt-12 max-w-2xl rounded-[2.2rem] border border-[var(--border-soft)] bg-white px-6 py-8 shadow-[var(--shadow-soft)] sm:mt-16 sm:px-10 sm:py-11">
+-            <p className="eyebrow">A considered next step</p>
+-            <h1 className="mt-4 text-[clamp(2.6rem,7vw,4.4rem)] font-bold leading-[0.96] tracking-[-0.05em] text-[var(--text-primary)]">
+-              Your Studio, <span className="editorial-accent text-[var(--wine)]">beautifully supported.</span>
+-            </h1>
+-            <p className="mt-5 max-w-xl text-sm leading-6 text-[var(--text-secondary)] sm:text-base">
+-              Secure payment is handled by Paddle. Rovei only activates paid Studio access after a verified subscription update.
+-            </p>
+-
+-            {statusLoading ? (
+-              <div className="mt-8 h-24 animate-pulse rounded-[1.5rem] bg-[var(--surface-muted)]" aria-label="Loading billing status" />
+-            ) : statusError ? (
+-              <div role="alert" className="mt-8 rounded-[1.5rem] border border-[var(--blush)] bg-[var(--rose-milk)]/30 p-5 text-sm leading-6 text-[var(--text-primary)]">
+-                <p className="font-semibold">Billing details could not be verified.</p>
+-                <p className="mt-1 text-[var(--text-secondary)]">{statusError}</p>
+-                <Button type="button" onClick={() => void refreshStatus()} className="mt-4">
+-                  <RefreshCw size={15} aria-hidden="true" /> Try again
+-                </Button>
+-              </div>
+-            ) : signedOut ? (
+-              <div role="status" className="mt-8 rounded-[1.5rem] border border-[var(--border-soft)] bg-[var(--surface-muted)] p-5">
+-                <p className="font-semibold text-[var(--text-primary)]">Sign in to continue securely.</p>
+-                <Link href="/login?next=%2Factivate%2Fcheckout" className="focus-ring mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--wine)] px-5 text-sm font-semibold text-white">
+-                  Sign in to Rovei <ArrowRight size={15} aria-hidden="true" />
+-                </Link>
+-              </div>
+-            ) : subscription && subscription.status !== "inactive" ? (
+-              <div className="mt-8 rounded-[1.5rem] border border-[var(--border-soft)] bg-[var(--surface-muted)] p-5 sm:p-6">
+-                <div className="flex flex-wrap items-start justify-between gap-3">
+-                  <div>
+-                    <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--text-secondary)]">Rovei. Studio billing</p>
+-                    <p className="mt-2 text-2xl font-bold tracking-[-0.035em] text-[var(--text-primary)]">
+-                      {subscription.billing ? pricing[subscription.billing].label : "Studio"} plan
+-                    </p>
+-                  </div>
+-                  <span className="rounded-full border border-[var(--blush)] bg-white px-3 py-1.5 text-xs font-bold text-[var(--wine)]">
+-                    {statusLabel(subscription.status)}
+-                  </span>
+-                </div>
+-                <dl className="mt-5 grid gap-4 border-t border-[var(--border-soft)] pt-4 text-sm sm:grid-cols-2">
+-                  <div>
+-                    <dt className="text-[var(--text-secondary)]">Current period began</dt>
+-                    <dd className="mt-1 font-semibold text-[var(--text-primary)]">{formatDate(subscription.currentPeriodStart)}</dd>
+-                  </div>
+-                  <div>
+-                    <dt className="text-[var(--text-secondary)]">{activeCancellation ? "Access through" : "Next billing date"}</dt>
+-                    <dd className="mt-1 font-semibold text-[var(--text-primary)]">{formatDate(subscription.scheduledCancelAt ?? subscription.currentPeriodEnd)}</dd>
+-                  </div>
+-                </dl>
+-
+-                {activeCancellation && (
+-                  <p className="mt-5 rounded-xl border border-[var(--blush)] bg-white p-4 text-sm leading-6 text-[var(--text-secondary)]">
+-                    Cancellation is scheduled for {formatDate(subscription.scheduledCancelAt)}. Your Studio remains available until then.
+-                  </p>
+-                )}
+-
+-                {subscription.status === "past_due" && (
+-                  <p className="mt-5 rounded-xl border border-[var(--blush)] bg-white p-4 text-sm leading-6 text-[var(--text-secondary)]">
+-                    Paddle reports a past-due payment. Rovei will keep paid Studio access protected until Paddle confirms an active subscription. Please contact Support for billing assistance.
+-                  </p>
+-                )}
+-
+-                {subscription.status === "paused" && (
+-                  <p className="mt-5 rounded-xl border border-[var(--blush)] bg-white p-4 text-sm leading-6 text-[var(--text-secondary)]">
+-                    This subscription is paused by Paddle. Contact Support for help with the next step; a new subscription will not be created automatically.
+-                  </p>
+-                )}
+-
+-                {subscription.status === "cancelled" && (
+-                  <p className="mt-5 rounded-xl border border-[var(--blush)] bg-white p-4 text-sm leading-6 text-[var(--text-secondary)]">
+-                    This subscription has ended and cannot be reactivated. Choose a plan below to begin a new subscription.
+-                  </p>
+-                )}
+-
+-                {["active", "trialing"].includes(subscription.status) && !activeCancellation && (
+-                  confirmCancel ? (
+-                    <div className="mt-5 rounded-xl border border-[var(--blush)] bg-white p-4">
+-                      <p className="text-sm leading-6 text-[var(--text-secondary)]">
+-                        We’ll ask Paddle to end renewal at the close of your current billing period. No immediate cancellation or refund is requested.
+-                      </p>
+-                      <div className="mt-4 flex flex-wrap gap-3">
+-                        <Button type="button" disabled={busy} onClick={() => void updateSubscription("cancel")}>
+-                          Confirm scheduled cancellation
+-                        </Button>
+-                        <button type="button" className="focus-ring rounded-full px-4 py-2 text-sm font-semibold text-[var(--text-secondary)]" onClick={() => setConfirmCancel(false)}>
+-                          Keep subscription
+-                        </button>
+-                      </div>
+-                    </div>
+-                  ) : (
+-                    <button
+-                      type="button"
+-                      disabled={busy}
+-                      onClick={() => setConfirmCancel(true)}
+-                      className="focus-ring mt-5 min-h-11 rounded-full border border-[var(--border-soft)] px-5 text-sm font-semibold text-[var(--wine)] hover:bg-white disabled:opacity-60"
+-                    >
+-                      Schedule cancellation
+-                    </button>
+-                  )
+-                )}
+-
+-                {activeCancellation && (
+-                  <Button type="button" disabled={busy} onClick={() => void updateSubscription("reactivate")} className="mt-5">
+-                    Keep my subscription
+-                  </Button>
+-                )}
+-              </div>
+-            ) : null}
+-
+-            {!statusLoading && !statusError && !signedOut && canPurchase && (
+-              <>
+-                <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+-                  <div>
+-                    <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--text-secondary)]">Choose your billing rhythm</p>
+-                    <p className="mt-1 text-sm text-[var(--text-secondary)]">One Studio plan, with no trial.</p>
+-                  </div>
+-                  <BillingToggle value={billing} onChange={setBilling} />
+-                </div>
+-
+-                <div className="mt-5 rounded-[1.5rem] border border-[var(--border-soft)] bg-[var(--surface-muted)] p-5 sm:p-6">
+-                  <div className="flex flex-wrap items-end justify-between gap-4">
+-                    <div>
+-                      <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--text-secondary)]">Rovei. Studio</p>
+-                      <p className="mt-2 text-2xl font-bold tracking-[-0.035em] text-[var(--text-primary)]">{option.label} billing</p>
+-                    </div>
+-                    <p className="text-2xl font-bold tracking-[-0.04em] text-[var(--wine)]">
+-                      {formatUsd(option.price)}<span className="text-sm font-semibold tracking-normal text-[var(--text-secondary)]">/{option.billingLabel}</span>
+-                    </p>
+-                  </div>
+-                  <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{option.billedCopy} Paddle displays the final amount and applicable taxes before you pay.</p>
+-                </div>
+-
+-                {configurationIssue && (
+-                  <div role="status" className="mt-5 rounded-xl border border-[var(--blush)] bg-[var(--rose-milk)]/30 p-4 text-sm leading-6 text-[var(--text-secondary)]">
+-                    <p className="font-semibold text-[var(--text-primary)]">Sandbox checkout is not configured yet.</p>
+-                    <p className="mt-1">{configurationIssue}</p>
+-                  </div>
+-                )}
+-
+-                {actionError && <p role="alert" className="mt-4 text-sm leading-6 text-[var(--wine)]">{actionError}</p>}
+-                {notice && <p role="status" className="mt-4 text-sm leading-6 text-[var(--wine)]">{notice}</p>}
+-
+-                {!configurationIssue && (
+-                  <Button type="button" disabled={busy || !paddleReady} onClick={() => void startCheckout()} className="mt-6 w-full sm:w-auto">
+-                    <LockKeyhole size={16} aria-hidden="true" />
+-                    <span>{busy ? "Preparing secure checkout…" : "Continue to secure checkout"}</span>
+-                    <ArrowRight size={16} aria-hidden="true" />
+-                  </Button>
+-                )}
+-                <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-xs leading-5 text-[var(--text-secondary)]">
+-                  <span className="inline-flex items-center gap-1"><Check size={13} aria-hidden="true" />Cancel anytime.</span>
+-                  <span>No setup fee.</span>
+-                  <span>Studio access follows server-confirmed billing status.</span>
+-                </div>
+-              </>
+-            )}
+-
+-            {actionError && !canPurchase && <p role="alert" className="mt-4 text-sm leading-6 text-[var(--wine)]">{actionError}</p>}
+-            {notice && !canPurchase && <p role="status" className="mt-4 text-sm leading-6 text-[var(--wine)]">{notice}</p>}
+-
+-            <div className="mt-7 border-t border-[var(--border-soft)] pt-5 text-xs leading-5 text-[var(--text-secondary)]">
+-              Payment information is entered directly with Paddle. Opening checkout does not activate Rovei or create paid access.
+-            </div>
+-          </section>
+-        </div>
+-      </main>
+-    </>
+-  );
++  const canPurchase = subscription && ["inactive", "cancelled"].includes(subscription.status) && !subscription.accessActive;
++  const canCancel = subscription && ["active", "trialing", "past_due", "paused"].includes(subscription.status);
++  const amount = (value: number) => formatCheckoutAmount(value, totals!.currency);
++
++  return <>
++    {clientToken && <Script src="https://cdn.paddle.com/paddle/v2/paddle.js" strategy="afterInteractive" onReady={initialize} onError={() => setError("Secure payment could not load. Check your connection and refresh the page.")} />}
++    <main className={styles.page}>
++      <header className={styles.header}><Wordmark /><Link href="/activate" className={styles.back}><ArrowLeft size={15} aria-hidden="true" /> Back to plans</Link></header>
++      <div className={styles.layout}>
++        <aside className={styles.summary}>
++          <span className={styles.kicker}>ROVEI STUDIO</span>
++          <h1>A beautiful next<br />chapter for<br /><em>your studio.</em></h1>
++          <p className={styles.intro}>One considered workspace for your clients, appointments and every detail in between.</p>
++          <div className={styles.planSwitch} aria-label="Billing period">
++            {(["monthly", "annual"] as const).map((period) => <button key={period} type="button" aria-pressed={billing === period} disabled={busy || checkoutOpen || (!!subscription && !canPurchase)} onClick={() => { setBilling(period); setTotals(null); }} className={billing === period ? styles.selected : ""}>{pricing[period].label}{period === "annual" && <span>2 months free</span>}</button>)}
++          </div>
++          <div className={styles.price}><strong>{formatUsd(option.price)}</strong><span>USD / {option.billingLabel}</span></div>
++          <p className={styles.billingCopy}>{option.billedCopy} No trial.{billing === "annual" && ` Save ${formatUsd(annualSavings)} USD compared with 12 monthly payments.`}</p>
++          <ul className={styles.features}>{["Your own branded client experience", "Clients and appointment management", "Reusable Beauty Packs", "Studio settings and client history"].map((feature) => <li key={feature}><Check size={16} aria-hidden="true" />{feature}</li>)}</ul>
++          <div className={styles.totals} aria-live="polite">
++            <div><span>Subscription subtotal</span><span>{totals ? amount(totals.subtotal) : `${formatUsd(option.price)} USD`}</span></div>
++            {!!totals?.discount && <div><span>Discount</span><span>−{amount(totals.discount)}</span></div>}
++            <div><span>Tax / VAT</span><span>{totals ? amount(totals.tax) : "Calculated by Paddle"}</span></div>
++            <div className={styles.total}><span>Total due today</span><strong>{totals ? amount(totals.total) : "Shown before payment"}</strong></div>
++          </div>
++          <p className={styles.terms}>{totals?.recurringTotal != null ? `${amount(totals.recurringTotal)} renews every ${option.billingLabel}. ` : `${formatUsd(option.price)} USD renews every ${option.billingLabel}, with applicable taxes. `}Paddle shows the final currency, tax and recurring amount before you subscribe. Cancel with two confirmations in billing; cancellation ends access immediately and stops future renewals. It does not delete your account or request a refund.</p>
++          <div className={styles.trust}><ShieldCheck size={18} aria-hidden="true" /><span>Secure checkout powered by Paddle</span></div>
++        </aside>
++        <section className={styles.payment} aria-labelledby="payment-heading">
++          <div className={styles.paymentHeading}><span className={styles.step}>01 / ACTIVATE</span><span className={styles.sandbox}>Sandbox</span></div>
++          <h2 id="payment-heading">Make it yours.</h2>
++          <p className={styles.paymentIntro}>Complete your subscription securely. Your payment details go directly to Paddle.</p>
++          {loading ? <p role="status" className={styles.message}>Checking your Studio’s billing status…</p> : statusError ? <div role="alert" className={styles.message}><p>{statusError}</p><button type="button" className={styles.secondary} onClick={() => void refreshStatus()}><RefreshCw size={14} /> Check again</button></div> : signedOut ? <div className={styles.message}><p>Sign in to activate your Studio.</p><Link className={styles.primary} href={`/login?next=${encodeURIComponent(`/activate/checkout?billing=${billing}`)}`}>Sign in <ArrowRight size={15} /></Link></div> : <>
++            {subscription?.email && <div className={styles.account}><span>Studio owner</span><strong>{subscription.email}</strong></div>}
++            {canPurchase && <>
++              <div className={styles.formLabel}><LockKeyhole size={16} aria-hidden="true" /><span>Billing details & payment</span></div>
++              <div className={`rovei-payment-frame ${styles.frame}`} aria-label="Secure Paddle payment form" />
++              {!checkoutOpen && <div className={styles.paymentPlaceholder}><LockKeyhole size={25} aria-hidden="true" /><h3>Your payment, protected.</h3><p>Paddle will collect your billing address, calculate tax and show the payment methods available for your country and currency.</p><button type="button" className={styles.primary} disabled={busy || !ready || !!configurationIssue} onClick={() => void startCheckout()}>{busy ? "Preparing secure checkout…" : "Continue to subscribe"}<ArrowRight size={16} aria-hidden="true" /></button></div>}
++              {checkoutOpen && busy && <p role="status">Loading your secure payment form…</p>}
++              {checkoutOpen && <p className={styles.terms}>Review your total, then use Paddle’s Subscribe button to complete your purchase. Your chosen plan is reserved for this checkout.</p>}
++              {configurationIssue && <p role="status" className={styles.message}>Sandbox checkout is awaiting secure configuration. Contact Support to continue.</p>}
++            </>}
++            {!canPurchase && subscription && <div className={styles.subscription}><span className={styles.kicker}>CURRENT SUBSCRIPTION</span><h3>{subscription.status === "active" ? "Your Studio is active." : subscription.status === "past_due" ? "Your payment needs attention." : `Subscription: ${subscription.status}`}</h3><p>{subscription.currentPeriodEnd ? `Current billing period ends ${new Date(subscription.currentPeriodEnd).toLocaleDateString("en", { dateStyle: "long" })}.` : "The billing period is awaiting confirmation."}</p>{subscription.accessActive && <Link href="/app" className={styles.primary}>Continue to Studio <ArrowRight size={16} /></Link>}{canCancel && <button type="button" disabled={busy} className={styles.secondary} onClick={() => setCancelStep(1)}>Cancel subscription</button>}</div>}
++          </>}
++          {error && <p role="alert" className={styles.message}>{error}</p>}
++          {notice && <p role="status" className={styles.message}>{notice}</p>}
++          <footer className={styles.footer}><LockKeyhole size={13} aria-hidden="true" /><span>Encrypted payment · Available cards and wallets shown by Paddle</span></footer>
++        </section>
++      </div>
++      {cancelStep > 0 && <div className={styles.modalBackdrop}><section role="alertdialog" aria-modal="true" aria-labelledby="cancel-title" aria-describedby="cancel-description" className={styles.modal}><span className={styles.kicker}>CONFIRMATION {cancelStep} OF 2</span><h2 id="cancel-title">{cancelStep === 1 ? "Cancel your subscription?" : "End Studio access immediately?"}</h2><p id="cancel-description">{cancelStep === 1 ? "Your subscription will stop renewing and paid Studio access will end immediately. Your account and records will be retained." : "This final confirmation asks Paddle to cancel immediately. A cancelled subscription cannot be reactivated; returning requires a new subscription. No refund is requested."}</p><div className={styles.modalActions}><button autoFocus type="button" disabled={busy} className={styles.secondary} onClick={() => setCancelStep(0)}>Keep subscription</button><button type="button" disabled={busy} className={styles.primary} onClick={() => cancelStep === 1 ? setCancelStep(2) : void cancelSubscription()}>{busy ? "Verifying cancellation…" : cancelStep === 1 ? "Continue cancellation" : "Confirm immediate cancellation"}</button></div></section></div>}
++    </main>
++  </>;
+ }
+diff --git a/activation/payment-confirmation.tsx b/activation/payment-confirmation.tsx
+index edb3e15..52432f0 100644
+--- a/activation/payment-confirmation.tsx
++++ b/activation/payment-confirmation.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useCallback, useEffect, useState } from "react";
++import { useCallback, useEffect, useRef, useState } from "react";
+ import Link from "next/link";
+ import { Check, RefreshCw } from "lucide-react";
+ import { Wordmark } from "@/components/branding/wordmark";
+@@ -16,6 +16,7 @@ export function PaymentConfirmation() {
+   const [result, setResult] = useState<ConfirmationStatus | null>(null);
+   const [error, setError] = useState("");
+   const [loading, setLoading] = useState(true);
++  const attempts = useRef(0);
+ 
+   const verify = useCallback(async () => {
+     setLoading(true);
+@@ -63,6 +64,12 @@ export function PaymentConfirmation() {
+     void verify();
+   }, [verify]);
+ 
++  useEffect(() => {
++    if (error || result?.accessActive || attempts.current >= 30) return;
++    const timer = setTimeout(() => { attempts.current += 1; void verify(); }, 2000);
++    return () => clearTimeout(timer);
++  }, [result, error, verify]);
++
+   const confirmed = result?.accessActive === true &&
+     (result.status === "active" || result.status === "trialing");
+ 
+diff --git a/app/api/appointments/[id]/route.ts b/app/api/appointments/[id]/route.ts
+index 5cec8ea..720bc42 100644
+--- a/app/api/appointments/[id]/route.ts
++++ b/app/api/appointments/[id]/route.ts
+@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
+ 
+ import {
+   backendErrorResponse,
+-  BackendError,
++  BackendError, requireSameOrigin,
+ } from "@/lib/backend/errors";
+ 
+ import {
+@@ -24,6 +24,7 @@ export async function PATCH(
+   },
+ ) {
+   try {
++    requireSameOrigin(request);
+     const { id } = await params;
+ 
+     const {
+diff --git a/app/api/auth/account/route.ts b/app/api/auth/account/route.ts
+new file mode 100644
+index 0000000..f61b67b
+--- /dev/null
++++ b/app/api/auth/account/route.ts
+@@ -0,0 +1,21 @@
++import { NextResponse } from "next/server";
++import { z } from "zod";
++import { backendErrorResponse, BackendError, readJsonBody, requireSameOrigin } from "@/lib/backend/errors";
++import { requireAuthenticatedUser } from "@/lib/backend/studio-context";
++
++const accountSchema=z.union([
++  z.object({firstName:z.string().trim().min(1).max(80)}).strict(),
++  z.object({email:z.string().email().max(254)}).strict(),
++]);
++export async function POST(request: Request) {
++  try {
++    requireSameOrigin(request);
++    const body=accountSchema.parse(await readJsonBody(request));
++    const {supabase}=await requireAuthenticatedUser();
++    const update="email" in body ? {email:body.email} : {data:{first_name:body.firstName,full_name:body.firstName}};
++    const {error}=await supabase.auth.updateUser(update);
++    if(error) throw new BackendError(502,"account_update_failed","Your account changes could not be saved. Please try again.");
++    // Never mark a requested email change as confirmed locally.
++    return NextResponse.json({updated:true,emailConfirmationRequired:"email" in body},{headers:{"Cache-Control":"no-store"}});
++  } catch(error) {return backendErrorResponse(error);}
++}
+diff --git a/app/api/beauty-packs/[id]/route.ts b/app/api/beauty-packs/[id]/route.ts
+index 2d78c4d..c4d1463 100644
+--- a/app/api/beauty-packs/[id]/route.ts
++++ b/app/api/beauty-packs/[id]/route.ts
+@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
+ 
+ import {
+   backendErrorResponse,
+-  BackendError,
++  BackendError, requireSameOrigin, readJsonBody,
+ } from "@/lib/backend/errors";
+ 
+ import {
+@@ -104,150 +104,23 @@ export async function GET(
+   }
+ }
+ 
+-export async function PUT(
+-  request: Request,
+-  {
+-    params,
+-  }: {
+-    params: Promise<{
+-      id: string;
+-    }>;
+-  },
+-) {
++export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+   try {
++    requireSameOrigin(request);
+     const { id } = await params;
+-
+-    const body =
+-      beautyPackInputSchema.parse(
+-        await request.json(),
+-      );
+-
+-    const {
+-      supabase,
+-      studioId,
+-    } = await requireStudioContext();
+-
+-    const {
+-      data: pack,
+-      error: updateError,
+-    } = await supabase
+-      .from("beauty_packs")
+-      .update({
+-        name: body.name,
+-
+-        service_category:
+-          body.service,
+-      })
+-      .eq("id", id)
+-      .eq("studio_id", studioId)
+-      .select(
+-        "id, name, service_category, created_at, updated_at",
+-      )
+-      .maybeSingle();
+-
+-    if (updateError) {
+-      throw new BackendError(
+-        500,
+-        "beauty_pack_update_failed",
+-        "Unable to update this Beauty Pack.",
+-      );
+-    }
+-
+-    if (!pack) {
+-      throw new BackendError(
+-        404,
+-        "beauty_pack_not_found",
+-        "Beauty Pack not found.",
+-      );
+-    }
+-
+-    const {
+-      error: deleteError,
+-    } = await supabase
+-      .from(
+-        "beauty_pack_modules",
+-      )
+-      .delete()
+-      .eq(
+-        "beauty_pack_id",
+-        id,
+-      )
+-      .eq(
+-        "studio_id",
+-        studioId,
+-      );
+-
+-    if (deleteError) {
+-      throw new BackendError(
+-        500,
+-        "beauty_pack_update_failed",
+-        "Unable to update this Beauty Pack.",
+-      );
+-    }
+-
+-    const {
+-      error: moduleError,
+-    } = await supabase
+-      .from(
+-        "beauty_pack_modules",
+-      )
+-      .insert(
+-        body.modules.map(
+-          (
+-            moduleType,
+-            index,
+-          ) => ({
+-            studio_id:
+-              studioId,
+-
+-            beauty_pack_id:
+-              id,
+-
+-            module_type:
+-              moduleType,
+-
+-            sort_order:
+-              index,
+-
+-            config: {},
+-          }),
+-        ),
+-      );
+-
+-    if (moduleError) {
+-      throw new BackendError(
+-        500,
+-        "beauty_pack_modules_failed",
+-        "Unable to save Beauty Pack modules.",
+-      );
+-    }
+-
+-    return NextResponse.json({
+-      pack: {
+-        id: pack.id,
+-
+-        name: pack.name,
+-
+-        service:
+-          pack.service_category,
+-
+-        modules:
+-          body.modules,
+-
+-        createdAt:
+-          pack.created_at,
+-
+-        updatedAt:
+-          pack.updated_at,
+-      },
++    const body = beautyPackInputSchema.parse(await readJsonBody(request));
++    const { supabase, studioId } = await requireStudioContext();
++    const { data: pack, error } = await supabase.rpc("save_beauty_pack", {
++      p_studio_id: studioId, p_pack_id: id, p_name: body.name,
++      p_service: body.service, p_modules: body.modules,
+     });
+-  } catch (error) {
+-    return backendErrorResponse(error);
+-  }
++    if (error || pack?.id !== id) throw new BackendError(409, "beauty_pack_update_failed", "Unable to save this Beauty Pack. Your changes have not been saved.");
++    return NextResponse.json({ pack });
++  } catch (error) { return backendErrorResponse(error); }
+ }
+ 
+ export async function DELETE(
+-  _request: Request,
++  request: Request,
+   {
+     params,
+   }: {
+@@ -257,6 +130,7 @@ export async function DELETE(
+   },
+ ) {
+   try {
++    requireSameOrigin(request);
+     const { id } = await params;
+ 
+     const {
+diff --git a/app/api/beauty-packs/route.ts b/app/api/beauty-packs/route.ts
+index a532699..ad9f487 100644
+--- a/app/api/beauty-packs/route.ts
++++ b/app/api/beauty-packs/route.ts
+@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
+ 
+ import {
+   backendErrorResponse,
+-  BackendError,
++  BackendError, requireSameOrigin, readJsonBody,
+ } from "@/lib/backend/errors";
+ 
+ import {
+@@ -96,115 +96,14 @@ export async function GET() {
+ 
+ export async function POST(request: Request) {
+   try {
+-    const body =
+-      beautyPackInputSchema.parse(
+-        await request.json(),
+-      );
+-
+-    const {
+-      supabase,
+-      studioId,
+-    } = await requireStudioContext();
+-
+-    const {
+-      data: pack,
+-      error: packError,
+-    } = await supabase
+-      .from("beauty_packs")
+-      .insert({
+-        studio_id: studioId,
+-
+-        name: body.name,
+-
+-        service_category:
+-          body.service,
+-
+-        active: true,
+-      })
+-      .select(
+-        "id, name, service_category, created_at, updated_at",
+-      )
+-      .single();
+-
+-    if (packError || !pack) {
+-      throw new BackendError(
+-        500,
+-        "beauty_pack_create_failed",
+-        "Unable to create this Beauty Pack.",
+-      );
+-    }
+-
+-    const {
+-      error: moduleError,
+-    } = await supabase
+-      .from(
+-        "beauty_pack_modules",
+-      )
+-      .insert(
+-        body.modules.map(
+-          (
+-            moduleType,
+-            index,
+-          ) => ({
+-            studio_id:
+-              studioId,
+-
+-            beauty_pack_id:
+-              pack.id,
+-
+-            module_type:
+-              moduleType,
+-
+-            sort_order:
+-              index,
+-
+-            config: {},
+-          }),
+-        ),
+-      );
+-
+-    if (moduleError) {
+-      await supabase
+-        .from("beauty_packs")
+-        .delete()
+-        .eq("id", pack.id)
+-        .eq(
+-          "studio_id",
+-          studioId,
+-        );
+-
+-      throw new BackendError(
+-        500,
+-        "beauty_pack_modules_failed",
+-        "Unable to create this Beauty Pack.",
+-      );
+-    }
+-
+-    return NextResponse.json(
+-      {
+-        pack: {
+-          id: pack.id,
+-
+-          name: pack.name,
+-
+-          service:
+-            pack.service_category,
+-
+-          modules:
+-            body.modules,
+-
+-          createdAt:
+-            pack.created_at,
+-
+-          updatedAt:
+-            pack.updated_at,
+-        },
+-      },
+-      {
+-        status: 201,
+-      },
+-    );
+-  } catch (error) {
+-    return backendErrorResponse(error);
+-  }
++    requireSameOrigin(request);
++    const body = beautyPackInputSchema.parse(await readJsonBody(request));
++    const { supabase, studioId } = await requireStudioContext();
++    const { data: pack, error } = await supabase.rpc("save_beauty_pack", {
++      p_studio_id: studioId, p_pack_id: null, p_name: body.name,
++      p_service: body.service, p_modules: body.modules,
++    });
++    if (error || !pack || typeof pack.id !== "string") throw new BackendError(500, "beauty_pack_create_failed", "Unable to save this Beauty Pack. Your changes have not been saved.");
++    return NextResponse.json({ pack }, { status: 201 });
++  } catch (error) { return backendErrorResponse(error); }
+ }
+diff --git a/app/api/billing/checkout/route.ts b/app/api/billing/checkout/route.ts
+index e295c81..095b6db 100644
+--- a/app/api/billing/checkout/route.ts
++++ b/app/api/billing/checkout/route.ts
+@@ -1,3 +1,4 @@
++import { validateRoveiPrices } from "@/lib/billing/checkout-events";
+ import { randomUUID } from "node:crypto";
+ import { NextResponse } from "next/server";
+ import { z } from "zod";
+@@ -197,6 +198,14 @@ export async function POST(request: Request) {
+       );
+     }
+ 
++    const [monthlyPrice, annualPrice] = await Promise.all([
++      paddleApiRequest(config, `/prices/${config.priceIds.monthly}`, { method: "GET" }),
++      paddleApiRequest(config, `/prices/${config.priceIds.annual}`, { method: "GET" }),
++    ]);
++    if (!validateRoveiPrices(monthlyPrice, annualPrice)) {
++      throw new BackendError(503, "paddle_price_mismatch", "The billing catalog could not be verified. Please contact Support.");
++    }
++
+     const admin = createAdminClient();
+     let activeLeaseId = randomUUID();
+     const { data: reservationData, error: reservationError } = await admin.rpc(
+diff --git a/app/api/billing/manage/route.ts b/app/api/billing/manage/route.ts
+index 12264b0..da14edf 100644
+--- a/app/api/billing/manage/route.ts
++++ b/app/api/billing/manage/route.ts
+@@ -59,7 +59,7 @@ export async function POST(request: Request) {
+       ["active", "trialing", "past_due", "paused"]
+         .includes(subscription.status);
+ 
+-    if (action === "cancel" && (!canCancelImmediately || subscription.scheduled_cancel_at)) {
++    if (action === "cancel" && (!canCancelImmediately)) {
+       throw new BackendError(
+         409,
+         "cancellation_unavailable",
+diff --git a/app/api/billing/subscription/route.ts b/app/api/billing/subscription/route.ts
+index ba9da29..ceac64b 100644
+--- a/app/api/billing/subscription/route.ts
++++ b/app/api/billing/subscription/route.ts
+@@ -7,7 +7,7 @@ import { requireStudioBillingOwner } from "@/lib/backend/paddle-billing";
+ 
+ export async function GET() {
+   try {
+-    const { supabase, studioId } = await requireStudioBillingOwner();
++    const { supabase, studioId, user } = await requireStudioBillingOwner();
+     const { data, error } = await supabase
+       .from("subscriptions")
+       .select("status, price_id, current_period_start, current_period_end, scheduled_cancel_at")
+@@ -35,6 +35,7 @@ export async function GET() {
+ 
+     return NextResponse.json(
+       {
++        email: user.email ?? null,
+         status: data?.status ?? "inactive",
+         billing,
+         currentPeriodStart: data?.current_period_start ?? null,
+diff --git a/app/api/client-links/route.ts b/app/api/client-links/route.ts
+index 403d6b0..455664b 100644
+--- a/app/api/client-links/route.ts
++++ b/app/api/client-links/route.ts
+@@ -4,7 +4,7 @@ import {
+ 
+ import {
+   backendErrorResponse,
+-  BackendError,
++  BackendError, requireSameOrigin,
+ } from "@/lib/backend/errors";
+ 
+ import {
+@@ -28,6 +28,7 @@ export async function POST(
+   request: Request,
+ ) {
+   try {
++    requireSameOrigin(request);
+     const {
+       appointmentId,
+     } =
+diff --git a/app/api/clients/route.ts b/app/api/clients/route.ts
+index 026c76f..4ef9421 100644
+--- a/app/api/clients/route.ts
++++ b/app/api/clients/route.ts
+@@ -7,7 +7,7 @@ import {
+ 
+ import {
+   backendErrorResponse,
+-  BackendError,
++  BackendError, requireSameOrigin,
+ } from "@/lib/backend/errors";
+ 
+ import {
+@@ -229,6 +229,7 @@ export async function GET() {
+ 
+ export async function POST(request: Request) {
+   try {
++    requireSameOrigin(request);
+     const body =
+       newClientInputSchema.parse(
+         await request.json(),
+diff --git a/app/api/studio/route.ts b/app/api/studio/route.ts
+index 8358c6c..76974cd 100644
+--- a/app/api/studio/route.ts
++++ b/app/api/studio/route.ts
+@@ -2,13 +2,12 @@ import { NextResponse } from "next/server";
+ 
+ import {
+   backendErrorResponse,
+-  BackendError,
++  BackendError, requireSameOrigin, readJsonBody,
+ } from "@/lib/backend/errors";
+-import { studioSettingsSchema } from "@/lib/backend/schemas";
++import { studioConfigurationSchema } from "@/lib/backend/schemas";
+ import { requireStudioContext } from "@/lib/backend/studio-context";
+ import { isExperienceModuleId } from "@/lib/experience-options";
+ import {
+-  getServiceCategory,
+   isServiceCategoryId,
+ } from "@/lib/service-categories";
+ import {
+@@ -37,7 +36,7 @@ export async function GET() {
+       supabase
+         .from("studio_settings")
+         .select(
+-          "primary_colour, theme_name, theme_config, experience_modules",
++          "primary_colour, theme_name, theme_config, experience_modules, availability",
+         )
+         .eq("studio_id", studioId)
+         .maybeSingle(),
+@@ -119,6 +118,8 @@ export async function GET() {
+       theme,
+       customPrimary,
+       experienceSelections,
++      availability: settings?.availability ?? {},
++      notifications: themeConfig.notifications ?? {},
+     });
+   } catch (error) {
+     return backendErrorResponse(error);
+@@ -127,183 +128,17 @@ export async function GET() {
+ 
+ export async function PUT(request: Request) {
+   try {
+-    const body = studioSettingsSchema.parse(
+-      await request.json(),
+-    );
+-
+-    const {
+-      supabase,
+-      studioId,
+-    } = await requireStudioContext();
+-
+-    const resolvedTheme =
+-      resolveClientTheme(
+-        body.theme,
+-        body.customPrimary,
+-      );
+-
+-    const {
+-      error: studioError,
+-    } = await supabase
+-      .from("studios")
+-      .update({
+-        name: body.studioName,
+-        timezone: body.timezone,
+-      })
+-      .eq("id", studioId);
+-
+-    if (studioError) {
+-      throw new BackendError(
+-        500,
+-        "studio_update_failed",
+-        "Unable to update your Studio.",
+-      );
+-    }
+-
+-    const {
+-      error: settingsError,
+-    } = await supabase
+-      .from("studio_settings")
+-      .upsert({
+-        studio_id: studioId,
+-        primary_colour:
+-          resolvedTheme.primary,
+-        theme_name: body.theme,
+-        theme_config: {
+-          customPrimary:
+-            body.customPrimary,
+-        },
+-        experience_modules:
+-          body.experienceSelections,
+-      });
+-
+-    if (settingsError) {
+-      throw new BackendError(
+-        500,
+-        "studio_settings_update_failed",
+-        "Unable to save Studio settings.",
+-      );
+-    }
+-
+-    const {
+-      data: existingServices,
+-      error: servicesLoadError,
+-    } = await supabase
+-      .from("services")
+-      .select("id, category")
+-      .eq("studio_id", studioId);
+-
+-    if (servicesLoadError) {
+-      throw new BackendError(
+-        500,
+-        "service_load_failed",
+-        "Unable to update Studio services.",
+-      );
+-    }
+-
+-    const selected =
+-      new Set(body.services);
+-
+-    for (
+-      const service of
+-      existingServices ?? []
+-    ) {
+-      if (
+-        !isServiceCategoryId(
+-          service.category,
+-        )
+-      ) {
+-        continue;
+-      }
+-
+-      const {
+-        error,
+-      } = await supabase
+-        .from("services")
+-        .update({
+-          active:
+-            selected.has(
+-              service.category,
+-            ),
+-        })
+-        .eq("id", service.id)
+-        .eq(
+-          "studio_id",
+-          studioId,
+-        );
+-
+-      if (error) {
+-        throw new BackendError(
+-          500,
+-          "service_update_failed",
+-          "Unable to update Studio services.",
+-        );
+-      }
+-    }
+-
+-    const existingCategories =
+-      new Set(
+-        (
+-          existingServices ?? []
+-        )
+-          .map(
+-            (service) =>
+-              service.category,
+-          )
+-          .filter(
+-            isServiceCategoryId,
+-          ),
+-      );
+-
+-    const missing =
+-      body.services.filter(
+-        (category) =>
+-          !existingCategories.has(
+-            category,
+-          ),
+-      );
+-
+-    if (missing.length > 0) {
+-      const {
+-        error,
+-      } = await supabase
+-        .from("services")
+-        .insert(
+-          missing.map(
+-            (
+-              categoryId,
+-              index,
+-            ) => ({
+-              studio_id:
+-                studioId,
+-              name:
+-                getServiceCategory(
+-                  categoryId,
+-                )?.name ??
+-                categoryId,
+-              category:
+-                categoryId,
+-              active: true,
+-              sort_order:
+-                existingCategories.size +
+-                index,
+-            }),
+-          ),
+-        );
+-
+-      if (error) {
+-        throw new BackendError(
+-          500,
+-          "service_create_failed",
+-          "Unable to save Studio services.",
+-        );
+-      }
+-    }
+-
+-    return NextResponse.json({
+-      saved: true,
++    requireSameOrigin(request);
++    const body = studioConfigurationSchema.parse(await readJsonBody(request));
++    const { supabase, studioId } = await requireStudioContext();
++    const resolvedTheme = resolveClientTheme(body.theme, body.customPrimary);
++    const { error } = await supabase.rpc("save_studio_configuration", {
++      p_studio_id: studioId, p_name: body.studioName, p_timezone: body.timezone,
++      p_theme: body.theme, p_primary: resolvedTheme.primary, p_custom_primary: body.customPrimary,
++      p_modules: body.experienceSelections, p_services: body.services,
++      p_availability: body.availability ?? null, p_notifications: body.notifications ?? null,
+     });
+-  } catch (error) {
+-    return backendErrorResponse(error);
+-  }
++    if (error) throw new BackendError(500, "studio_update_failed", "Unable to save your Studio. Your changes have not been saved.");
++    return NextResponse.json({ saved: true }, { headers: { "Cache-Control": "no-store" } });
++  } catch (error) { return backendErrorResponse(error); }
+ }
+diff --git a/app/api/test-reset/route.ts b/app/api/test-reset/route.ts
+index f41ca15..8f90f6f 100644
+--- a/app/api/test-reset/route.ts
++++ b/app/api/test-reset/route.ts
+@@ -1,6 +1,9 @@
+ import { createClient } from "@/lib/supabase/server";
+ 
+ export async function GET() {
++  if (process.env.NODE_ENV === "production") {
++    return new Response("Not found", { status: 404 });
++  }
+   try {
+     const supabase = await createClient();
+     await supabase.auth.signOut();
+diff --git a/app/api/webhooks/paddle/route.ts b/app/api/webhooks/paddle/route.ts
+index 78a87fd..746ab57 100644
+--- a/app/api/webhooks/paddle/route.ts
++++ b/app/api/webhooks/paddle/route.ts
+@@ -1,3 +1,4 @@
++import { paddleSubscriptionEvents } from "@/lib/billing/checkout-events";
+ import { NextResponse } from "next/server";
+ 
+ import {
+@@ -66,11 +67,7 @@ export async function POST(request: Request) {
+       throw new BackendError(400, "invalid_webhook", "The Paddle webhook event is incomplete.");
+     }
+ 
+-    if (![
+-      "subscription.created",
+-      "subscription.updated",
+-      "subscription.canceled",
+-    ].includes(eventType)) {
++    if (!(paddleSubscriptionEvents as readonly string[]).includes(eventType)) {
+       return NextResponse.json({ received: true, ignored: true });
+     }
+ 
+@@ -131,6 +128,23 @@ export async function POST(request: Request) {
+       throw new BackendError(403, "subscription_account_mismatch", "Paddle subscription account association does not match.");
+     }
+ 
++    let reservedPriceId: string | null = null;
++    if (!existing) {
++      if (!isPaddleCustomDataForAccount(data.custom_data, studioId, userId)) {
++        throw new BackendError(403, "subscription_account_mismatch", "Paddle subscription account association does not match.");
++      }
++      const { data: attempt, error: attemptError } = await admin
++        .from("paddle_checkout_attempts")
++        .select("checkout_attempt_id, price_id")
++        .eq("studio_id", studioId)
++        .maybeSingle();
++      if (attemptError) throw new BackendError(500, "checkout_lookup_failed", "Unable to verify the checkout association.");
++      reservedPriceId = attempt?.price_id ?? null;
++      if (!attempt || attempt.checkout_attempt_id !== customData?.checkout_attempt_id) {
++        throw new BackendError(403, "checkout_account_mismatch", "The subscription does not match a server-reserved checkout.");
++      }
++    }
++
+     const items = Array.isArray(data.items) ? data.items : [];
+     const firstItem = record(items[0]);
+     const price = record(firstItem?.price);
+@@ -139,6 +153,10 @@ export async function POST(request: Request) {
+       throw new BackendError(400, "subscription_price_missing", "Paddle subscription has no recognized price.");
+     }
+ 
++    if (reservedPriceId && priceId !== reservedPriceId) {
++      throw new BackendError(403, "checkout_price_mismatch", "The subscription price does not match the reserved checkout.");
++    }
++
+     const configuredPrice =
+       priceId === config.priceIds.monthly || priceId === config.priceIds.annual;
+     if (!configuredPrice) {
+diff --git a/app/route.ts b/app/route.ts
+index bbe4195..a9fdc84 100644
+--- a/app/route.ts
++++ b/app/route.ts
+@@ -1,3 +1,4 @@
++import { loadLockedStudioRows } from "@/lib/backend/locked-studio-state";
+ import { readFile } from "node:fs/promises";
+ import path from "node:path";
+ 
+@@ -74,6 +75,7 @@ async function getAuthenticatedShellState() {
+     }
+   }
+ 
++  let persistedData = { clients: [] as unknown[], beautyPacks: [] as unknown[], visits: [] as unknown[] };
+   let studio = null;
+   let settings = null;
+   let services: string[] = [];
+@@ -93,7 +95,7 @@ async function getAuthenticatedShellState() {
+         .single(),
+       supabase
+         .from("studio_settings")
+-        .select("primary_colour, theme_name, theme_config, experience_modules")
++        .select("primary_colour, theme_name, theme_config, experience_modules, availability")
+         .eq("studio_id", membership.studio_id)
+         .maybeSingle(),
+       supabase
+@@ -137,6 +139,9 @@ async function getAuthenticatedShellState() {
+       subscriptionResult.data?.status,
+       subscriptionResult.data?.current_period_end,
+     );
++    if (["active", "trialing"].includes(subscriptionStatus)) {
++      persistedData = await loadLockedStudioRows(supabase, membership.studio_id);
++    }
+   }
+ 
+   const theme = isThemeName(settings?.theme_name)
+@@ -194,6 +199,9 @@ async function getAuthenticatedShellState() {
+       email: user.email ?? "",
+       terms: true,
+     },
++    availability: settings?.availability ?? {},
++    notifications: themeConfig.notifications ?? {},
++    persistedData,
+     hasStudio: Boolean(membership),
+     subscriptionStatus,
+   };
+@@ -252,16 +260,16 @@ export async function GET(request: Request) {
+           tab: restoreSupportSettings ? "support" : "account",
+           subscriptionStatus:
+             authenticatedState.subscriptionStatus ?? "inactive",
++          notifications: authenticatedState.notifications,
+           availability: {
++            ...(authenticatedState.availability as Record<string, unknown>),
+             timezone: authenticatedState.studio.timezone,
+           },
+         },
+         billing: "monthly",
+         appPage: restoreSupportSettings ? "settings" : "home",
+         scheduleView: "today",
+-        clients: [],
+-        beautyPacks: [],
+-        visits: [],
++        ...authenticatedState.persistedData,
+         activeClientId: null,
+         clientLinkToken: "",
+         clientPortal: {
+diff --git a/lib/auth/locked-shell.ts b/lib/auth/locked-shell.ts
+index 02b910b..6fb5473 100644
+--- a/lib/auth/locked-shell.ts
++++ b/lib/auth/locked-shell.ts
+@@ -87,7 +87,8 @@ export function renderLockedShellDocument(
+       : `${authPrelude}\n${html}`;
+   const bridgeScript =
+     '<script src="/rovei-backend-bridge.js"></script>\n' +
+-    '<script src="/rovei-billing-cancellation.js"></script>';
++    '<script src="/rovei-billing-cancellation.js"></script>\n' +
++    '<script src="/rovei-studio-persistence.js"></script>';
+   const closingBodyIndex = hydratedHtml.lastIndexOf("</body>");
+ 
+   return closingBodyIndex >= 0
+diff --git a/lib/backend/locked-studio-state.ts b/lib/backend/locked-studio-state.ts
+new file mode 100644
+index 0000000..4d45479
+--- /dev/null
++++ b/lib/backend/locked-studio-state.ts
+@@ -0,0 +1,74 @@
++import type { SupabaseClient } from "@supabase/supabase-js";
++
++type ClientRow = { id: string; first_name: string; last_name: string | null; created_at: string };
++type AppointmentRow = { id: string; client_id: string; service_id: string | null; starts_at: string; timezone: string; status: string; readiness_status: string };
++type ExperienceRow = { id: string; client_id: string; experience_modules: unknown; created_at: string };
++type ResponseRow = { client_experience_id: string; module_type: string; payload: Record<string, unknown> };
++type PackRow = { id: string; name: string; service_category: string };
++type ModuleRow = { beauty_pack_id: string; module_type: string; sort_order: number };
++type VisitRow = { id: string; client_id: string; summary: string | null; created_at: string };
++export type LockedStudioRows = {
++  clients: ClientRow[]; appointments: AppointmentRow[]; experiences: ExperienceRow[];
++  responses: ResponseRow[]; packs: PackRow[]; modules: ModuleRow[]; visits: VisitRow[];
++  services: { id: string; category: string | null }[];
++};
++
++function localParts(value: string, timezone: string) {
++  const parts = new Intl.DateTimeFormat("en-CA", {
++    timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit",
++    hour: "2-digit", minute: "2-digit", hourCycle: "h23",
++  }).formatToParts(new Date(value));
++  const part = (name: string) => parts.find((p) => p.type === name)?.value ?? "";
++  return { date: `${part("year")}-${part("month")}-${part("day")}`, time: `${part("hour")}:${part("minute")}` };
++}
++
++export function adaptLockedStudioRows(rows: LockedStudioRows, now = Date.now()) {
++  return {
++    clients: rows.clients.map((client) => {
++      const appointments = rows.appointments.filter((a) => a.client_id === client.id && a.status !== "cancelled").sort((a,b)=>Date.parse(a.starts_at)-Date.parse(b.starts_at));
++      const appointment = appointments.find((a) => a.status === "scheduled" && Date.parse(a.starts_at) >= now) ?? appointments.at(-1);
++      const experience = rows.experiences.filter((e) => e.client_id === client.id).sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at))[0];
++      const answers = Object.fromEntries(rows.responses.filter((r)=>r.client_experience_id===experience?.id).map((r)=>[r.module_type,r.payload]));
++      const local = appointment ? localParts(appointment.starts_at,appointment.timezone || "UTC") : {date:"",time:""};
++      return {
++        id:client.id, firstName:client.first_name, lastName:client.last_name ?? "",
++        service:rows.services.find((s)=>s.id===appointment?.service_id)?.category ?? "other",
++        appointmentId:appointment?.id ?? null, appointmentDate:local.date, appointmentTime:local.time,
++        status:appointment?.status === "completed" ? "COMPLETE" : (appointment?.readiness_status ?? "draft").toUpperCase(),
++        modules:Array.isArray(experience?.experience_modules) ? experience.experience_modules : [],
++        response:{consultation:answers.consultation?.goal ?? "",finish:answers.preferences?.finish ?? "",feel:answers.preferences?.appointmentFeel ?? "",consent:answers.consent?.acknowledged === true,prep:answers.prep?.acknowledged === true},
++        source:"client-record",createdAt:client.created_at,
++      };
++    }),
++    beautyPacks:rows.packs.map((p)=>({id:p.id,name:p.name,service:p.service_category,modules:rows.modules.filter((m)=>m.beauty_pack_id===p.id).sort((a,b)=>a.sort_order-b.sort_order).map((m)=>m.module_type)})),
++    visits:rows.visits.map((v)=>({id:v.id,clientId:v.client_id,summary:v.summary ?? "",date:localParts(v.created_at,"UTC").date})),
++  };
++}
++
++export async function loadLockedStudioRows(supabase: SupabaseClient, studioId: string) {
++  const specs = [
++    ["clients","id, first_name, last_name, created_at"],
++    ["appointments","id, client_id, service_id, starts_at, timezone, status, readiness_status"],
++    ["client_experiences","id, client_id, experience_modules, created_at"],
++    ["client_experience_responses","client_experience_id, module_type, payload"],
++    ["beauty_packs","id, name, service_category"],
++    ["beauty_pack_modules","beauty_pack_id, module_type, sort_order"],
++    ["visit_memories","id, client_id, summary, created_at"],
++    ["services","id, category"],
++  ];
++  const results = await Promise.all(specs.map(async ([table,columns]) => {
++    const records: unknown[] = [];
++    // Supabase's default row cap is 1000: page explicitly and keep a stable order.
++    for (let page=0; page<100; page++) {
++      let query=supabase.from(table).select(columns).eq("studio_id",studioId).order("id").range(page*500,page*500+499);
++      if (table === "beauty_packs") query=query.eq("active",true);
++      const {data,error}=await query;
++      if(error) throw new Error(`Unable to restore Studio ${table}.`);
++      records.push(...(data ?? []));
++      if(!data || data.length<500) return records;
++    }
++    throw new Error("Studio restoration exceeded the supported record limit.");
++  }));
++  const [clients,appointments,experiences,responses,packs,modules,visits,services]=results;
++  return adaptLockedStudioRows({clients,appointments,experiences,responses,packs,modules,visits,services} as LockedStudioRows);
++}
+diff --git a/lib/backend/paddle-api.ts b/lib/backend/paddle-api.ts
+index c0021ad..07384ef 100644
+--- a/lib/backend/paddle-api.ts
++++ b/lib/backend/paddle-api.ts
+@@ -34,6 +34,7 @@ export async function paddleApiRequest(
+     },
+     ...(options.body ? { body: JSON.stringify(options.body) } : {}),
+     cache: "no-store",
++    signal: AbortSignal.timeout(15_000),
+   });
+ 
+   const responseText = await response.text();
+diff --git a/lib/backend/schemas.ts b/lib/backend/schemas.ts
+index fa7c819..6cc8929 100644
+--- a/lib/backend/schemas.ts
++++ b/lib/backend/schemas.ts
+@@ -86,7 +86,7 @@ export const beautyPackInputSchema = z.object({
+ 
+   modules: z
+     .array(experienceModuleSchema)
+-    .min(1),
++    .min(1).max(6).refine((values) => new Set(values).size === values.length),
+ });
+ 
+ export const newClientInputSchema = z.object({
+@@ -122,3 +122,13 @@ export const appointmentStatusSchema = z.object({
+     "cancelled",
+   ]),
+ });
++
++export const studioConfigurationSchema = studioSettingsSchema.extend({
++  availability: z.object({
++    days: z.object({mon:z.boolean(),tue:z.boolean(),wed:z.boolean(),thu:z.boolean(),fri:z.boolean(),sat:z.boolean(),sun:z.boolean()}),
++    start:z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/),
++    end:z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/),
++    buffer:z.enum(["0","10","15","30","45"]), timezone:timezoneSchema,
++  }).refine(value=>value.start<value.end,"Working hours must end after they start.").optional(),
++  notifications:z.object({newSubmission:z.boolean(),intakeComplete:z.boolean(),appointmentReminder:z.boolean(),cancellation:z.boolean()}).optional(),
++});
+diff --git a/lib/backend/subscription-access.ts b/lib/backend/subscription-access.ts
+index 95da3d2..a8939da 100644
+--- a/lib/backend/subscription-access.ts
++++ b/lib/backend/subscription-access.ts
+@@ -9,7 +9,7 @@ export function hasActiveSubscription(
+     return false;
+   }
+ 
+-  if (!currentPeriodEnd) return true;
++  if (!currentPeriodEnd) return false;
+ 
+   const endTime = Date.parse(currentPeriodEnd);
+   return Number.isFinite(endTime) && endTime > now;
+diff --git a/lib/billing/checkout-events.ts b/lib/billing/checkout-events.ts
+new file mode 100644
+index 0000000..dc824b4
+--- /dev/null
++++ b/lib/billing/checkout-events.ts
+@@ -0,0 +1,64 @@
++export type CheckoutTotals = {
++  currency: string;
++  subtotal: number;
++  tax: number;
++  total: number;
++  discount: number;
++  recurringTotal: number | null;
++};
++
++function record(value: unknown): Record<string, unknown> | null {
++  return value && typeof value === "object" && !Array.isArray(value)
++    ? value as Record<string, unknown> : null;
++}
++
++// Paddle.js event amounts are in major currency units. Never substitute USD
++// catalog prices for a localized total or infer a customer's tax rate.
++export function readCheckoutTotals(value: unknown): CheckoutTotals | null {
++  const data = record(value);
++  const totals = record(data?.totals);
++  const recurring = record(data?.recurring_totals);
++  if (!data || !totals || typeof data.currency_code !== "string" ||
++      !/^[A-Z]{3}$/.test(data.currency_code)) return null;
++  for (const field of ["subtotal", "tax", "total", "discount"]) {
++    if (typeof totals[field] !== "number" || !Number.isFinite(totals[field]) ||
++        (totals[field] as number) < 0) return null;
++  }
++  const due = totals.balance ?? totals.total;
++  if (typeof due !== "number" || !Number.isFinite(due) || due < 0) return null;
++  const renewal = recurring?.total;
++  return {
++    currency: data.currency_code,
++    subtotal: totals.subtotal as number,
++    tax: totals.tax as number,
++    total: due,
++    discount: totals.discount as number,
++    recurringTotal: typeof renewal === "number" && Number.isFinite(renewal) && renewal >= 0
++      ? renewal : null,
++  };
++}
++
++export function formatCheckoutAmount(amount: number, currency: string) {
++  return new Intl.NumberFormat("en", { style: "currency", currency }).format(amount);
++}
++
++export function validateRoveiPrices(monthly: unknown, annual: unknown) {
++  const month = record(record(monthly)?.data);
++  const year = record(record(annual)?.data);
++  if (!month || !year || typeof month.product_id !== "string" ||
++      month.product_id !== year.product_id) return false;
++  return [[month, "month", "12900"], [year, "year", "129000"]].every(([raw, interval, amount]) => {
++    const price = raw as Record<string, unknown>;
++    const cycle = record(price.billing_cycle);
++    const unit = record(price.unit_price);
++    return price.status === "active" && price.trial_period === null &&
++      cycle?.interval === interval && cycle.frequency === 1 &&
++      unit?.currency_code === "USD" && unit.amount === amount;
++  });
++}
++
++export const paddleSubscriptionEvents = [
++  "subscription.created", "subscription.updated", "subscription.canceled",
++  "subscription.activated", "subscription.trialing", "subscription.past_due",
++  "subscription.paused", "subscription.resumed",
++] as const;
+diff --git a/package-lock.json b/package-lock.json
+index e66eafd..d18263a 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -20,12 +20,15 @@
+         "zod": "^4.6.5"
+       },
+       "devDependencies": {
++        "@electric-sql/pglite": "0.5.10",
++        "@playwright/test": "1.64.1",
+         "@tailwindcss/postcss": "^4.1.0",
+         "@types/node": "^22.10.0",
+         "@types/react": "^19.0.0",
+         "@types/react-dom": "^19.0.0",
+         "eslint": "^9.0.0",
+         "eslint-config-next": "^16.0.0",
++        "jsdom": "30.1.2",
+         "postcss": "^8.4.0",
+         "tailwindcss": "^4.1.0",
+         "typescript": "^5.7.0"
+@@ -44,6 +47,59 @@
+         "url": "https://github.com/sponsors/sindresorhus"
+       }
+     },
++    "node_modules/@asamuzakjp/css-color": {
++      "version": "7.1.5",
++      "resolved": "https://registry.npmjs.org/@asamuzakjp/css-color/-/css-color-7.1.5.tgz",
++      "integrity": "sha512-jCpAvj8apa7SKHZYogk0rbXB3Kb0hLFrpkWF+Ap+vBA5rirItnpv9NKyAyEuDuFizvl0qwnj6JWR70RGJ0rOlw==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "@csstools/css-calc": "^3.4.3",
++        "@csstools/css-color-parser": "^4.2.6",
++        "@csstools/css-parser-algorithms": "^4.0.2",
++        "@csstools/css-tokenizer": "^4.0.2",
++        "lru-cache": "^11.5.3"
++      },
++      "engines": {
++        "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
++      }
++    },
++    "node_modules/@asamuzakjp/css-color/node_modules/lru-cache": {
++      "version": "11.5.3",
++      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-11.5.3.tgz",
++      "integrity": "sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==",
++      "dev": true,
++      "license": "BlueOak-1.0.0",
++      "engines": {
++        "node": "20 || >=22"
++      }
++    },
++    "node_modules/@asamuzakjp/dom-selector": {
++      "version": "9.2.4",
++      "resolved": "https://registry.npmjs.org/@asamuzakjp/dom-selector/-/dom-selector-9.2.4.tgz",
++      "integrity": "sha512-YnVzxDxLaqL0t7Q4wfcgHZjg55Wm6y5EaO7Bhu3q9J7wq/8iw3PhsnWiOQhYekx4VexnbkgWpTT6n+QIV7kczw==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "bidi-js": "^1.1.0",
++        "css-tree": "^3.2.1",
++        "is-potential-custom-element-name": "^1.0.1",
++        "lru-cache": "^11.5.3"
++      },
++      "engines": {
++        "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
++      }
++    },
++    "node_modules/@asamuzakjp/dom-selector/node_modules/lru-cache": {
++      "version": "11.5.3",
++      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-11.5.3.tgz",
++      "integrity": "sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==",
++      "dev": true,
++      "license": "BlueOak-1.0.0",
++      "engines": {
++        "node": "20 || >=22"
++      }
++    },
+     "node_modules/@babel/code-frame": {
+       "version": "7.29.7",
+       "resolved": "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.29.7.tgz",
+@@ -284,6 +340,166 @@
+         "node": ">=6.9.0"
+       }
+     },
++    "node_modules/@bramus/specificity": {
++      "version": "2.4.3",
++      "resolved": "https://registry.npmjs.org/@bramus/specificity/-/specificity-2.4.3.tgz",
++      "integrity": "sha512-0GEz8qJWokkUVYQYRukmkSHIFNoBH8QTreeHrAFbvz1XFYc3Y+puhMs8PQ5x8GNugiC2l5jvDBXKLbBIByeSBw==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "css-tree": "^3.2.1"
++      },
++      "bin": {
++        "specificity": "bin/cli.js"
++      }
++    },
++    "node_modules/@csstools/color-helpers": {
++      "version": "6.1.2",
++      "resolved": "https://registry.npmjs.org/@csstools/color-helpers/-/color-helpers-6.1.2.tgz",
++      "integrity": "sha512-grhRy3OKmniaAEKXMjua5z/EODX0MSqBGjunw8+j/3HQjOnahs2AGhvEOIYVUWcU6ScApbhLhVrQTX8XqrMrow==",
++      "dev": true,
++      "funding": [
++        {
++          "type": "github",
++          "url": "https://github.com/sponsors/csstools"
++        },
++        {
++          "type": "opencollective",
++          "url": "https://opencollective.com/csstools"
++        }
++      ],
++      "license": "MIT-0",
++      "engines": {
++        "node": ">=20.19.0"
++      }
++    },
++    "node_modules/@csstools/css-calc": {
++      "version": "3.4.3",
++      "resolved": "https://registry.npmjs.org/@csstools/css-calc/-/css-calc-3.4.3.tgz",
++      "integrity": "sha512-iex20d8CHVkyvg6B7UKV7uHnI2Bqo9g+EFfT9E0y+GvTvhZ/DwONJ+9aKb1dlqm0ZiGsL5RXjp0fCoJYnkeDjA==",
++      "dev": true,
++      "funding": [
++        {
++          "type": "github",
++          "url": "https://github.com/sponsors/csstools"
++        },
++        {
++          "type": "opencollective",
++          "url": "https://opencollective.com/csstools"
++        }
++      ],
++      "license": "MIT",
++      "engines": {
++        "node": ">=20.19.0"
++      },
++      "peerDependencies": {
++        "@csstools/css-parser-algorithms": "^4.0.2",
++        "@csstools/css-tokenizer": "^4.0.2"
++      }
++    },
++    "node_modules/@csstools/css-color-parser": {
++      "version": "4.2.6",
++      "resolved": "https://registry.npmjs.org/@csstools/css-color-parser/-/css-color-parser-4.2.6.tgz",
++      "integrity": "sha512-iiPQ3iRWwnJkeEn6RIu6SJPr7hYrLz6XZ9s/QZl+2/LI5KQVjpl2fdmDSZKuD4xP6GMmMPgHFFXg6k1Wkz0Trg==",
++      "dev": true,
++      "funding": [
++        {
++          "type": "github",
++          "url": "https://github.com/sponsors/csstools"
++        },
++        {
++          "type": "opencollective",
++          "url": "https://opencollective.com/csstools"
++        }
++      ],
++      "license": "MIT",
++      "dependencies": {
++        "@csstools/color-helpers": "^6.1.2",
++        "@csstools/css-calc": "^3.4.3"
++      },
++      "engines": {
++        "node": ">=20.19.0"
++      },
++      "peerDependencies": {
++        "@csstools/css-parser-algorithms": "^4.0.2",
++        "@csstools/css-tokenizer": "^4.0.2"
++      }
++    },
++    "node_modules/@csstools/css-parser-algorithms": {
++      "version": "4.0.2",
++      "resolved": "https://registry.npmjs.org/@csstools/css-parser-algorithms/-/css-parser-algorithms-4.0.2.tgz",
++      "integrity": "sha512-40cSKyMvK+tq4qz6Awrlye2WGuOKt3FwPgtGg6KTfbHOWNw+Rk1rzbAtZnZ6IBhsY491HLRnDXwoyBAijmmILA==",
++      "dev": true,
++      "funding": [
++        {
++          "type": "github",
++          "url": "https://github.com/sponsors/csstools"
++        },
++        {
++          "type": "opencollective",
++          "url": "https://opencollective.com/csstools"
++        }
++      ],
++      "license": "MIT",
++      "engines": {
++        "node": ">=20.19.0"
++      },
++      "peerDependencies": {
++        "@csstools/css-tokenizer": "^4.0.2"
++      }
++    },
++    "node_modules/@csstools/css-syntax-patches-for-csstree": {
++      "version": "1.1.15",
++      "resolved": "https://registry.npmjs.org/@csstools/css-syntax-patches-for-csstree/-/css-syntax-patches-for-csstree-1.1.15.tgz",
++      "integrity": "sha512-J0u7HkVl2nzSlhsiTOp4AmwcUQ3D+mGEEKfBy/7To5/y7F2OHwyLrXfrhR0SMgr4p5Lo+eaMVSeai24zUcBIxA==",
++      "dev": true,
++      "funding": [
++        {
++          "type": "github",
++          "url": "https://github.com/sponsors/csstools"
++        },
++        {
++          "type": "opencollective",
++          "url": "https://opencollective.com/csstools"
++        }
++      ],
++      "license": "MIT-0",
++      "peerDependencies": {
++        "css-tree": "^3.2.1"
++      },
++      "peerDependenciesMeta": {
++        "css-tree": {
++          "optional": true
++        }
++      }
++    },
++    "node_modules/@csstools/css-tokenizer": {
++      "version": "4.0.2",
++      "resolved": "https://registry.npmjs.org/@csstools/css-tokenizer/-/css-tokenizer-4.0.2.tgz",
++      "integrity": "sha512-OoKoR0f76dCY666JlcbhmVTs2drYj1GUXZTYTcbUgJjh9Nv41aFfZ21bPQTERm5+L5cBDo466NltB2lplS5GBw==",
++      "dev": true,
++      "funding": [
++        {
++          "type": "github",
++          "url": "https://github.com/sponsors/csstools"
++        },
++        {
++          "type": "opencollective",
++          "url": "https://opencollective.com/csstools"
++        }
++      ],
++      "license": "MIT",
++      "engines": {
++        "node": ">=20.19.0"
++      }
++    },
++    "node_modules/@electric-sql/pglite": {
++      "version": "0.5.10",
++      "resolved": "https://registry.npmjs.org/@electric-sql/pglite/-/pglite-0.5.10.tgz",
++      "integrity": "sha512-tXc/25U3ulOkiRQuTFdwIv+JhBqtMdAF7Gvo6CfZZWtSB4+hgC4Wr2vwK5ngvvN5PJfAAEGIsfyCVy1JhCOBYw==",
++      "dev": true,
++      "license": "Apache-2.0"
++    },
+     "node_modules/@emnapi/core": {
+       "version": "1.10.0",
+       "resolved": "https://registry.npmjs.org/@emnapi/core/-/core-1.10.0.tgz",
+@@ -461,6 +677,24 @@
+         "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+       }
+     },
++    "node_modules/@exodus/bytes": {
++      "version": "1.16.0",
++      "resolved": "https://registry.npmjs.org/@exodus/bytes/-/bytes-1.16.0.tgz",
++      "integrity": "sha512-IcpW84uEn3N7ETtNZMlxKhfl6Pec8rUNGOTBtWbK1FKhJxIFAptZyVrvVRVBimAJxJCgc3PxepxkdWWG4DVzfA==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
++      },
++      "peerDependencies": {
++        "@noble/hashes": "^1.8.0 || ^2.0.0"
++      },
++      "peerDependenciesMeta": {
++        "@noble/hashes": {
++          "optional": true
++        }
++      }
++    },
+     "node_modules/@humanfs/core": {
+       "version": "0.19.2",
+       "resolved": "https://registry.npmjs.org/@humanfs/core/-/core-0.19.2.tgz",
+@@ -1324,6 +1558,22 @@
+         "node": ">=12.4.0"
+       }
+     },
++    "node_modules/@playwright/test": {
++      "version": "1.64.1",
++      "resolved": "https://registry.npmjs.org/@playwright/test/-/test-1.64.1.tgz",
++      "integrity": "sha512-IaYGml/nSOiZWROfPtuIL7neuu9qDOZ3TNvNljUIrhDMxiGTgPjzj/g9p9RxpS2tSepPDRY+UwAaEeiKtUvIAg==",
++      "devOptional": true,
++      "license": "Apache-2.0",
++      "dependencies": {
++        "playwright": "1.64.1"
++      },
++      "bin": {
++        "playwright": "cli.js"
++      },
++      "engines": {
++        "node": ">=20"
++      }
++    },
+     "node_modules/@rtsao/scc": {
+       "version": "1.1.0",
+       "resolved": "https://registry.npmjs.org/@rtsao/scc/-/scc-1.1.0.tgz",
+@@ -2701,6 +2951,16 @@
+         "node": ">=6.0.0"
+       }
+     },
++    "node_modules/bidi-js": {
++      "version": "1.1.0",
++      "resolved": "https://registry.npmjs.org/bidi-js/-/bidi-js-1.1.0.tgz",
++      "integrity": "sha512-fX1Onk0tdVPC7obPWB5EbJ1z7NVhLq4m2xZLq2YXBkxzMXIGRpNMU88n0EPgWseKl12J7zXs7qrDxPK4sRs2fg==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "require-from-string": "^2.0.2"
++      }
++    },
+     "node_modules/brace-expansion": {
+       "version": "1.1.21",
+       "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.21.tgz",
+@@ -2924,6 +3184,20 @@
+         "node": ">= 8"
+       }
+     },
++    "node_modules/css-tree": {
++      "version": "3.2.1",
++      "resolved": "https://registry.npmjs.org/css-tree/-/css-tree-3.2.1.tgz",
++      "integrity": "sha512-X7sjQzceUhu1u7Y/ylrRZFU2FS6LRiFVp6rKLPg23y3x3c3DOKAwuXGDp+PAGjh6CSnCjYeAul8pcT8bAl+lSA==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "mdn-data": "2.27.1",
++        "source-map-js": "^1.2.1"
++      },
++      "engines": {
++        "node": "^10 || ^12.20.0 || ^14.13.0 || >=15.0.0"
++      }
++    },
+     "node_modules/csstype": {
+       "version": "3.2.3",
+       "resolved": "https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz",
+@@ -2938,6 +3212,20 @@
+       "dev": true,
+       "license": "BSD-2-Clause"
+     },
++    "node_modules/data-urls": {
++      "version": "8.0.0",
++      "resolved": "https://registry.npmjs.org/data-urls/-/data-urls-8.0.0.tgz",
++      "integrity": "sha512-JQUCCK+/CAGbGGx618PlFZMXH81Jtj7t73CHv9dd/zVWvxgGT2zLFRjnKb+Ng46GIwcy+f7f88qd4duqllK+WQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "whatwg-mimetype": "^5.0.0",
++        "whatwg-url": "^17.1.2"
++      },
++      "engines": {
++        "node": "^22.14.0 || >=24.0.0"
++      }
++    },
+     "node_modules/data-view-buffer": {
+       "version": "1.0.2",
+       "resolved": "https://registry.npmjs.org/data-view-buffer/-/data-view-buffer-1.0.2.tgz",
+@@ -3029,6 +3317,13 @@
+         }
+       }
+     },
++    "node_modules/decimal.js": {
++      "version": "10.6.0",
++      "resolved": "https://registry.npmjs.org/decimal.js/-/decimal.js-10.6.0.tgz",
++      "integrity": "sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==",
++      "dev": true,
++      "license": "MIT"
++    },
+     "node_modules/deep-is": {
+       "version": "0.1.4",
+       "resolved": "https://registry.npmjs.org/deep-is/-/deep-is-0.1.4.tgz",
+@@ -3137,6 +3432,19 @@
+         "node": ">=10.13.0"
+       }
+     },
++    "node_modules/entities": {
++      "version": "8.1.0",
++      "resolved": "https://registry.npmjs.org/entities/-/entities-8.1.0.tgz",
++      "integrity": "sha512-kxL7msIffSuh9aaFAMD7rxAIuTRMAHMeBtgHW2yUdWw732ZNh4MehkF2gdjvtdmikkaIP9bFDDJOPlsvm7avrA==",
++      "dev": true,
++      "license": "BSD-2-Clause",
++      "engines": {
++        "node": ">=20.19.0"
++      },
++      "funding": {
++        "url": "https://github.com/fb55/entities?sponsor=1"
++      }
++    },
+     "node_modules/es-abstract": {
+       "version": "1.24.2",
+       "resolved": "https://registry.npmjs.org/es-abstract/-/es-abstract-1.24.2.tgz",
+@@ -4215,6 +4523,19 @@
+         "hermes-estree": "0.25.1"
+       }
+     },
++    "node_modules/html-encoding-sniffer": {
++      "version": "7.0.0",
++      "resolved": "https://registry.npmjs.org/html-encoding-sniffer/-/html-encoding-sniffer-7.0.0.tgz",
++      "integrity": "sha512-UikN5yr7xsCDAq87Or5or0PAlD3HJJOKVzM05az588WnpDJ4Ux7a2A53Qi6gofGg2/EtvF/H4hCi/TXfCW4Y6w==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "@exodus/bytes": "^1.15.1"
++      },
++      "engines": {
++        "node": "^22.13.0 || >=24.0.0"
++      }
++    },
+     "node_modules/iceberg-js": {
+       "version": "0.8.1",
+       "resolved": "https://registry.npmjs.org/iceberg-js/-/iceberg-js-0.8.1.tgz",
+@@ -4562,6 +4883,13 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
++    "node_modules/is-potential-custom-element-name": {
++      "version": "1.0.1",
++      "resolved": "https://registry.npmjs.org/is-potential-custom-element-name/-/is-potential-custom-element-name-1.0.1.tgz",
++      "integrity": "sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==",
++      "dev": true,
++      "license": "MIT"
++    },
+     "node_modules/is-regex": {
+       "version": "1.2.1",
+       "resolved": "https://registry.npmjs.org/is-regex/-/is-regex-1.2.1.tgz",
+@@ -4779,6 +5107,56 @@
+         "js-yaml": "bin/js-yaml.js"
+       }
+     },
++    "node_modules/jsdom": {
++      "version": "30.1.2",
++      "resolved": "https://registry.npmjs.org/jsdom/-/jsdom-30.1.2.tgz",
++      "integrity": "sha512-0FFE/jE1rppmVfUrJUgxqXjcwolZYIGtAgj1pTussMhNZxIxi7W/PvfWaMNroGi2B36X1IKHbexpZ9DhkoOPiQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "@asamuzakjp/css-color": "^7.1.3",
++        "@asamuzakjp/dom-selector": "^9.2.4",
++        "@bramus/specificity": "^2.4.2",
++        "@csstools/css-syntax-patches-for-csstree": "^1.1.15",
++        "@exodus/bytes": "^1.16.0",
++        "css-tree": "^3.2.1",
++        "data-urls": "^8.0.0",
++        "decimal.js": "^10.6.0",
++        "html-encoding-sniffer": "^7.0.0",
++        "is-potential-custom-element-name": "^1.0.1",
++        "lru-cache": "^11.5.3",
++        "parse5": "^8.0.1",
++        "saxes": "^6.0.0",
++        "tough-cookie": "^6.0.2",
++        "undici": "^8.11.2",
++        "w3c-xmlserializer": "^6.0.0",
++        "webidl-conversions": "^8.0.1",
++        "whatwg-mimetype": "^5.0.0",
++        "whatwg-url": "^17.2.0",
++        "xml-name-validator": "^5.0.0"
++      },
++      "engines": {
++        "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
++      },
++      "peerDependencies": {
++        "canvas": "^3.2.3"
++      },
++      "peerDependenciesMeta": {
++        "canvas": {
++          "optional": true
++        }
++      }
++    },
++    "node_modules/jsdom/node_modules/lru-cache": {
++      "version": "11.5.3",
++      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-11.5.3.tgz",
++      "integrity": "sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==",
++      "dev": true,
++      "license": "BlueOak-1.0.0",
++      "engines": {
++        "node": "20 || >=22"
++      }
++    },
+     "node_modules/jsesc": {
+       "version": "3.1.0",
+       "resolved": "https://registry.npmjs.org/jsesc/-/jsesc-3.1.0.tgz",
+@@ -5222,6 +5600,13 @@
+         "node": ">= 0.4"
+       }
+     },
++    "node_modules/mdn-data": {
++      "version": "2.27.1",
++      "resolved": "https://registry.npmjs.org/mdn-data/-/mdn-data-2.27.1.tgz",
++      "integrity": "sha512-9Yubnt3e8A0OKwxYSXyhLymGW4sCufcLG6VdiDdUGVkPhpqLxlvP5vl1983gQjJl3tqbrM731mjaZaP68AgosQ==",
++      "dev": true,
++      "license": "CC0-1.0"
++    },
+     "node_modules/merge2": {
+       "version": "1.4.1",
+       "resolved": "https://registry.npmjs.org/merge2/-/merge2-1.4.1.tgz",
+@@ -5632,6 +6017,19 @@
+         "node": ">=6"
+       }
+     },
++    "node_modules/parse5": {
++      "version": "8.0.1",
++      "resolved": "https://registry.npmjs.org/parse5/-/parse5-8.0.1.tgz",
++      "integrity": "sha512-z1e/HMG90obSGeidlli3hj7cbocou0/wa5HacvI3ASx34PecNjNQeaHNo5WIZpWofN9kgkqV1q5YvXe3F0FoPw==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "entities": "^8.0.0"
++      },
++      "funding": {
++        "url": "https://github.com/inikulin/parse5?sponsor=1"
++      }
++    },
+     "node_modules/path-exists": {
+       "version": "4.0.0",
+       "resolved": "https://registry.npmjs.org/path-exists/-/path-exists-4.0.0.tgz",
+@@ -5678,6 +6076,35 @@
+         "url": "https://github.com/sponsors/jonschlinkert"
+       }
+     },
++    "node_modules/playwright": {
++      "version": "1.64.1",
++      "resolved": "https://registry.npmjs.org/playwright/-/playwright-1.64.1.tgz",
++      "integrity": "sha512-HCrVhHr5QQuwYoswEUGTb7gGp522yflbv/ST8nF4sFWGuLjQCt17Q/EubpGGSNKYn1tsTCPZxqHhHCfVURu7UA==",
++      "devOptional": true,
++      "license": "Apache-2.0",
++      "dependencies": {
++        "playwright-core": "1.64.1"
++      },
++      "bin": {
++        "playwright": "cli.js"
++      },
++      "engines": {
++        "node": ">=20"
++      }
++    },
++    "node_modules/playwright-core": {
++      "version": "1.64.1",
++      "resolved": "https://registry.npmjs.org/playwright-core/-/playwright-core-1.64.1.tgz",
++      "integrity": "sha512-BC4s8y6SEVA6Q1rSxZTto8hI1KUI3xXlHGZgvGqP4IqPdI/a6FX9H29IDNz7vKo9l21b6LfYosScPL6M3xxyDQ==",
++      "devOptional": true,
++      "license": "Apache-2.0",
++      "bin": {
++        "playwright-core": "cli.js"
++      },
++      "engines": {
++        "node": ">=20"
++      }
++    },
+     "node_modules/possible-typed-array-names": {
+       "version": "1.1.0",
+       "resolved": "https://registry.npmjs.org/possible-typed-array-names/-/possible-typed-array-names-1.1.0.tgz",
+@@ -5842,6 +6269,16 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
++    "node_modules/require-from-string": {
++      "version": "2.0.2",
++      "resolved": "https://registry.npmjs.org/require-from-string/-/require-from-string-2.0.2.tgz",
++      "integrity": "sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">=0.10.0"
++      }
++    },
+     "node_modules/resolve": {
+       "version": "2.0.0-next.7",
+       "resolved": "https://registry.npmjs.org/resolve/-/resolve-2.0.0-next.7.tgz",
+@@ -5976,6 +6413,19 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
++    "node_modules/saxes": {
++      "version": "6.0.0",
++      "resolved": "https://registry.npmjs.org/saxes/-/saxes-6.0.0.tgz",
++      "integrity": "sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==",
++      "dev": true,
++      "license": "ISC",
++      "dependencies": {
++        "xmlchars": "^2.2.0"
++      },
++      "engines": {
++        "node": ">=v12.22.7"
++      }
++    },
+     "node_modules/scheduler": {
+       "version": "0.28.0",
+       "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.28.0.tgz",
+@@ -6486,6 +6936,26 @@
+         "url": "https://github.com/sponsors/jonschlinkert"
+       }
+     },
++    "node_modules/tldts": {
++      "version": "7.4.18",
++      "resolved": "https://registry.npmjs.org/tldts/-/tldts-7.4.18.tgz",
++      "integrity": "sha512-somxA8xKAUzlAxl0TX/jMSYIbRNFIVGnI96pVGJPeMc5BsHmfVXn6mOJT6U++ELnl04eGfzpfcEuZe8WiASkXg==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "tldts-core": "^7.4.18"
++      },
++      "bin": {
++        "tldts": "bin/cli.js"
++      }
++    },
++    "node_modules/tldts-core": {
++      "version": "7.4.18",
++      "resolved": "https://registry.npmjs.org/tldts-core/-/tldts-core-7.4.18.tgz",
++      "integrity": "sha512-KI2PKvCmvQI/xD6ypPqkU0i7oxNXR/O58RLRaHR4svsgVUQ2JE/XC8BtMbG6PSehD27I8sZJRcC1ASnCy6lp3g==",
++      "dev": true,
++      "license": "MIT"
++    },
+     "node_modules/to-regex-range": {
+       "version": "5.0.1",
+       "resolved": "https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz",
+@@ -6499,6 +6969,32 @@
+         "node": ">=8.0"
+       }
+     },
++    "node_modules/tough-cookie": {
++      "version": "6.0.2",
++      "resolved": "https://registry.npmjs.org/tough-cookie/-/tough-cookie-6.0.2.tgz",
++      "integrity": "sha512-exgYmnmL/sJpR3upZfXG5PoatXQii55xAiXGXzY+sROLZ/Y+SLcp9PgJNI9Vz37HpQ74WvDcLT8eqm+kV3FzrA==",
++      "dev": true,
++      "license": "BSD-3-Clause",
++      "dependencies": {
++        "tldts": "^7.0.5"
++      },
++      "engines": {
++        "node": ">=16"
++      }
++    },
++    "node_modules/tr46": {
++      "version": "7.0.0",
++      "resolved": "https://registry.npmjs.org/tr46/-/tr46-7.0.0.tgz",
++      "integrity": "sha512-BcDSDW+SIGWVOns1Zm6Yg91q9AEj7eaID0QDY9oIqJD1A8dscNwMcl9Sms2DeuWCNov1X0/oXanHGYQBSLwZsg==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "punycode": "^2.3.1"
++      },
++      "engines": {
++        "node": "^22.14.0 || >=24.0.0"
++      }
++    },
+     "node_modules/ts-api-utils": {
+       "version": "2.5.0",
+       "resolved": "https://registry.npmjs.org/ts-api-utils/-/ts-api-utils-2.5.0.tgz",
+@@ -6691,6 +7187,16 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
++    "node_modules/undici": {
++      "version": "8.12.1",
++      "resolved": "https://registry.npmjs.org/undici/-/undici-8.12.1.tgz",
++      "integrity": "sha512-usz3OVQBeh1LxNn0DzU0voLXMgn5CU/WUdpBsY6Ti5afNao+vTkmn4H/NxoXolc10cOqe2+YIG0Hspq2rsl64w==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">=22.19.0"
++      }
++    },
+     "node_modules/undici-types": {
+       "version": "6.21.0",
+       "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-6.21.0.tgz",
+@@ -6777,6 +7283,54 @@
+         "punycode": "^2.1.0"
+       }
+     },
++    "node_modules/w3c-xmlserializer": {
++      "version": "6.0.0",
++      "resolved": "https://registry.npmjs.org/w3c-xmlserializer/-/w3c-xmlserializer-6.0.0.tgz",
++      "integrity": "sha512-4Nsy8K5Tr6SPDH9jhKJOHf7ChDrc1zufZTVSF7x72hwuEXBqxqk9G6cK+K2NRUtB3iELRJqjXb4JPDMBjMTl2Q==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "xml-name-validator": "^5.0.0"
++      },
++      "engines": {
++        "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
++      }
++    },
++    "node_modules/webidl-conversions": {
++      "version": "8.0.1",
++      "resolved": "https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-8.0.1.tgz",
++      "integrity": "sha512-BMhLD/Sw+GbJC21C/UgyaZX41nPt8bUTg+jWyDeg7e7YN4xOM05YPSIXceACnXVtqyEw/LMClUQMtMZ+PGGpqQ==",
++      "dev": true,
++      "license": "BSD-2-Clause",
++      "engines": {
++        "node": ">=20"
++      }
++    },
++    "node_modules/whatwg-mimetype": {
++      "version": "5.0.0",
++      "resolved": "https://registry.npmjs.org/whatwg-mimetype/-/whatwg-mimetype-5.0.0.tgz",
++      "integrity": "sha512-sXcNcHOC51uPGF0P/D4NVtrkjSU2fNsm9iog4ZvZJsL3rjoDAzXZhkm2MWt1y+PUdggKAYVoMAIYcs78wJ51Cw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">=20"
++      }
++    },
++    "node_modules/whatwg-url": {
++      "version": "17.3.0",
++      "resolved": "https://registry.npmjs.org/whatwg-url/-/whatwg-url-17.3.0.tgz",
++      "integrity": "sha512-KwOAJrpf+GTgBvcBQJcP38sMF0DsQKdwtG+TxM2pW44P6E5k0hDbWrDmyuJDIF0Uef0aQq0ZoJs+5oI+k8ddhg==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "@exodus/bytes": "^1.16.0",
++        "tr46": "^7.0.0",
++        "webidl-conversions": "^8.0.1"
++      },
++      "engines": {
++        "node": "^22.14.0 || >=24.0.0"
++      }
++    },
+     "node_modules/which": {
+       "version": "2.0.2",
+       "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
+@@ -6892,6 +7446,23 @@
+         "node": ">=0.10.0"
+       }
+     },
++    "node_modules/xml-name-validator": {
++      "version": "5.0.0",
++      "resolved": "https://registry.npmjs.org/xml-name-validator/-/xml-name-validator-5.0.0.tgz",
++      "integrity": "sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==",
++      "dev": true,
++      "license": "Apache-2.0",
++      "engines": {
++        "node": ">=18"
++      }
++    },
++    "node_modules/xmlchars": {
++      "version": "2.2.0",
++      "resolved": "https://registry.npmjs.org/xmlchars/-/xmlchars-2.2.0.tgz",
++      "integrity": "sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==",
++      "dev": true,
++      "license": "MIT"
++    },
+     "node_modules/yallist": {
+       "version": "3.1.1",
+       "resolved": "https://registry.npmjs.org/yallist/-/yallist-3.1.1.tgz",
+diff --git a/package.json b/package.json
+index b5aaa64..208ed1b 100644
+--- a/package.json
++++ b/package.json
+@@ -8,7 +8,9 @@
+     "start": "next start",
+     "lint": "eslint .",
+     "typecheck": "tsc --noEmit",
+-    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --test tests/*.test.mjs"
++    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --test tests/*.test.mjs",
++    "test:e2e": "playwright test",
++    "test:routes": "node tests/route-smoke.mjs"
+   },
+   "dependencies": {
+     "@supabase/ssr": "^0.12.7",
+@@ -23,12 +25,15 @@
+     "zod": "^4.6.5"
+   },
+   "devDependencies": {
++    "@electric-sql/pglite": "0.5.10",
++    "@playwright/test": "1.64.1",
+     "@tailwindcss/postcss": "^4.1.0",
+     "@types/node": "^22.10.0",
+     "@types/react": "^19.0.0",
+     "@types/react-dom": "^19.0.0",
+     "eslint": "^9.0.0",
+     "eslint-config-next": "^16.0.0",
++    "jsdom": "30.1.2",
+     "postcss": "^8.4.0",
+     "tailwindcss": "^4.1.0",
+     "typescript": "^5.7.0"
+diff --git a/playwright.config.ts b/playwright.config.ts
+new file mode 100644
+index 0000000..fc39d81
+--- /dev/null
++++ b/playwright.config.ts
+@@ -0,0 +1,6 @@
++import { defineConfig } from "@playwright/test";
++export default defineConfig({
++  testDir:"./tests/e2e",fullyParallel:false,use:{baseURL:"http://127.0.0.1:3100"},
++  webServer:{command:"npm run dev",url:"http://127.0.0.1:3100/activate/checkout",reuseExistingServer:!process.env.CI,timeout:120000,
++    env:{PADDLE_ENVIRONMENT:"sandbox",PADDLE_API_KEY:"sandbox-api-fixture",PADDLE_WEBHOOK_SECRET:"webhook-fixture",NEXT_PUBLIC_PADDLE_CLIENT_TOKEN:"test_client-fixture",PADDLE_PRICE_ID_MONTHLY:`pri_${"a".repeat(26)}`,PADDLE_PRICE_ID_ANNUAL:`pri_${"b".repeat(26)}`,NEXT_TELEMETRY_DISABLED:"1"}},
++});
+diff --git a/public/rovei-studio-persistence.js b/public/rovei-studio-persistence.js
+new file mode 100644
+index 0000000..6c07d27
+--- /dev/null
++++ b/public/rovei-studio-persistence.js
+@@ -0,0 +1,131 @@
++(() => {
++  "use strict";
++  const KEY = "rovei:full-process-preview-v3";
++  let busy = false;
++  let accountEdit = null;
++  let confirmAction = null;
++  let savedStudio = null;
++  function state() { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch { return null; } }
++  function notify(message) {
++    document.querySelector(".toast")?.remove();
++    const toast=document.createElement("div"); toast.className="toast";toast.setAttribute("role","status");toast.textContent=message;
++    document.body.appendChild(toast);setTimeout(()=>toast.remove(),5000);
++  }
++  function restore(next) {
++    localStorage.setItem(KEY,JSON.stringify(next));
++    window.dispatchEvent(new StorageEvent("storage",{key:KEY,newValue:JSON.stringify(next),storageArea:localStorage}));
++    if(next.appPage==="packs") document.querySelector('[data-nav="packs"]')?.click();
++  }
++  async function request(path,body) {
++    const response=await fetch(path,{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:AbortSignal.timeout(20000)});
++    const data=await response.json().catch(()=>null);
++    if(!response.ok) {
++      if(response.status===401) { window.location.replace("/login"); throw new Error("Your session ended. Please sign in again."); }
++      if(response.status===402) { window.location.replace("/activate/checkout"); throw new Error("An active subscription is required."); }
++      throw new Error(data?.message || "Changes could not be saved. Please retry.");
++    }
++    return data;
++  }
++  async function savePack() {
++    const current=state();
++    const name=document.getElementById("packName")?.value.trim();
++    const service=document.getElementById("packService")?.value;
++    const modules=current?.packDraft?.modules;
++    if(!name || !service || !modules?.length) { notify("Add a name, service and at least one module.");return; }
++    const result=await request("/api/beauty-packs",{name,service,modules});
++    if(typeof result?.pack?.id!=="string") throw new Error("The saved Beauty Pack could not be verified.");
++    const next=state();next.beautyPacks=[...(next.beautyPacks||[]),result.pack];next.packDraft=null;next.appPage="packs";
++    restore(next);notify("Beauty Pack saved to your Studio.");
++  }
++  async function saveStudio(next) {
++    const studio=next.studio;
++    const preferences=next.settings||{};
++    const availability=preferences.availability?.days && preferences.availability?.start && preferences.availability?.end ? preferences.availability : undefined;
++    const notifications=["newSubmission","intakeComplete","appointmentReminder","cancellation"].every(key=>typeof preferences.notifications?.[key]==="boolean") ? preferences.notifications : undefined;
++    const response=await fetch("/api/studio",{method:"PUT",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({studioName:studio.name,services:studio.services,theme:studio.theme,customPrimary:studio.customPrimary,experienceSelections:studio.modules,timezone:studio.timezone||"UTC",availability,notifications}),signal:AbortSignal.timeout(20000)});
++    const data=await response.json().catch(()=>null);
++    if(!response.ok || data?.saved!==true) throw new Error(data?.message || "Your Studio changes could not be saved.");
++    savedStudio=structuredClone(studio);
++    restore({...state(),studio:next.studio,settings:next.settings});notify("Studio saved.");
++  }
++  function capture(event) {
++    const target=event.target instanceof Element ? event.target.closest("#saveBeautyPack,[data-edit-service],[data-edit-theme],[data-edit-module],#applyRec,#editHex,#saveAvailability,#settingsEditSave,#settingsConfirmDo,[data-notification]") : null;
++    if(!target || state()?.screen!=="app" || (target.id==="settingsConfirmDo" && (confirmAction!=="logout" || target.textContent.trim()!=="Log out"))) return;
++    if(event.type==="click" && (target.id==="editHex" || target.dataset.notification)) return;
++    event.preventDefault();event.stopImmediatePropagation();event.stopPropagation();
++    if(busy) return;
++    busy=true;target.disabled=true;
++    const next=state();
++    let action;
++    if(target.id==="settingsEditSave") action=saveAccount;
++    else if(target.id==="settingsConfirmDo") {
++      if(confirmAction!=="logout") {busy=false;target.disabled=false;return;}
++      action=async()=>{await request("/api/auth/signout",{});localStorage.removeItem(KEY);window.location.replace("/");};
++    }
++    else if(target.id==="saveBeautyPack") action=savePack;
++    else {
++      for(const [attribute,property] of [["editService","services"],["editModule","modules"]]) {
++        const id=target.dataset[attribute];if(!id) continue;
++        const values=next.studio[property];
++        if(values.includes(id)&&values.length===1) { notify("Keep at least one selected.");busy=false;target.disabled=false;return; }
++        next.studio[property]=values.includes(id)?values.filter(v=>v!==id):[...values,id];
++      }
++      if(target.dataset.notification) next.settings.notifications={...next.settings.notifications,[target.dataset.notification]:target.checked};
++      if(target.dataset.editTheme) next.studio.theme=target.dataset.editTheme;
++      if(target.id==="editHex") {
++        const value=target.value.trim();
++        if(!/^#[0-9a-fA-F]{6}$/.test(value)) { notify("Use a six-digit hex colour.");busy=false;target.disabled=false;return; }
++        next.studio.customPrimary=value.toUpperCase();
++      }
++      if(target.id==="applyRec") {
++        const rules={consultation:["lashes","brows","nails","makeup","facials","other"],preferences:["lashes","brows","nails","makeup","facials","other"],inspiration:["lashes","brows","nails","makeup"],consent:["lashes","brows","nails","facials"],prep:["lashes","brows","makeup","facials"],"current-photos":["lashes","brows","makeup","facials"]};
++        next.studio.modules=Object.keys(rules).filter(module=>rules[module].some(service=>next.studio.services.includes(service)));
++      }
++      if(target.id==="saveAvailability") {
++        next.settings.availability={...next.settings.availability,start:document.getElementById("availabilityStart").value,end:document.getElementById("availabilityEnd").value,buffer:document.getElementById("availabilityBuffer").value,timezone:document.getElementById("availabilityTimezone").value};
++        next.studio.timezone=next.settings.availability.timezone;
++      }
++      action=()=>saveStudio(next);
++    }
++    void action().catch(error=>notify(error.message||"Changes could not be saved.")).finally(()=>{busy=false;target.disabled=false;});
++  }
++  async function saveAccount() {
++    let body;
++    if(document.getElementById("settingsNewPassword")) {
++      const password=document.getElementById("settingsNewPassword").value;
++      if(password.length<8 || password!==document.getElementById("settingsConfirmPassword").value) throw new Error("Use at least 8 characters and matching passwords.");
++      body={password};await request("/api/auth/password",body);
++      document.getElementById("settingsNewPassword").value="";document.getElementById("settingsConfirmPassword").value="";
++    } else {
++      const value=document.getElementById("settingsEditValue").value.trim();
++      body=accountEdit==="email" ? {email:value} : {firstName:value};
++      const result=await request("/api/auth/account",body);
++      if(result.emailConfirmationRequired) {notify("Check your email to confirm the address change.");document.getElementById("modalRoot").replaceChildren();return;}
++      const next=state();next.account.firstName=value;restore(next);
++    }
++    confirmAction=null;document.getElementById("modalRoot").replaceChildren();notify("Account changes saved.");
++  }
++  document.addEventListener("click",event=>{
++    if(state()?.screen!=="app")return;
++    const target=event.target instanceof Element ? event.target.closest("#settingsEditName,#settingsEditEmail,#settingsLogout,#settingsDeleteAccount,#settingsConfirmKeep") : null;
++    if(!target)return;
++    if(target.id==="settingsEditName")accountEdit="name";
++    if(target.id==="settingsEditEmail")accountEdit="email";
++    if(target.id==="settingsLogout")confirmAction="logout";
++    if(target.id==="settingsConfirmKeep")confirmAction=null;
++    if(target.id==="settingsDeleteAccount") {event.preventDefault();event.stopImmediatePropagation();notify("Account deletion requires an approved support request. Your records have been retained.");}
++  },true);
++  document.addEventListener("focusout",event=>{
++    if(event.target?.id!=="editStudioName" || state()?.screen!=="app" || event.target.value.trim().length<2 || busy)return;
++    const next=state();next.studio.name=event.target.value.trim();busy=true;
++    void saveStudio(next).catch(error=>{if(savedStudio)restore({...state(),studio:savedStudio});notify(error.message);}).finally(()=>{busy=false;});
++  },true);
++  savedStudio=state()?.screen==="app" ? structuredClone(state().studio) : null;
++  document.addEventListener("click",capture,true);
++  document.addEventListener("change",capture,true);
++  document.addEventListener("submit",event=>{
++    if(event.target?.id!=="packForm"||state()?.screen!=="app") return;
++    event.preventDefault();event.stopImmediatePropagation();
++    if(busy)return;busy=true;void savePack().catch(error=>notify(error.message)).finally(()=>{busy=false;});
++  },true);
++})();
+diff --git a/supabase/migrations/20261014155715_launch_billing_hardening.sql b/supabase/migrations/20261014155715_launch_billing_hardening.sql
+new file mode 100644
+index 0000000..b443ff7
+--- /dev/null
++++ b/supabase/migrations/20261014155715_launch_billing_hardening.sql
+@@ -0,0 +1,208 @@
++begin;
++
++-- Apply the missing subscription-access migration before this migration.
++create or replace function public.is_studio_subscription_active(target_studio_id uuid)
++returns boolean language sql stable security definer set search_path = '' as $$
++  select auth.uid() is not null
++    and public.is_studio_member(target_studio_id)
++    and exists (select 1 from public.subscriptions s where s.studio_id = target_studio_id
++      and s.status in ('active', 'trialing') and s.current_period_end > pg_catalog.now());
++$$;
++revoke all on function public.is_studio_subscription_active(uuid) from public, anon;
++grant execute on function public.is_studio_subscription_active(uuid) to authenticated;
++
++alter function public.set_updated_at() set search_path = '';
++revoke all on function public.handle_new_user() from public, anon, authenticated;
++revoke all on function public.add_studio_owner_membership() from public, anon, authenticated;
++revoke all on function public.is_studio_member(uuid) from public, anon;
++revoke all on function public.is_studio_owner(uuid) from public, anon;
++grant execute on function public.is_studio_member(uuid) to authenticated;
++grant execute on function public.is_studio_owner(uuid) to authenticated;
++-- Deliberately no browser policies for Paddle's internal reservation/event tables.
++grant select, insert, update, delete on public.paddle_webhook_events, public.paddle_checkout_attempts to service_role;
++
++create or replace function public.apply_paddle_subscription_event(
++  p_event_id text,
++  p_event_type text,
++  p_occurred_at timestamptz,
++  p_studio_id uuid,
++  p_user_id uuid,
++  p_subscription_id text,
++  p_customer_id text,
++  p_price_id text,
++  p_status text,
++  p_current_period_start timestamptz,
++  p_current_period_end timestamptz,
++  p_scheduled_cancel_at timestamptz
++)
++returns boolean
++language plpgsql
++security definer
++set search_path = ''
++as $$
++declare
++  inserted_event_count integer;
++  existing_subscription public.subscriptions%rowtype;
++begin
++  if p_event_type not in (
++    'subscription.created',
++    'subscription.updated',
++    'subscription.canceled',
++    'subscription.activated',
++    'subscription.trialing',
++    'subscription.past_due',
++    'subscription.paused',
++    'subscription.resumed'
++  ) then
++    raise exception 'Unsupported Paddle event type';
++  end if;
++
++  if p_status not in (
++    'active',
++    'trialing',
++    'past_due',
++    'paused',
++    'cancelled'
++  ) then
++    raise exception 'Unsupported Paddle subscription status';
++  end if;
++
++  if not exists (
++    select 1
++    from public.studio_members as member
++    join public.studios as studio
++      on studio.id = member.studio_id
++    where member.studio_id = p_studio_id
++      and member.user_id = p_user_id
++      and member.role = 'owner'
++      and studio.owner_user_id = p_user_id
++  ) then
++    raise exception 'Paddle account does not match a Studio owner';
++  end if;
++
++  -- Serialize even when the Studio has no subscription row yet.
++  perform 1 from public.studios where id = p_studio_id for update;
++
++  insert into public.paddle_webhook_events (
++    event_id,
++    event_type,
++    occurred_at
++  )
++  values (
++    p_event_id,
++    p_event_type,
++    p_occurred_at
++  )
++  on conflict (event_id) do nothing;
++
++  get diagnostics inserted_event_count = row_count;
++  if inserted_event_count = 0 then
++    return false;
++  end if;
++
++  select *
++  into existing_subscription
++  from public.subscriptions
++  where studio_id = p_studio_id
++  for update;
++
++  if found then
++    -- A terminated Paddle subscription can never be resurrected by a late event.
++    if existing_subscription.provider_subscription_id = p_subscription_id
++       and existing_subscription.status = 'cancelled'
++       and p_status <> 'cancelled' then
++      return false;
++    end if;
++    if existing_subscription.provider_subscription_id is not null
++       and existing_subscription.provider_subscription_id <> p_subscription_id
++       and existing_subscription.status <> 'cancelled' then
++      raise exception 'Studio already has a different Paddle subscription';
++    end if;
++
++    if existing_subscription.last_event_at is not null
++       and (
++         p_occurred_at < existing_subscription.last_event_at
++         or (
++           p_occurred_at = existing_subscription.last_event_at
++           and existing_subscription.last_event_id is not null
++           and p_event_id collate "C" <= existing_subscription.last_event_id collate "C"
++         )
++       ) then
++      return false;
++    end if;
++  end if;
++
++  insert into public.subscriptions (
++    studio_id,
++    provider,
++    provider_customer_id,
++    provider_subscription_id,
++    price_id,
++    status,
++    current_period_start,
++    current_period_end,
++    scheduled_cancel_at,
++    last_event_at,
++    last_event_id
++  )
++  values (
++    p_studio_id,
++    'paddle',
++    p_customer_id,
++    p_subscription_id,
++    p_price_id,
++    p_status,
++    p_current_period_start,
++    p_current_period_end,
++    p_scheduled_cancel_at,
++    p_occurred_at,
++    p_event_id
++  )
++  on conflict (studio_id) do update
++  set
++    provider_customer_id = excluded.provider_customer_id,
++    provider_subscription_id = excluded.provider_subscription_id,
++    price_id = excluded.price_id,
++    status = excluded.status,
++    current_period_start = excluded.current_period_start,
++    current_period_end = excluded.current_period_end,
++    scheduled_cancel_at = excluded.scheduled_cancel_at,
++    last_event_at = excluded.last_event_at,
++    last_event_id = excluded.last_event_id
++  where (
++      public.subscriptions.provider_subscription_id is null
++      or public.subscriptions.provider_subscription_id = excluded.provider_subscription_id
++      or public.subscriptions.status = 'cancelled'
++    )
++    and (
++      public.subscriptions.last_event_at is null
++      or excluded.last_event_at > public.subscriptions.last_event_at
++      or (
++        excluded.last_event_at = public.subscriptions.last_event_at
++        and (
++          public.subscriptions.last_event_id is null
++          or excluded.last_event_id collate "C" > public.subscriptions.last_event_id collate "C"
++        )
++      )
++    );
++
++  get diagnostics inserted_event_count = row_count;
++  if inserted_event_count = 0 then
++    return false;
++  end if;
++
++  if p_status <> 'cancelled' then
++    delete from public.paddle_checkout_attempts
++    where studio_id = p_studio_id
++      and (
++        transaction_id is not null
++        or lease_expires_at <= pg_catalog.now()
++      );
++  end if;
++
++  return true;
++end;
++$$;
++
++
++commit;
+diff --git a/supabase/migrations/20261014160018_atomic_studio_and_pack_saves.sql b/supabase/migrations/20261014160018_atomic_studio_and_pack_saves.sql
+new file mode 100644
+index 0000000..957487f
+--- /dev/null
++++ b/supabase/migrations/20261014160018_atomic_studio_and_pack_saves.sql
+@@ -0,0 +1,74 @@
++begin;
++
++-- These invoker functions retain the caller's RLS and run each save atomically.
++create or replace function public.save_studio_configuration(
++  p_studio_id uuid, p_name text, p_timezone text, p_theme text,
++  p_primary text, p_custom_primary text, p_modules jsonb, p_services text[],
++  p_availability jsonb default null, p_notifications jsonb default null
++) returns boolean language plpgsql security invoker set search_path = '' as $$
++begin
++  if not public.is_studio_owner(p_studio_id) or not public.is_studio_subscription_active(p_studio_id) then
++    raise exception 'Active Studio owner required';
++  end if;
++  if p_name is null or p_services is null or p_modules is null or p_theme is null
++     or p_primary is null or p_custom_primary is null or p_timezone is null
++     or p_theme not in ('blush','noir','pearl','wine','mocha','sage','lilac','custom')
++     or p_primary !~ '^#[0-9A-Fa-f]{6}$' or p_custom_primary !~ '^#[0-9A-Fa-f]{6}$'
++     or not exists(select 1 from pg_catalog.pg_timezone_names where name=p_timezone)
++     or jsonb_typeof(p_modules) <> 'array' or jsonb_array_length(p_modules) not between 1 and 6
++     or exists(select 1 from jsonb_array_elements_text(p_modules) m where m not in ('consultation','preferences','inspiration','consent','prep','current-photos'))
++     or char_length(trim(p_name)) not between 2 and 60 or cardinality(p_services) not between 1 and 6
++     or not p_services <@ array['lashes','brows','nails','makeup','facials','other']::text[] then
++    raise exception 'Invalid Studio configuration';
++  end if;
++  update public.studios set name=trim(p_name), timezone=p_timezone where id=p_studio_id;
++  if not found then raise exception 'Studio unavailable'; end if;
++  insert into public.studio_settings(studio_id,primary_colour,theme_name,theme_config,experience_modules,availability)
++  values(p_studio_id,p_primary,p_theme,jsonb_build_object('customPrimary',p_custom_primary) ||
++    case when p_notifications is null then '{}'::jsonb else jsonb_build_object('notifications',p_notifications) end,
++    p_modules,coalesce(p_availability,'{}'::jsonb))
++  on conflict(studio_id) do update set primary_colour=excluded.primary_colour,theme_name=excluded.theme_name,
++    theme_config=public.studio_settings.theme_config || excluded.theme_config,
++    experience_modules=excluded.experience_modules,
++    availability=coalesce(p_availability,public.studio_settings.availability);
++  update public.services set active=(category=any(p_services)) where studio_id=p_studio_id
++    and category=any(array['lashes','brows','nails','makeup','facials','other']::text[]);
++  insert into public.services(studio_id,name,category,active,sort_order)
++  select p_studio_id, initcap(category), category,true,ordinality::integer
++  from unnest(p_services) with ordinality as selected(category,ordinality)
++  where not exists(select 1 from public.services s where s.studio_id=p_studio_id and s.category=selected.category);
++  return true;
++end;
++$$;
++revoke all on function public.save_studio_configuration(uuid,text,text,text,text,text,jsonb,text[],jsonb,jsonb) from public,anon;
++grant execute on function public.save_studio_configuration(uuid,text,text,text,text,text,jsonb,text[],jsonb,jsonb) to authenticated;
++
++create or replace function public.save_beauty_pack(
++  p_studio_id uuid, p_pack_id uuid, p_name text, p_service text, p_modules text[]
++) returns jsonb language plpgsql security invoker set search_path = '' as $$
++declare v_id uuid;
++begin
++  if not public.is_studio_subscription_active(p_studio_id) then raise exception 'Active Studio member required'; end if;
++  if p_name is null or p_service is null or p_modules is null or char_length(trim(p_name)) not between 2 and 60 or cardinality(p_modules) not between 1 and 6
++    or p_service not in ('lashes','brows','nails','makeup','facials','other')
++    or not p_modules <@ array['consultation','preferences','inspiration','consent','prep','current-photos']::text[]
++    or cardinality(p_modules) <> (select count(distinct m) from unnest(p_modules) m) then
++    raise exception 'Invalid Beauty Pack';
++  end if;
++  if p_pack_id is null then
++    insert into public.beauty_packs(studio_id,name,service_category,active) values(p_studio_id,trim(p_name),p_service,true) returning id into v_id;
++  else
++    update public.beauty_packs set name=trim(p_name),service_category=p_service where id=p_pack_id and studio_id=p_studio_id returning id into v_id;
++    if v_id is null then raise exception 'Beauty Pack unavailable'; end if;
++    delete from public.beauty_pack_modules where beauty_pack_id=v_id and studio_id=p_studio_id;
++  end if;
++  insert into public.beauty_pack_modules(studio_id,beauty_pack_id,module_type,sort_order,config)
++  select p_studio_id,v_id,module,ordinality::integer-1,'{}'::jsonb from unnest(p_modules) with ordinality as selected(module,ordinality);
++  return (select jsonb_build_object('id',id,'name',name,'service',service_category,'modules',to_jsonb(p_modules),
++    'createdAt',created_at,'updatedAt',updated_at) from public.beauty_packs where id=v_id and studio_id=p_studio_id);
++end;
++$$;
++revoke all on function public.save_beauty_pack(uuid,uuid,text,text,text[]) from public,anon;
++grant execute on function public.save_beauty_pack(uuid,uuid,text,text,text[]) to authenticated;
++
++commit;
+diff --git a/tests/auth-backend.test.mjs b/tests/auth-backend.test.mjs
+index d6e85e2..30dd987 100644
+--- a/tests/auth-backend.test.mjs
++++ b/tests/auth-backend.test.mjs
+@@ -404,7 +404,7 @@ test("confirmation redirects require an HTTPS public origin", () => {
+ test("expired or unpaid subscriptions cannot use protected Studio APIs", async () => {
+   const now = Date.parse("2026-10-11T12:00:00.000Z");
+ 
+-  assert.equal(hasActiveSubscription("active", null, now), true);
++  assert.equal(hasActiveSubscription("active", null, now), false);
+   assert.equal(
+     hasActiveSubscription("trialing", "2026-10-12T00:00:00.000Z", now),
+     true,
+@@ -445,7 +445,7 @@ test("expired or unpaid subscriptions cannot use protected Studio APIs", async (
+   assert.deepEqual(
+     await getStudioSubscriptionAccess(
+       subscriptionClient({
+-      data: { status: "trialing", current_period_end: null },
++      data: { status: "trialing", current_period_end: "2099-01-01T00:00:00Z" },
+       error: null,
+       }),
+       "studio-1",
+diff --git a/tests/checkout-events.test.mjs b/tests/checkout-events.test.mjs
+new file mode 100644
+index 0000000..0e3c24c
+--- /dev/null
++++ b/tests/checkout-events.test.mjs
+@@ -0,0 +1,28 @@
++import assert from 'node:assert/strict';
++import { test } from 'node:test';
++import { readCheckoutTotals, validateRoveiPrices, paddleSubscriptionEvents } from '../lib/billing/checkout-events.ts';
++import { hasActiveSubscription } from '../lib/backend/subscription-access.ts';
++
++test('checkout uses Paddle localized totals and credit balance without inventing VAT', () => {
++  const totals = readCheckoutTotals({currency_code:'ZAR',totals:{subtotal:2400,tax:360,total:2760,discount:0,balance:2500},recurring_totals:{total:2760}});
++  assert.deepEqual(totals,{currency:'ZAR',subtotal:2400,tax:360,total:2500,discount:0,recurringTotal:2760});
++  assert.equal(readCheckoutTotals({currency_code:'JPY',totals:{subtotal:15000,tax:0,total:15000,discount:0}}).total,15000);
++});
++test('checkout rejects incomplete, negative and nonfinite financial payloads', () => {
++  const data = {currency_code:'USD',totals:{subtotal:129,tax:0,total:129,discount:0}};
++  for(const broken of [null,{}, {...data,currency_code:'bad'}, {...data,totals:{...data.totals,tax:NaN}}, {...data,totals:{...data.totals,total:-1}}, {...data,totals:{...data.totals,balance:Infinity}}]) assert.equal(readCheckoutTotals(broken),null);
++});
++const price = (interval,amount) => ({data:{product_id:'pro_fixture',status:'active',trial_period:null,billing_cycle:{interval,frequency:1},unit_price:{currency_code:'USD',amount}}});
++test('catalog requires matching product, correct recurring amounts, no trial and active prices', () => {
++  const month=price('month','12900'),year=price('year','129000');
++  assert.equal(validateRoveiPrices(month,year),true);
++  for(const changed of [{...year.data,product_id:'different'},{...year.data,status:'archived'},{...year.data,trial_period:{interval:'day',frequency:7}},{...year.data,unit_price:{currency_code:'USD',amount:'12900'}}]) assert.equal(validateRoveiPrices(month,{data:changed}),false);
++});
++test('missing or invalid period never grants paid access', () => {
++  assert.equal(hasActiveSubscription('active',null),false);
++  assert.equal(hasActiveSubscription('active','not-a-date'),false);
++  assert.equal(hasActiveSubscription('trialing','not-a-date'),false);
++});
++test('payment-failure, pause and recovery subscription events are handled',()=>{
++  for(const name of ['subscription.past_due','subscription.paused','subscription.resumed','subscription.activated']) assert.ok(paddleSubscriptionEvents.includes(name));
++});
+diff --git a/tests/database-integration.test.mjs b/tests/database-integration.test.mjs
+new file mode 100644
+index 0000000..f0c9066
+--- /dev/null
++++ b/tests/database-integration.test.mjs
+@@ -0,0 +1,128 @@
++import assert from 'node:assert/strict';
++import { before, after, test } from 'node:test';
++import { readFile, readdir, mkdtemp, rm } from 'node:fs/promises';
++import { tmpdir } from 'node:os';
++import { join } from 'node:path';
++import { PGlite } from '@electric-sql/pglite';
++import { pgcrypto } from '@electric-sql/pglite/contrib/pgcrypto';
++
++// Real local PostgreSQL execution. auth helpers and Storage catalog are fixtures;
++// this suite does not claim to exercise the hosted Supabase Auth or Storage API.
++let db, directory;
++const owner='10000000-0000-4000-8000-000000000001', other='10000000-0000-4000-8000-000000000002';
++const studio='20000000-0000-4000-8000-000000000001', second='20000000-0000-4000-8000-000000000002';
++const price='pri_'+'a'.repeat(26),sub='sub_'+'a'.repeat(26),customer='ctm_'+'a'.repeat(26);
++const lease='30000000-0000-4000-8000-000000000001';
++async function asOwner(id=owner) {
++  await db.exec(`reset role; select set_config('request.jwt.claim.sub','${id}',false); set role authenticated;`);
++}
++async function admin(){await db.exec('reset role;');}
++async function event(id,status,time='2026-10-14T12:00:00Z', type='subscription.updated', sid=sub) {
++  await admin();
++  return (await db.query(`select public.apply_paddle_subscription_event($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) as applied`,[id,type,time,studio,owner,sid,customer,price,status,'2026-10-14T00:00:00Z','2099-11-14T00:00:00Z',null])).rows[0].applied;
++}
++before(async()=>{
++ directory=await mkdtemp(join(tmpdir(),'rovei-db-'));
++ db=new PGlite(directory,{extensions:{pgcrypto}});
++ await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
++ create schema auth; create schema storage;
++ create table auth.users(id uuid primary key,email text,raw_user_meta_data jsonb default '{}'::jsonb);
++ create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
++ create function auth.jwt() returns jsonb language sql stable as $$ select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb $$;
++ grant usage on schema public,auth to anon,authenticated,service_role;
++ create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);`);
++ const root=new URL('../supabase/migrations/',import.meta.url);
++ for(const file of (await readdir(root)).filter(n=>n.endsWith('.sql')).sort()) await db.exec(await readFile(new URL(file,root),'utf8'));
++ await db.exec(`grant select,insert,update,delete on all tables in schema public to authenticated; grant all on all tables in schema public to service_role;
++ insert into auth.users(id,email) values('${owner}','owner@example.invalid'),('${other}','other@example.invalid');
++ insert into public.studios(id,owner_user_id,name) values('${studio}','${owner}','First Studio'),('${second}','${other}','Second Studio');
++ insert into public.subscriptions(studio_id,status,current_period_end) values('${studio}','active','2099-01-01'),('${second}','active','2099-01-01');`);
++});
++after(async()=>{if(db)await db.close();if(directory)await rm(directory,{recursive:true,force:true});});
++
++test('all migrations execute in PostgreSQL and missing paid access policies are present',async()=>{
++ const rows=(await db.query("select count(*)::int as count from pg_policies where policyname like '%active_members%' and tablename not in ('studio_settings','services')")).rows;
++ assert.equal(rows[0].count,8);
++});
++test('paid owner can persist a client and another owner cannot read or reassign it',async()=>{
++ await asOwner();
++ const client=(await db.query("insert into public.clients(studio_id,first_name,last_name) values($1,'Fixture','Client') returning id",[studio])).rows[0].id;
++ await asOwner(other);
++ assert.equal((await db.query('select id from public.clients where id=$1',[client])).rows.length,0);
++ assert.equal((await db.query("update public.clients set first_name='Intruder' where id=$1 returning id",[client])).rows.length,0);
++ await asOwner();
++ await assert.rejects(db.query('update public.clients set studio_id=$1 where id=$2',[second,client]),/row-level security/);
++});
++test('past-due, expired and missing-period subscriptions deny direct paid-data access',async()=>{
++ for(const [status,end] of [['past_due','2099-01-01'],['active','2000-01-01'],['active',null],['cancelled','2099-01-01']]){
++  await admin();await db.query('update public.subscriptions set status=$1,current_period_end=$2 where studio_id=$3',[status,end,studio]);
++  await asOwner();assert.equal((await db.query('select id from public.clients')).rows.length,0);
++  await assert.rejects(db.query("insert into public.clients(studio_id,first_name) values($1,'Unpaid')",[studio]),/row-level security/);
++ }
++ await admin();await db.query("update public.subscriptions set status='inactive' where studio_id=$1",[studio]);
++});
++test('checkout reservation reuses attempts and fences unauthorized owners and stale leases',async()=>{
++ await admin();
++ const reserve=await db.query('select * from public.reserve_paddle_checkout($1,$2,$3,$4)',[studio,owner,price,lease]);
++ assert.equal(reserve.rows[0].is_new,true);
++ const again=await db.query('select * from public.reserve_paddle_checkout($1,$2,$3,$4)',[studio,owner,price,lease]);
++ assert.equal(again.rows[0].is_new,false);
++ await assert.rejects(db.query('select * from public.reserve_paddle_checkout($1,$2,$3,$4)',[studio,other,price,lease]),/Studio owner/);
++ const attempt=reserve.rows[0].checkout_attempt_id;
++ assert.equal((await db.query('select public.set_paddle_checkout_transaction($1,$2,$3,$4,$5) as saved',[studio,owner,other,attempt,'txn_'+'a'.repeat(26)])).rows[0].saved,false);
++ assert.equal((await db.query('select public.set_paddle_checkout_transaction($1,$2,$3,$4,$5) as saved',[studio,owner,lease,attempt,'txn_'+'a'.repeat(26)])).rows[0].saved,true);
++});
++test('subscription events deduplicate and ignore stale deliveries',async()=>{
++ assert.equal(await event('evt_001','active'),true);
++ assert.equal(await event('evt_001','active'),false);
++ assert.equal(await event('evt_old','past_due','2026-10-14T11:00:00Z'),false);
++ assert.equal((await db.query('select status from public.subscriptions where studio_id=$1',[studio])).rows[0].status,'active');
++});
++test('failed payment revokes access and a later provider recovery restores it',async()=>{
++ assert.equal(await event('evt_002','past_due','2026-10-14T12:01:00Z','subscription.past_due'),true);
++ await asOwner();assert.equal((await db.query('select id from public.clients')).rows.length,0);
++ assert.equal(await event('evt_003','active','2026-10-14T12:02:00Z','subscription.activated'),true);
++ await asOwner();assert.equal((await db.query('select id from public.clients')).rows.length,1);
++});
++test('cancellation retains client data and late events cannot resurrect a terminated subscription',async()=>{
++ assert.equal(await event('evt_004','cancelled','2026-10-14T12:03:00Z','subscription.canceled'),true);
++ assert.equal(await event('evt_005','active','2026-10-14T12:04:00Z'),false);
++ await asOwner();assert.equal((await db.query('select id from public.clients')).rows.length,0);
++ await admin();assert.equal((await db.query('select id from public.clients where studio_id=$1',[studio])).rows.length,1);
++});
++test('browser roles cannot invoke privileged billing RPCs',async()=>{
++ await asOwner();
++ await assert.rejects(db.query('select * from public.reserve_paddle_checkout($1,$2,$3,$4)',[studio,owner,price,lease]),/permission denied/);
++ await db.exec('reset role; set role anon;');
++ await assert.rejects(db.query('select public.is_studio_member($1)',[studio]),/permission denied/);
++ await admin();
++});
++test('Studio configuration and Beauty Pack saves are atomic and tenant scoped',async()=>{
++ await admin();await db.query("update public.subscriptions set status='active',current_period_end='2099-01-01' where studio_id=$1",[studio]);
++ await asOwner();
++ const args=[studio,'Persisted Studio','Africa/Johannesburg','wine','#941651','#941651',JSON.stringify(['consultation','consent']),['lashes'],null,null];
++ await db.query('select public.save_studio_configuration($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)',args);
++ const pack=(await db.query('select public.save_beauty_pack($1,null,$2,$3,$4) as pack',[studio,'Fixture Pack','lashes',['consultation','consent']])).rows[0].pack.id;
++ await assert.rejects(db.query('select public.save_beauty_pack($1,$2,$3,$4,$5)',[studio,pack,'Broken Pack','lashes',['unsupported']]),/Invalid Beauty Pack/);
++ assert.equal((await db.query('select name from public.beauty_packs where id=$1',[pack])).rows[0].name,'Fixture Pack');
++ await asOwner(other);await assert.rejects(db.query('select public.save_beauty_pack($1,$2,$3,$4,$5)',[studio,pack,'Intruder','lashes',['consent']]),/Active Studio member/);
++ await asOwner();
++ await assert.rejects(db.query('select public.save_studio_configuration($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)',[...args.slice(0,2),'Unknown/Timezone',...args.slice(3)]),/Invalid Studio configuration/);
++ assert.equal((await db.query('select name from public.studios where id=$1',[studio])).rows[0].name,'Persisted Studio');
++ await admin();
++});
++test('a module write failure rolls back the existing Beauty Pack and its modules',async()=>{
++ await admin();
++ await db.exec("create function public.reject_fixture_module() returns trigger language plpgsql as $$ begin if new.module_type='preferences' then raise exception 'Injected module failure'; end if; return new; end $$; create trigger reject_fixture_module before insert on public.beauty_pack_modules for each row execute function public.reject_fixture_module();");
++ const pack=(await db.query('select id from public.beauty_packs where studio_id=$1',[studio])).rows[0].id;
++ await asOwner();
++ await assert.rejects(db.query('select public.save_beauty_pack($1,$2,$3,$4,$5)',[studio,pack,'Changed','lashes',['consultation','preferences']]),/Injected module failure/);
++ assert.equal((await db.query('select name from public.beauty_packs where id=$1',[pack])).rows[0].name,'Fixture Pack');
++ assert.deepEqual((await db.query('select module_type from public.beauty_pack_modules where beauty_pack_id=$1 order by sort_order',[pack])).rows,[{module_type:'consultation'},{module_type:'consent'}]);
++ await admin();await db.exec('drop trigger reject_fixture_module on public.beauty_pack_modules; drop function public.reject_fixture_module();');
++});
++test('saved records survive closing and reopening the database session',async()=>{
++ await db.close();db=new PGlite(directory,{extensions:{pgcrypto}});
++ const rows=(await db.query('select first_name from public.clients where studio_id=$1',[studio])).rows;
++ assert.deepEqual(rows,[{first_name:'Fixture'}]);
++});
+diff --git a/tests/e2e/checkout.spec.ts b/tests/e2e/checkout.spec.ts
+new file mode 100644
+index 0000000..c2e2a68
+--- /dev/null
++++ b/tests/e2e/checkout.spec.ts
+@@ -0,0 +1,37 @@
++import { test, expect, type Page } from "@playwright/test";
++// Browser regression with explicit Paddle/API fixtures. Real Sandbox checkout
++// and Hookdeck delivery are separate launch gates; this suite proves neither.
++const transactionId=`txn_${"a".repeat(26)}`;
++async function fixture(page:Page, active=false) {
++  let cancelled=false,checkoutCalls=0,cancelCalls=0;
++  await page.route("https://cdn.paddle.com/**",route=>route.fulfill({contentType:"application/javascript",body:`window.Paddle={Environment:{set(){}},Initialize(o){window.fixtureCallback=o.eventCallback},Checkout:{open(o){document.querySelector('.rovei-payment-frame').innerHTML='<div aria-label="Mock Paddle frame">Mock secure payment frame — no payment collected</div>';window.fixtureCallback({name:'checkout.loaded',data:{transaction_id:o.transactionId,currency_code:'ZAR',totals:{subtotal:2400,tax:360,total:2760,discount:0,balance:2760},recurring_totals:{total:2760}}})},close(){}}};`}));
++  await page.route("**/api/billing/subscription",route=>route.fulfill({json:{status:cancelled?"cancelled":active?"active":"inactive",email:"studio@example.invalid",billing:active?"annual":null,currentPeriodEnd:active?"2099-11-14T00:00:00Z":null,accessActive:active&&!cancelled}}));
++  await page.route("**/api/billing/checkout",route=>{checkoutCalls++;return route.fulfill({json:{transactionId}})});
++  await page.route("**/api/billing/manage",route=>{cancelCalls++;cancelled=true;return route.fulfill({json:{state:"paddle_confirmed"}})});
++  return {checkoutCalls:()=>checkoutCalls,cancelCalls:()=>cancelCalls};
++}
++test("inline checkout opens one server transaction and uses Paddle localized tax and totals",async({page})=>{
++ const calls=await fixture(page);await page.goto('/activate/checkout');
++ await page.getByRole('button',{name:'Continue to subscribe'}).click();
++ await expect(page.getByLabel('Mock Paddle frame')).toBeVisible();
++ await expect(page.getByText('Total due today').locator('..')).toContainText('ZAR 2,760.00');
++ await expect(page.getByRole('button',{name:'Annual',exact:false})).toBeDisabled();
++ expect(calls.checkoutCalls()).toBe(1);
++});
++test("immediate cancellation requires both confirmations and waits for server-confirmed lockout",async({page})=>{
++ const calls=await fixture(page,true);await page.goto('/activate/checkout');
++ await page.getByRole('button',{name:'Cancel subscription',exact:true}).click();expect(calls.cancelCalls()).toBe(0);
++ await page.getByRole('button',{name:'Continue cancellation'}).click();expect(calls.cancelCalls()).toBe(0);
++ await page.getByRole('button',{name:'Confirm immediate cancellation'}).click();
++ await expect(page.getByText('Your subscription has ended.',{exact:false})).toBeVisible();expect(calls.cancelCalls()).toBe(1);
++});
++test("checkout failure stays visible and never claims paid access",async({page})=>{
++ await fixture(page);await page.route('**/api/billing/checkout',route=>route.fulfill({status:503,json:{message:'Fixture checkout unavailable'}}));
++ await page.goto('/activate/checkout');await page.getByRole('button',{name:'Continue to subscribe'}).click();
++ await expect(page.getByRole('alert')).toContainText('Fixture checkout unavailable');await expect(page.getByRole('link',{name:'Continue to Studio'})).toHaveCount(0);
++});
++for(const width of [320,390,1440]) test(`checkout fits a ${width}px viewport`,async({page})=>{
++ await page.setViewportSize({width,height:1000});await fixture(page);await page.goto('/activate/checkout');
++ await expect(page.getByRole('button',{name:'Continue to subscribe'})).toBeVisible();
++ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
++});
+diff --git a/tests/locked-studio-state.test.mjs b/tests/locked-studio-state.test.mjs
+new file mode 100644
+index 0000000..1bb734b
+--- /dev/null
++++ b/tests/locked-studio-state.test.mjs
+@@ -0,0 +1,21 @@
++import assert from 'node:assert/strict';
++import { test } from 'node:test';
++import { adaptLockedStudioRows } from '../lib/backend/locked-studio-state.ts';
++const fixture={
++ clients:[{id:'client-1',first_name:'Fixture',last_name:'Client',created_at:'2026-10-01'}],
++ appointments:[{id:'appointment-1',client_id:'client-1',service_id:'service-1',starts_at:'2026-10-19T07:30:00Z',timezone:'Africa/Johannesburg',status:'scheduled',readiness_status:'ready'}],
++ services:[{id:'service-1',category:'lashes'}],experiences:[{id:'exp-1',client_id:'client-1',experience_modules:['consultation','consent'],created_at:'2026-10-14'}],
++ responses:[{client_experience_id:'exp-1',module_type:'consultation',payload:{goal:'A natural finish'}},{client_experience_id:'exp-1',module_type:'consent',payload:{acknowledged:true}}],
++ packs:[{id:'pack-1',name:'Lashes',service_category:'lashes'}],modules:[{beauty_pack_id:'pack-1',module_type:'consent',sort_order:1},{beauty_pack_id:'pack-1',module_type:'consultation',sort_order:0}],visits:[{id:'visit-1',client_id:'client-1',summary:'Fixture',created_at:'2026-10-01T10:00:00Z'}]
++};
++test('server records restore the approved shell shape and the Studio timezone',()=>{
++ const state=adaptLockedStudioRows(fixture,Date.parse('2026-10-14'));
++ assert.equal(state.clients[0].appointmentDate,'2026-10-19');assert.equal(state.clients[0].appointmentTime,'09:30');
++ assert.equal(state.clients[0].status,'READY');assert.equal(state.clients[0].response.consultation,'A natural finish');assert.equal(state.clients[0].response.consent,true);
++ assert.deepEqual(state.beautyPacks[0].modules,['consultation','consent']);assert.equal(state.visits[0].clientId,'client-1');
++});
++test('cancelled bookings do not reappear on the schedule and empty studios remain empty',()=>{
++ const state=adaptLockedStudioRows({...fixture,appointments:[{...fixture.appointments[0],status:'cancelled'}]});
++ assert.equal(state.clients[0].appointmentId,null);
++ assert.deepEqual(adaptLockedStudioRows(Object.fromEntries(Object.keys(fixture).map(k=>[k,[]]))),{clients:[],beautyPacks:[],visits:[]});
++});
+diff --git a/tests/paddle-billing.test.mjs b/tests/paddle-billing.test.mjs
+index c406b46..86390f7 100644
+--- a/tests/paddle-billing.test.mjs
++++ b/tests/paddle-billing.test.mjs
+@@ -89,7 +89,7 @@ test("Paddle lifecycle states map conservatively to Rovei access", () => {
+ 
+   const now = Date.parse("2026-10-13T11:00:00.000Z");
+   assert.equal(hasActiveSubscription("active", "2026-10-14T11:00:00.000Z", now), true);
+-  assert.equal(hasActiveSubscription("trialing", null, now), true);
++  assert.equal(hasActiveSubscription("trialing", null, now), false);
+   assert.equal(hasActiveSubscription("past_due", null, now), false);
+   assert.equal(hasActiveSubscription("paused", null, now), false);
+   assert.equal(hasActiveSubscription("cancelled", null, now), false);
+diff --git a/tests/route-smoke.mjs b/tests/route-smoke.mjs
+new file mode 100644
+index 0000000..0e37962
+--- /dev/null
++++ b/tests/route-smoke.mjs
+@@ -0,0 +1,18 @@
++import assert from 'node:assert/strict';
++import fs from 'node:fs';
++import path from 'node:path';
++import { createRequire } from 'node:module';
++const loadCompiledModule=createRequire(import.meta.url);
++function handler(route,method) {return loadCompiledModule(path.join(process.cwd(),'.next/server/app',route,'route.js')).routeModule.userland[method];}
++(async()=>{
++ const fixture={PADDLE_ENVIRONMENT:'sandbox',PADDLE_API_KEY:'sandbox-api-fixture',PADDLE_WEBHOOK_SECRET:'webhook-fixture',NEXT_PUBLIC_PADDLE_CLIENT_TOKEN:'test_client-fixture',PADDLE_PRICE_ID_MONTHLY:'pri_'+'a'.repeat(26),PADDLE_PRICE_ID_ANNUAL:'pri_'+'b'.repeat(26)};
++ Object.assign(process.env,fixture);
++ const cross=await handler('api/billing/checkout','POST')(new Request('https://rovei.example.invalid/api/billing/checkout',{method:'POST',headers:{origin:'https://attacker.invalid','content-type':'application/json'},body:'{"billing":"monthly"}'}));
++ assert.equal(cross.status,403);console.log('PASS compiled checkout rejects cross-origin requests');
++ const unsigned=await handler('api/webhooks/paddle','POST')(new Request('https://rovei.example.invalid/api/webhooks/paddle',{method:'POST',body:'{}'}));
++ assert.equal(unsigned.status,401);console.log('PASS compiled webhook rejects unsigned payloads');
++ const status=await handler('api/billing/subscription','GET')();assert.equal(status.status,503);console.log('PASS unconfigured billing fails closed');
++ const reset=await handler('api/test-reset','GET')();assert.equal(reset.status,404);console.log('PASS production reset endpoint is disabled');
++ const home=await handler('','GET')(new Request('https://rovei.example.invalid/'));
++ assert.equal(home.status,200);assert.equal(await home.text(),fs.readFileSync('public/rovei-landing.html','utf8'));console.log('PASS public homepage response matches approved file exactly');
++})().catch(error=>{console.error(error);process.exitCode=1;});
+diff --git a/tests/studio-persistence.test.mjs b/tests/studio-persistence.test.mjs
+new file mode 100644
+index 0000000..5de654f
+--- /dev/null
++++ b/tests/studio-persistence.test.mjs
+@@ -0,0 +1,65 @@
++import assert from 'node:assert/strict';
++import { readFile } from 'node:fs/promises';
++import { test } from 'node:test';
++import { JSDOM } from 'jsdom';
++import { studioConfigurationSchema } from '../lib/backend/schemas.ts';
++import { renderLockedShellDocument } from '../lib/auth/locked-shell.ts';
++const html=await readFile(new URL('../reference/Rovei_APPROVED_FINAL_FRONTEND.html',import.meta.url),'utf8');
++const bridge=await readFile(new URL('../public/rovei-studio-persistence.js',import.meta.url),'utf8');
++const KEY='rovei:full-process-preview-v3';
++function createShell(fetch, appPage="new-pack") {
++ const initial={version:3,screen:'app',appPage,productTourCompleted:true,studio:{exists:true,name:'Fixture Studio',timezone:'Africa/Johannesburg',services:['lashes'],theme:'wine',customPrimary:'#941651',modules:['consultation']},account:{firstName:'Owner',email:'owner@example.invalid',terms:true},beautyPacks:[],clients:[],visits:[],settings:{subscriptionStatus:'active',availability:{timezone:'Africa/Johannesburg'}},signupDraft:{password:''},billing:'monthly',packDraft:{name:'',service:'',modules:[]}};
++ const dom=new JSDOM(renderLockedShellDocument(html,initial,null),{url:'https://rovei.example.invalid/',runScripts:'outside-only',pretendToBeVisual:true});
++ const {window}=dom;window.scrollTo=()=>{};window.fetch=fetch;window.AbortSignal=AbortSignal;window.structuredClone=structuredClone;
++ for(const script of window.document.querySelectorAll('script:not([src])'))window.eval(script.textContent);
++ window.eval(bridge);return dom;
++}
++const wait=()=>new Promise(resolve=>setTimeout(resolve,30));
++function fillPack(window) {
++ const document=window.document;
++ document.getElementById('packName').value='Fixture Pack';document.getElementById('packService').value='lashes';
++ document.getElementById('packName').dispatchEvent(new window.Event('input',{bubbles:true}));
++ document.querySelector('[data-pack-module="consultation"]').click();
++}
++test('approved pack form saves remotely once and updates the existing shell only after success',async()=>{
++ let resolveSave,calls=0,payload;
++ const dom=createShell(async(url,options)=>{calls++;assert.equal(url,'/api/beauty-packs');payload=JSON.parse(options.body);return new Promise(resolve=>{resolveSave=resolve;});});
++ try {
++  fillPack(dom.window);dom.window.document.getElementById('saveBeautyPack').click();
++  assert.equal(calls,1);assert.equal(JSON.parse(dom.window.localStorage.getItem(KEY)).beautyPacks.length,0);
++  assert.deepEqual(payload,{name:'Fixture Pack',service:'lashes',modules:['consultation']});
++  resolveSave({ok:true,status:201,json:async()=>({pack:{id:'server-pack-id',...payload}})});await wait();
++  const state=JSON.parse(dom.window.localStorage.getItem(KEY));assert.equal(state.beautyPacks[0].id,'server-pack-id');assert.equal(state.appPage,'packs');
++  assert.match(dom.window.document.querySelector('.toast').textContent,/saved to your Studio/);
++  assert.equal(dom.window.document.getElementById('packForm'),null);
++  assert.match(dom.window.document.getElementById('app').textContent,/Fixture Pack/);
++ }finally{dom.window.close();}
++});
++test('failed pack save stays visible and never creates a local-only pack',async()=>{
++ const dom=createShell(async()=>({ok:false,status:500,json:async()=>({message:'Fixture server failure'})}));
++ try {
++  fillPack(dom.window);dom.window.document.getElementById('saveBeautyPack').click();await wait();
++  assert.equal(JSON.parse(dom.window.localStorage.getItem(KEY)).beautyPacks.length,0);
++  assert.equal(JSON.parse(dom.window.localStorage.getItem(KEY)).appPage,'new-pack');
++  assert.equal(dom.window.document.querySelector('.toast').textContent,'Fixture server failure');
++ }finally{dom.window.close();}
++});
++test('service mutation keeps server-authoritative state after a failed save',async()=>{
++ const dom=createShell(async()=>({ok:false,status:500,json:async()=>({message:'Fixture save rejected'})}),'studio');
++ try {
++  dom.window.document.querySelector('[data-edit-service="brows"]').click();await wait();
++  assert.deepEqual(JSON.parse(dom.window.localStorage.getItem(KEY)).studio.services,['lashes']);
++  assert.equal(dom.window.document.querySelector('.toast').textContent,'Fixture save rejected');
++ }finally{dom.window.close();}
++});
++
++test('Studio controls submit a valid API payload even before settings defaults have rendered',async()=>{
++ const dom=createShell(async(url,options)=>{
++  assert.equal(url,'/api/studio');assert.equal(studioConfigurationSchema.safeParse(JSON.parse(options.body)).success,true);
++  return {ok:true,status:200,json:async()=>({saved:true})};
++ },'studio');
++ try {
++  dom.window.document.querySelector('[data-edit-service="brows"]').click();await wait();
++  assert.deepEqual(JSON.parse(dom.window.localStorage.getItem(KEY)).studio.services,['lashes','brows']);
++ }finally{dom.window.close();}
++});

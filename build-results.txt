@@ -1,0 +1,95 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> rovei-frontend-foundation@0.1.0 build
+> next build
+
+▲ Next.js 16.3.8 (Turbopack)
+✓ Running next.config.ts took 22ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 899ms
+  Running TypeScript ...
+  Finished TypeScript in 8.4s ...
+  Collecting page data using 1 worker ...
+  Generating static pages using 1 worker (0/46) ...
+  Generating static pages using 1 worker (11/46) 
+  Generating static pages using 1 worker (22/46) 
+  Generating static pages using 1 worker (34/46) 
+✓ Generating static pages using 1 worker (46/46) in 780ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ○ /activate
+├ ƒ /activate/checkout
+├ ○ /activate/checkout/complete
+├ ƒ /api/appointments
+├ ƒ /api/appointments/[id]
+├ ƒ /api/auth/account
+├ ƒ /api/auth/login
+├ ƒ /api/auth/password
+├ ƒ /api/auth/recovery
+├ ƒ /api/auth/session
+├ ƒ /api/auth/signout
+├ ƒ /api/auth/signup
+├ ƒ /api/backend/status
+├ ƒ /api/beauty-packs
+├ ƒ /api/beauty-packs/[id]
+├ ƒ /api/billing/checkout
+├ ƒ /api/billing/manage
+├ ƒ /api/billing/subscription
+├ ƒ /api/client-links
+├ ƒ /api/client-links/[id]
+├ ƒ /api/clients
+├ ƒ /api/public/client-experience/[token]
+├ ƒ /api/public/client-experience/[token]/photos
+├ ƒ /api/public/client-experience/[token]/photos/[photoId]
+├ ƒ /api/public/client-experience/[token]/submit
+├ ƒ /api/studio
+├ ƒ /api/studio/bootstrap
+├ ƒ /api/support
+├ ƒ /api/support/[id]
+├ ƒ /api/test-reset
+├ ƒ /api/webhooks/paddle
+├ ○ /app
+├ ○ /app/beauty-packs
+├ ƒ /app/beauty-packs/[id]
+├ ○ /app/beauty-packs/new
+├ ○ /app/clients
+├ ƒ /app/clients/[id]
+├ ○ /app/clients/new
+├ ○ /app/clients/new/history
+├ ○ /app/clients/new/link
+├ ○ /app/clients/new/result
+├ ○ /app/clients/new/visit
+├ ○ /app/schedule
+├ ○ /app/settings
+├ ○ /app/studio
+├ ƒ /auth/callback
+├ ○ /auth/finish
+├ ƒ /client/[token]
+├ ƒ /dev-studio-return
+├ ○ /landing
+├ ƒ /login
+├ ○ /onboarding
+├ ○ /onboarding/experience
+├ ○ /onboarding/mood
+├ ○ /onboarding/services
+├ ○ /preview
+├ ○ /signup
+├ ƒ /support
+├ ƒ /support/inbox
+└ ƒ /support/new
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

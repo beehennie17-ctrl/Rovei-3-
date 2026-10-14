@@ -1,0 +1,414 @@
+(node:4) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+TAP version 13
+# (node:11) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: new signups wait for confirmation and use the server callback
+ok 1 - new signups wait for confirmation and use the server callback
+  ---
+  duration_ms: 2.085278
+  type: 'test'
+  ...
+# Subtest: confirmed unpaid users go straight to the locked paywall
+ok 2 - confirmed unpaid users go straight to the locked paywall
+  ---
+  duration_ms: 0.887032
+  type: 'test'
+  ...
+# Subtest: active and trialing subscribers reach the locked dashboard
+ok 3 - active and trialing subscribers reach the locked dashboard
+  ---
+  duration_ms: 0.639254
+  type: 'test'
+  ...
+# Subtest: expired or missing authentication cannot unlock the dashboard
+ok 4 - expired or missing authentication cannot unlock the dashboard
+  ---
+  duration_ms: 0.336923
+  type: 'test'
+  ...
+# Subtest: returning users never repeat onboarding, regardless of query parameters
+ok 5 - returning users never repeat onboarding, regardless of query parameters
+  ---
+  duration_ms: 0.415881
+  type: 'test'
+  ...
+# Subtest: Studio metadata restores onboarding after confirmation without browser state
+ok 6 - Studio metadata restores onboarding after confirmation without browser state
+  ---
+  duration_ms: 1.096279
+  type: 'test'
+  ...
+# Subtest: unauthenticated query parameters cannot skip the locked paywall
+ok 7 - unauthenticated query parameters cannot skip the locked paywall
+  ---
+  duration_ms: 0.345948
+  type: 'test'
+  ...
+# Subtest: invalid credentials return a non-enumerating login error
+ok 8 - invalid credentials return a non-enumerating login error
+  ---
+  duration_ms: 0.373902
+  type: 'test'
+  ...
+# Subtest: unconfirmed email and duplicate signup errors are actionable
+ok 9 - unconfirmed email and duplicate signup errors are actionable
+  ---
+  duration_ms: 1.521713
+  type: 'test'
+  ...
+# Subtest: expired sessions require a fresh sign-in
+ok 10 - expired sessions require a fresh sign-in
+  ---
+  duration_ms: 0.655408
+  type: 'test'
+  ...
+# Subtest: callback destinations reject external and backslash-based paths
+ok 11 - callback destinations reject external and backslash-based paths
+  ---
+  duration_ms: 0.389066
+  type: 'test'
+  ...
+# Subtest: studio bootstrap RPC returns created and already-existing studios
+ok 12 - studio bootstrap RPC returns created and already-existing studios
+  ---
+  duration_ms: 0.416465
+  type: 'test'
+  ...
+# Subtest: studio bootstrap RPC errors and malformed results fail explicitly
+ok 13 - studio bootstrap RPC errors and malformed results fail explicitly
+  ---
+  duration_ms: 2.638748
+  type: 'test'
+  ...
+# Subtest: email confirmation supports token hashes and existing OAuth codes
+ok 14 - email confirmation supports token hashes and existing OAuth codes
+  ---
+  duration_ms: 0.334722
+  type: 'test'
+  ...
+# Subtest: server confirmation verifies signup tokens with the matching Supabase OTP type
+ok 15 - server confirmation verifies signup tokens with the matching Supabase OTP type
+  ---
+  duration_ms: 1.002285
+  type: 'test'
+  ...
+# Subtest: server confirmation uses PKCE codes and sends fragment-only links to the browser handler
+ok 16 - server confirmation uses PKCE codes and sends fragment-only links to the browser handler
+  ---
+  duration_ms: 0.442692
+  type: 'test'
+  ...
+# Subtest: expired or invalid confirmation cannot create a server-confirmed session
+ok 17 - expired or invalid confirmation cannot create a server-confirmed session
+  ---
+  duration_ms: 0.279573
+  type: 'test'
+  ...
+# Subtest: fragment session handler persists a session and confirms its server-validated user
+ok 18 - fragment session handler persists a session and confirms its server-validated user
+  ---
+  duration_ms: 0.753575
+  type: 'test'
+  ...
+# Subtest: confirmation redirects require an HTTPS public origin
+ok 19 - confirmation redirects require an HTTPS public origin
+  ---
+  duration_ms: 0.772201
+  type: 'test'
+  ...
+# Subtest: expired or unpaid subscriptions cannot use protected Studio APIs
+ok 20 - expired or unpaid subscriptions cannot use protected Studio APIs
+  ---
+  duration_ms: 1.075417
+  type: 'test'
+  ...
+# Subtest: default email fragment can supply a session
+ok 21 - default email fragment can supply a session
+  ---
+  duration_ms: 0.734638
+  type: 'test'
+  ...
+# (node:12) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Paddle cancellation is immediate and not a database deletion
+ok 22 - Paddle cancellation is immediate and not a database deletion
+  ---
+  duration_ms: 7.678319
+  type: 'test'
+  ...
+# Subtest: Studio cancellation uses real status and waits for synchronization
+ok 23 - Studio cancellation uses real status and waits for synchronization
+  ---
+  duration_ms: 5.531969
+  type: 'test'
+  ...
+# (node:13) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: checkout uses Paddle localized totals and credit balance without inventing VAT
+ok 24 - checkout uses Paddle localized totals and credit balance without inventing VAT
+  ---
+  duration_ms: 2.369741
+  type: 'test'
+  ...
+# Subtest: checkout rejects incomplete, negative and nonfinite financial payloads
+ok 25 - checkout rejects incomplete, negative and nonfinite financial payloads
+  ---
+  duration_ms: 0.349966
+  type: 'test'
+  ...
+# Subtest: catalog requires matching product, correct recurring amounts, no trial and active prices
+ok 26 - catalog requires matching product, correct recurring amounts, no trial and active prices
+  ---
+  duration_ms: 0.461441
+  type: 'test'
+  ...
+# Subtest: missing or invalid period never grants paid access
+ok 27 - missing or invalid period never grants paid access
+  ---
+  duration_ms: 0.237556
+  type: 'test'
+  ...
+# Subtest: payment-failure, pause and recovery subscription events are handled
+ok 28 - payment-failure, pause and recovery subscription events are handled
+  ---
+  duration_ms: 0.352701
+  type: 'test'
+  ...
+# (node:19) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all migrations execute in PostgreSQL and missing paid access policies are present
+ok 29 - all migrations execute in PostgreSQL and missing paid access policies are present
+  ---
+  duration_ms: 4218.689039
+  type: 'test'
+  ...
+# Subtest: paid owner can persist a client and another owner cannot read or reassign it
+ok 30 - paid owner can persist a client and another owner cannot read or reassign it
+  ---
+  duration_ms: 19.701125
+  type: 'test'
+  ...
+# Subtest: past-due, expired and missing-period subscriptions deny direct paid-data access
+ok 31 - past-due, expired and missing-period subscriptions deny direct paid-data access
+  ---
+  duration_ms: 20.999569
+  type: 'test'
+  ...
+# Subtest: checkout reservation reuses attempts and fences unauthorized owners and stale leases
+ok 32 - checkout reservation reuses attempts and fences unauthorized owners and stale leases
+  ---
+  duration_ms: 11.753481
+  type: 'test'
+  ...
+# Subtest: subscription events deduplicate and ignore stale deliveries
+ok 33 - subscription events deduplicate and ignore stale deliveries
+  ---
+  duration_ms: 11.032698
+  type: 'test'
+  ...
+# Subtest: failed payment revokes access and a later provider recovery restores it
+ok 34 - failed payment revokes access and a later provider recovery restores it
+  ---
+  duration_ms: 6.137565
+  type: 'test'
+  ...
+# Subtest: cancellation retains client data and late events cannot resurrect a terminated subscription
+ok 35 - cancellation retains client data and late events cannot resurrect a terminated subscription
+  ---
+  duration_ms: 5.553422
+  type: 'test'
+  ...
+# Subtest: browser roles cannot invoke privileged billing RPCs
+ok 36 - browser roles cannot invoke privileged billing RPCs
+  ---
+  duration_ms: 3.918461
+  type: 'test'
+  ...
+# Subtest: Studio configuration and Beauty Pack saves are atomic and tenant scoped
+ok 37 - Studio configuration and Beauty Pack saves are atomic and tenant scoped
+  ---
+  duration_ms: 79.912465
+  type: 'test'
+  ...
+# Subtest: a module write failure rolls back the existing Beauty Pack and its modules
+ok 38 - a module write failure rolls back the existing Beauty Pack and its modules
+  ---
+  duration_ms: 13.284141
+  type: 'test'
+  ...
+# Subtest: saved records survive closing and reopening the database session
+ok 39 - saved records survive closing and reopening the database session
+  ---
+  duration_ms: 422.956537
+  type: 'test'
+  ...
+# (node:35) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: server records restore the approved shell shape and the Studio timezone
+ok 40 - server records restore the approved shell shape and the Studio timezone
+  ---
+  duration_ms: 41.871355
+  type: 'test'
+  ...
+# Subtest: cancelled bookings do not reappear on the schedule and empty studios remain empty
+ok 41 - cancelled bookings do not reappear on the schedule and empty studios remain empty
+  ---
+  duration_ms: 3.49366
+  type: 'test'
+  ...
+# (node:36) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: monthly and annual cadence resolve only through configured Paddle price IDs
+ok 42 - monthly and annual cadence resolve only through configured Paddle price IDs
+  ---
+  duration_ms: 2.760454
+  type: 'test'
+  ...
+# Subtest: Sandbox configuration fails closed for missing values and production mode
+ok 43 - Sandbox configuration fails closed for missing values and production mode
+  ---
+  duration_ms: 0.747164
+  type: 'test'
+  ...
+# Subtest: Paddle webhook signatures verify the raw payload and reject tampering or stale timestamps
+ok 44 - Paddle webhook signatures verify the raw payload and reject tampering or stale timestamps
+  ---
+  duration_ms: 1.123654
+  type: 'test'
+  ...
+# Subtest: Paddle lifecycle states map conservatively to Rovei access
+ok 45 - Paddle lifecycle states map conservatively to Rovei access
+  ---
+  duration_ms: 0.6787
+  type: 'test'
+  ...
+# Subtest: webhook ordering rejects stale events and orders distinct equal-time events deterministically
+ok 46 - webhook ordering rejects stale events and orders distinct equal-time events deterministically
+  ---
+  duration_ms: 0.459581
+  type: 'test'
+  ...
+# Subtest: checkout reservation recovery renews the lease only for Paddle reconciliation
+ok 47 - checkout reservation recovery renews the lease only for Paddle reconciliation
+  ---
+  duration_ms: 16.610208
+  type: 'test'
+  ...
+# Subtest: checkout SQL fences transaction writes and cleanup by reservation ownership
+ok 48 - checkout SQL fences transaction writes and cleanup by reservation ownership
+  ---
+  duration_ms: 1.157094
+  type: 'test'
+  ...
+# Subtest: uncertain transaction recovery matches exactly one account-bound attempt marker
+ok 49 - uncertain transaction recovery matches exactly one account-bound attempt marker
+  ---
+  duration_ms: 1.387301
+  type: 'test'
+  ...
+# Subtest: checkout does not send a client-supplied Paddle idempotency header or retry unknown POSTs
+ok 50 - checkout does not send a client-supplied Paddle idempotency header or retry unknown POSTs
+  ---
+  duration_ms: 6.057993
+  type: 'test'
+  ...
+# Subtest: webhook SQL deduplicates event IDs and applies timestamp plus event-ID ordering atomically
+ok 51 - webhook SQL deduplicates event IDs and applies timestamp plus event-ID ordering atomically
+  ---
+  duration_ms: 1.179384
+  type: 'test'
+  ...
+# Subtest: duplicate checkout requests reuse the same transaction or block unsafe replacements
+ok 52 - duplicate checkout requests reuse the same transaction or block unsafe replacements
+  ---
+  duration_ms: 0.204354
+  type: 'test'
+  ...
+# Subtest: subscription custom data must match both authenticated Studio and owner
+ok 53 - subscription custom data must match both authenticated Studio and owner
+  ---
+  duration_ms: 0.084989
+  type: 'test'
+  ...
+# (node:42) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: approved pack form saves remotely once and updates the existing shell only after success
+ok 54 - approved pack form saves remotely once and updates the existing shell only after success
+  ---
+  duration_ms: 1413.056626
+  type: 'test'
+  ...
+# Subtest: failed pack save stays visible and never creates a local-only pack
+ok 55 - failed pack save stays visible and never creates a local-only pack
+  ---
+  duration_ms: 256.53932
+  type: 'test'
+  ...
+# Subtest: service mutation keeps server-authoritative state after a failed save
+ok 56 - service mutation keeps server-authoritative state after a failed save
+  ---
+  duration_ms: 229.787013
+  type: 'test'
+  ...
+# Subtest: Studio controls submit a valid API payload even before settings defaults have rendered
+ok 57 - Studio controls submit a valid API payload even before settings defaults have rendered
+  ---
+  duration_ms: 298.148362
+  type: 'test'
+  ...
+# (node:44) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: support return labels match actual access
+ok 58 - support return labels match actual access
+  ---
+  duration_ms: 2.232631
+  type: 'test'
+  ...
+# Subtest: support return cannot restore Settings without dashboard access
+ok 59 - support return cannot restore Settings without dashboard access
+  ---
+  duration_ms: 0.185869
+  type: 'test'
+  ...
+# (node:76) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: support tickets and feedback require a real message and category
+ok 60 - support tickets and feedback require a real message and category
+  ---
+  duration_ms: 7.868916
+  type: 'test'
+  ...
+# Subtest: founder inbox denies access unless the user UUID is explicitly allowlisted
+ok 61 - founder inbox denies access unless the user UUID is explicitly allowlisted
+  ---
+  duration_ms: 1.225512
+  type: 'test'
+  ...
+# Subtest: Codespaces support origin exception is development-only and host-restricted
+ok 62 - Codespaces support origin exception is development-only and host-restricted
+  ---
+  duration_ms: 0.428605
+  type: 'test'
+  ...
+# Subtest: local forwarded origin exception requires the exact Codespaces request signature
+ok 63 - local forwarded origin exception requires the exact Codespaces request signature
+  ---
+  duration_ms: 0.263847
+  type: 'test'
+  ...
+# Subtest: bridge wires the three original Support buttons without modifying locked HTML
+ok 64 - bridge wires the three original Support buttons without modifying locked HTML
+  ---
+  duration_ms: 0.380693
+  type: 'test'
+  ...
+1..64
+# tests 64
+# suites 0
+# pass 64
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5162.739031

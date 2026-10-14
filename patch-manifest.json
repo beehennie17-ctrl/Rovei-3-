@@ -1,0 +1,150 @@
+{
+  ".github/workflows/ci.yml": {
+    "before_sha256": "d02a62885e19c229512da99bae3a8a768fff669cdc4f31ca317a2ca43c39a4b7",
+    "after_sha256": "6b9266fad5d987c17e41966d3542b372b054b3bbeff8fb117a1b126347498dd6"
+  },
+  "activation/checkout-experience.module.css": {
+    "before_sha256": null,
+    "after_sha256": "87dcd1d7a04729ea1cfab2e2294e40eb785924211fefa281f24a5060fed5e1e5"
+  },
+  "activation/checkout-experience.tsx": {
+    "before_sha256": "62951bbaeb71ad4079ba05d72d01f2cce4f7430604248feb94749ee374f52766",
+    "after_sha256": "cab6918b66f89ed01af5bf8e51c96f12bbdc3dd1068563c2a5d6cff08c5d4245"
+  },
+  "activation/payment-confirmation.tsx": {
+    "before_sha256": "be7cb85a5c0033b9a52380d61b419e05edbe8e47af2afeaf333164d1b12f26e0",
+    "after_sha256": "89768c68af92e49ae4ce74b8a52fa1032a0d7829546702ede1c70c1385d42792"
+  },
+  "app/api/appointments/[id]/route.ts": {
+    "before_sha256": "0d75596c1ac5a5e7523caef2856dfefce48e94b2dccf2a403db215abaed67313",
+    "after_sha256": "253b77f971eee584156c02b59ee858d50c9e92050534ae49a90b1300d7be12c3"
+  },
+  "app/api/auth/account/route.ts": {
+    "before_sha256": null,
+    "after_sha256": "96d9598e78ceb4b591d1d39b827c652a2e6afe885362cddd19a346a709ad3d55"
+  },
+  "app/api/beauty-packs/[id]/route.ts": {
+    "before_sha256": "f3ed37a1060e3d62e8d6c583cfd9f8654685154010a7e2583520ea965021c432",
+    "after_sha256": "55f56f2d4fd5107ff0558e69f7dd032a5e5cc89f354b782027f0779503d68104"
+  },
+  "app/api/beauty-packs/route.ts": {
+    "before_sha256": "305837b9e3f81c78dc0e47ff8cdb72d3107306cc2e3714fe58d5ee418e6d7e7e",
+    "after_sha256": "df4cdcb2b5c3287a5a9aebba083bb1cef3909b42f08a6ea3fb6bb0ae34d49abc"
+  },
+  "app/api/billing/checkout/route.ts": {
+    "before_sha256": "48a71567a6e869d69122c949ae0b4c5cc446460755b5ff5372271ee64c758274",
+    "after_sha256": "3b459c29203def002a366a62622234638805f8b0593549dcc1ff770f65771cc6"
+  },
+  "app/api/billing/manage/route.ts": {
+    "before_sha256": "e12ebc26cf3eb1efb8c067fcd17b8126d69d65441070c09c0139bf42d0ed56f6",
+    "after_sha256": "1fe45d2ecb4066a256c32b5ea8b00a22723fc6d1f6f464f67c9c3ee8029741c5"
+  },
+  "app/api/billing/subscription/route.ts": {
+    "before_sha256": "8154cc5d023baf4f1db4644dc1a083459859d2f6fb3f01cd0c4f8767a3ca2184",
+    "after_sha256": "090506c07ee58ea5e8bcb074234a4a7b30c005f4e952eb9c0ff9287c207bb7bf"
+  },
+  "app/api/client-links/route.ts": {
+    "before_sha256": "0c07d44a6a4ca5da01ddca4246f035bc6c5a9fa1d0ad587f9cbc439593ddb3e3",
+    "after_sha256": "b983fb6c762e562fd93347577bd1f21eb213128eb5189220e135d8d18ed9a35b"
+  },
+  "app/api/clients/route.ts": {
+    "before_sha256": "430c0a21a4d9bc02fdddb4495e6123cbd0bccf909e5e6b3ff6f367c8c93ae882",
+    "after_sha256": "3f5391b356ccbe789944d32c00bb8931e944a1e7bc35a6ece85061b7f6c26114"
+  },
+  "app/api/studio/route.ts": {
+    "before_sha256": "c43281a2f49f2838d25976f5465d5233ce9b87417736a7854760ed60f119ad21",
+    "after_sha256": "e71260eed2cb2c23c037a625b8396c4182480c48694d418300056931c5eb1f96"
+  },
+  "app/api/test-reset/route.ts": {
+    "before_sha256": "955080def6196a73ca25b72cc6a87e7a0804d5d0b12119731a96cc921ef6a44f",
+    "after_sha256": "d2f2f6aabb928a6af5f86d05774a1754492f291c3650787e001404756bd3c15c"
+  },
+  "app/api/webhooks/paddle/route.ts": {
+    "before_sha256": "0ece79efcf34f5f871a0ea7fcad895833851821b204717743d046d4cd3dc7f55",
+    "after_sha256": "72e7d9921831dd6866a0d0aae00d9311894508130137bf743f257a402004870c"
+  },
+  "app/route.ts": {
+    "before_sha256": "a9e1b0812461b1f85fb6f0d918aa029fe21fb16cee7d01af081cef5cb5dc06d2",
+    "after_sha256": "eb70db15cfadb06550180370ffcafdbf787e9483ebc0b5bce0655de35e4b0ec7"
+  },
+  "lib/auth/locked-shell.ts": {
+    "before_sha256": "afc037608330aa7d966beb913f80f81ef5982c0d1a3103612735b533d2e91555",
+    "after_sha256": "ac4eac22fabf787d61edd0fecb39d69049e6e463440ebe668b368372ff78c093"
+  },
+  "lib/backend/locked-studio-state.ts": {
+    "before_sha256": null,
+    "after_sha256": "dd95430e148598767c44fece58063d9d57f2616d7e059bd84572d2a4acf3b39e"
+  },
+  "lib/backend/paddle-api.ts": {
+    "before_sha256": "3a08672f804679cc33dddf9bb963fa38d323da31d6c4c2bee24823e7ee2bbb26",
+    "after_sha256": "b3af97fe3fe6851f1bb143140f2168821c765b8b1ffe72f3d33955b3ac4780c7"
+  },
+  "lib/backend/schemas.ts": {
+    "before_sha256": "449bde655ecda480f26a0b4d738384e3ab3b9991fad0b7726507e0e6cf27dcbd",
+    "after_sha256": "cc8cd968abe17ccd1718d23b4e83fea0201463d7370cc54854e4d4a020f0a6d7"
+  },
+  "lib/backend/subscription-access.ts": {
+    "before_sha256": "a4305afceed8a84c16fc6fd9ede6cc718008263a30f01196bc11cf7689d2f16c",
+    "after_sha256": "4db2650442c419e437508fc973f4567539291f415e2951f647ef61aff3970d30"
+  },
+  "lib/billing/checkout-events.ts": {
+    "before_sha256": null,
+    "after_sha256": "1a9ce261e1e6468f3a295d9fdf700a9ffd7816e5ff06b9be59d71b0e08b08e28"
+  },
+  "package-lock.json": {
+    "before_sha256": "6d48376c2d1f731a305e36d48f8ab3fa13a18e1f5397a1a67a7c4680a8fd7b4f",
+    "after_sha256": "1a66c8efbde87933b416a13e4885581bbf764145df423e404371585a5b541c55"
+  },
+  "package.json": {
+    "before_sha256": "b3bc4a1e7037ff59e79ca45b3f4482446a442718f6425dc85b836dfbfb801b26",
+    "after_sha256": "4483d2632e0730a0d33e28967e904afe2b0463dde35043ee0ca2d41d4bf7d588"
+  },
+  "playwright.config.ts": {
+    "before_sha256": null,
+    "after_sha256": "e02e42c0c979473fae8c582d4b8427f470b21f1bf33975adb019d485d520aa0f"
+  },
+  "public/rovei-studio-persistence.js": {
+    "before_sha256": null,
+    "after_sha256": "8359e467a93f20cbe08e8cc502c288f46c075e1cd831865c411cbf6421acbf05"
+  },
+  "supabase/migrations/20261014155715_launch_billing_hardening.sql": {
+    "before_sha256": null,
+    "after_sha256": "863a33f89573459fd793efbba78bc431da415d2e5ff728ece7b19d85adac78c2"
+  },
+  "supabase/migrations/20261014160018_atomic_studio_and_pack_saves.sql": {
+    "before_sha256": null,
+    "after_sha256": "57050c46d958cc49c9c19ba991a0ac145516b439a216dd793a11747460a086b2"
+  },
+  "tests/auth-backend.test.mjs": {
+    "before_sha256": "b1a6a082f0325353c361675ed7ebb56a922961c70299b7b9f69dc4fdb9b75398",
+    "after_sha256": "c048e8ca42e7e200df4b23d14fd47ad8b557aaf7db2a684d7eecdb4f874b24b1"
+  },
+  "tests/checkout-events.test.mjs": {
+    "before_sha256": null,
+    "after_sha256": "23b85dc2a606713fd9c6522af272ecbaf6417d9f5784ef00af5211d3913a551f"
+  },
+  "tests/database-integration.test.mjs": {
+    "before_sha256": null,
+    "after_sha256": "7ab13612cd3ce37ecf5cee6db8e837f5e1a53994490f0370ff3adda9d4028bd5"
+  },
+  "tests/e2e/checkout.spec.ts": {
+    "before_sha256": null,
+    "after_sha256": "585511f325a3ac8e36efef0b698470402b98bef52d941dec4c2d444b5dc04286"
+  },
+  "tests/locked-studio-state.test.mjs": {
+    "before_sha256": null,
+    "after_sha256": "328fe434af693b293401138da85529c908d1fe6be331878c13e91493f38fab08"
+  },
+  "tests/paddle-billing.test.mjs": {
+    "before_sha256": "7e2135b923a96e89dc20d8cc83295ca5bea08c8c17a785ef4153c3aec84da6e9",
+    "after_sha256": "98d3c45c85a3fe07a97b82ccc4604a617eaf5280803626aace274184b427c199"
+  },
+  "tests/route-smoke.mjs": {
+    "before_sha256": null,
+    "after_sha256": "c9300ccd4056995e42a08c26161535e9b335cf51a3fb7e6f24a7405530d2fcd7"
+  },
+  "tests/studio-persistence.test.mjs": {
+    "before_sha256": null,
+    "after_sha256": "40ab577ed56a88b51fb2d0f9151802a3f792eb803b705547fe2ecc4f43f6890c"
+  }
+}
